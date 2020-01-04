@@ -3,3 +3,4 @@ package-lock.json
 .env
 public/.DS_Store
 .DS_Store
+switcher_backup.env
