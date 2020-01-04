@@ -324,7 +324,6 @@ if the page has a “right panel”, add a class for BODY -- ".page-has-right-pa
       padding: 0; }
   .control-icon .ui-block-title a {
     display: inline-block;
-    float: right;
     margin-left: 20px;
     text-transform: uppercase;
     font-size: 9px;
@@ -1007,11 +1006,6 @@ if the page has a “right panel”, add a class for BODY -- ".page-has-right-pa
     -webkit-animation: none;
             animation: none; }
 
-@-webkit-keyframes slide {
-  from {
-    background-position: 0 0; }
-  to {
-    background-position: -4000px 0; } }
 
 .tag-label {
   display: inline-block;
@@ -1075,7 +1069,6 @@ if the page has a “right panel”, add a class for BODY -- ".page-has-right-pa
             transform: perspective(400px) rotateX(-90deg); } }
 
 .animated.swingOutX {
-  -webkit-transform-origin: top;
   -webkit-animation-name: swingOutX;
   -webkit-backface-visibility: visible !important;
   -moz-animation-name: swingOutX;
@@ -1424,7 +1417,7 @@ if the page has a “right panel”, add a class for BODY -- ".page-has-right-pa
     color: #515365; }
   .tab-content-responsive .notification-list.friend-requests .selectize-dropdown .notification-icon {
     display: inline-block;
-    float: right; }
+  }
   .profile-section {
     padding: 30px 0;
     z-index: 5; }
@@ -12353,7 +12346,6 @@ select.selectpicker {
   height: 30px;
   line-height: 30px;
   display: block;
-  vertical-align: middle;
   margin: 0 0 5px 0;
   padding: 0 6px 0 28px;
   width: 100%; }
@@ -13078,7 +13070,6 @@ from https://feathericons.com/ and built with IcoMoon
 .fc-icon {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'fcicons' !important;
-  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -13899,7 +13890,7 @@ be a descendant of the grid when it is being dragged.
   z-index: 1043;
   position: fixed;
   outline: none !important;
-  -webkit-backface-visibility: hidden; }
+}
 
 .mfp-container {
   text-align: center;
@@ -14276,10 +14267,6 @@ img.mfp-img {
 ====== Zoom effect ======
 
 */
-.mfp-zoom-in {
-  /* start state */
-  /* animate in */
-  /* animate out */ }
 
 .mfp-zoom-in .mfp-with-anim {
   opacity: 0;
@@ -14337,7 +14324,7 @@ img.mfp-img {
   opacity: 0; }
 
 .mejs-controls .mejs-show-playlist button, .mejs-controls .mejs-hide-playlist button, .mejs-controls .mejs-prevtrack button, .mejs-controls .mejs-nexttrack button, .mejs-controls .mejs-shuffle-on button, .mejs-controls .mejs-shuffle-off button {
-  background: transparent url(../img/controls-playlist.png) no-repeat; }
+  background: transparent url('../img/controls-playlist.png') no-repeat; }
 
 .mejs-controls .mejs-show-playlist button {
   background-position: -16px -16px; }
@@ -14403,7 +14390,7 @@ img.mfp-img {
   border-top: 1px solid white;
   border-bottom: 1px solid black;
   background-color: rgba(50, 50, 50, 0.7);
-  background-image: url(../img/mep-playlist-icons.png);
+  background-image: url('../img/mep-playlist-icons.png');
   background-position: right 10px top 100px;
   background-repeat: no-repeat; }
 
@@ -14467,7 +14454,7 @@ img.mfp-img {
   position: absolute;
   border: none;
   background-color: transparent;
-  background-image: url(../img/bigplay.png);
+  background-image: url('../img/bigplay.png');
   background-position: right 10px top 0px;
   top: 50%;
   left: 50%;
@@ -14621,10 +14608,10 @@ img.mfp-img {
   width: 100px;
   height: 100px;
   margin: -50px 0 0 -50px;
-  background: url(../img/bigplay.svg) no-repeat; }
+  background: url('../img/bigplay.svg') no-repeat; }
 
 .no-svg .mejs-overlay-button {
-  background-image: url(../img/bigplay.png); }
+  background-image: url('../img/bigplay.png'); }
 
 .mejs-overlay:hover .mejs-overlay-button {
   background-position: 0 -100px; }
@@ -14637,7 +14624,7 @@ img.mfp-img {
   height: 80px;
   margin: -40px 0 0 -40px;
   background: #333;
-  background: url(../img/background.png);
+  background: url('../img/background.png');
   background: rgba(0, 0, 0, 0.9);
   background: linear-gradient(rgba(50, 50, 50, 0.9), rgba(0, 0, 0, 0.9)); }
 
@@ -14645,7 +14632,7 @@ img.mfp-img {
   display: block;
   width: 80px;
   height: 80px;
-  background: transparent url(../img/loading.gif) 50% 50% no-repeat; }
+  background: transparent url('../img/loading.gif') 50% 50% no-repeat; }
 
 /* End: LAYERS */
 /* Start: CONTROL BAR */
@@ -14919,7 +14906,6 @@ img.mfp-img {
   position: relative;
   display: block;
   float: left;
-  vertical-align: middle;
   margin-top: 2px; }
 
 .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
@@ -15026,7 +15012,6 @@ img.mfp-img {
   position: absolute;
   top: 0;
   left: 0;
-  -xborder-right: solid 1px #fff;
   width: 10000px;
   z-index: 1; }
 
@@ -15461,7 +15446,6 @@ div.mejs-speed-button {
 
 .swiper-slide {
   -webkit-flex-shrink: 0;
-  -ms-flex: 0 0 auto;
   -ms-flex-negative: 0;
       flex-shrink: 0;
   width: 100%;
@@ -15605,9 +15589,6 @@ div.mejs-speed-button {
 .swiper-container-3d .swiper-slide-shadow-bottom {
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)); }
 
-.swiper-container-coverflow .swiper-wrapper, .swiper-container-flip .swiper-wrapper {
-  -ms-perspective: 1200px; }
-
 .swiper-container-cube, .swiper-container-flip {
   overflow: visible; }
 
@@ -15671,7 +15652,6 @@ div.mejs-speed-button {
 .swiper-scrollbar {
   border-radius: 10px;
   position: relative;
-  -ms-touch-action: none;
   background: rgba(0, 0, 0, 0.1); }
 
 .swiper-container-horizontal > .swiper-scrollbar {
@@ -16450,7 +16430,7 @@ Build date: 2018-12-12 00:07:25
 .leaflet-safari .leaflet-tile-container {
   width: 1600px;
   height: 1600px;
-  -webkit-transform-origin: 0 0; }
+}
 
 .leaflet-marker-icon,
 .leaflet-marker-shadow {
