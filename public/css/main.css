@@ -14669,7 +14669,7 @@ img.mfp-img {
   height: 27px;
   width: 27px;
   border: 0;
-  background: transparent url(../img/controls.svg) no-repeat; }
+  background: transparent url('../img/controls.svg') no-repeat; }
 
 .no-svg .mejs-controls .mejs-button button {
   background-image: url('../img/controls.png'); }
