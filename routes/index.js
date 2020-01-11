@@ -19,11 +19,11 @@ firebase.initializeApp(firebaseConfig);
 router.get('/', function(req, res) {
   res.render('pages/index');
 });
-router.get('/login', function(req, res) {
+router.get('/facebookLogin', function(req, res) {
   res.render('pages/auth/login');
 });
 
-router.get('/register', function(req, res) {
+router.get('/twitterLogin', function(req, res) {
    res.render('pages/auth/register');	
 });
 
