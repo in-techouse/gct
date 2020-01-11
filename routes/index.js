@@ -19,12 +19,18 @@ firebase.initializeApp(firebaseConfig);
 router.get('/', function(req, res) {
   res.render('pages/index');
 });
-router.get('/facebookLogin', function(req, res) {
-  res.render('pages/auth/login');
+router.post('/facebookLogin', function(req, res) {
+  var provider = new firebase.auth.FacebookAuthProvider();
+  provider.addScope('user_birthday');
+  firebase.auth().signInWithPopup(provider).then(result=>{
+  	res.json(result);
+  }).catch(err=>{
+  	res.json(err);
+  });
 });
 
 router.get('/twitterLogin', function(req, res) {
-   res.render('pages/auth/register');	
+   	
 });
 
 module.exports = router;
