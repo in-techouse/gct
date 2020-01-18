@@ -6,7 +6,7 @@ var logger = require("morgan");
 require("dotenv").config();
 
 var indexRouter = require("./routes/index");
-
+var userRouter = require("./routes/user");
 var app = express();
 
 // view engine setup
@@ -21,6 +21,7 @@ app.use(cookieParser());
 app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<head>
+  <title>G C T</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <!-- Styling files -->
+  <link rel="stylesheet" type="text/css" href="/public/css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="/public/css/fonts.min.css" />
+  <link rel="stylesheet" type="text/css" href="/public/css/main.css" />
+  <!-- Script Files -->
+  <script src="/public/js/jQuery/jquery-3.4.1.js"></script>
+  <!-- <script src="/public/js/libs-init/libs-init.js"></script> -->
+  <!-- <script src="/public/js/libs/Chart.js"></script> -->
+  <script src="/public/js/libs/Headroom.js"></script>
+  <!-- <script src="/public/js/libs/MarkerClusterGroup.js"></script> -->
+  <script src="/public/js/libs/ScrollMagic.js"></script>
+  <script src="/public/js/libs/ajax-pagination.js"></script>
+  <script src="/public/js/libs/bootstrap-select.js"></script>
+  <!-- <script src="/public/js/libs/chartjs-plugin-deferred.js"></script> -->
+  <script src="/public/js/libs/circle-progress.js"></script>
+  <script src="/public/js/libs/daterangepicker.js"></script>
+  <script src="/public/js/libs/fullcalendar.js"></script>
+  <script src="/public/js/libs/imagesloaded.pkgd.js"></script>
+  <script src="/public/js/libs/ion.rangeSlider.js"></script>
+  <script src="/public/js/libs/isotope.pkgd.js"></script>
+  <script src="/public/js/libs/jquery.appear.js"></script>
+  <script src="/public/js/libs/jquery.countTo.js"></script>
+  <script src="/public/js/libs/jquery.gifplayer.js"></script>
+  <script src="/public/js/libs/jquery.magnific-popup.js"></script>
+  <script src="/public/js/libs/jquery.matchHeight.js"></script>
+  <script src="/public/js/libs/jquery.mousewheel.js"></script>
+  <script src="/public/js/libs/jquery.waypoints.js"></script>
+  <script src="/public/js/libs/lazyload.js"></script>
+  <script src="/public/js/libs/leaflet.js"></script>
+  <script src="/public/js/libs/loader.js"></script>
+  <script src="/public/js/libs/material.min.js"></script>
+  <script src="/public/js/libs/mediaelement-and-player.js"></script>
+  <script src="/public/js/libs/mediaelement-playlist-plugin.min.js"></script>
+  <script src="/public/js/libs/moment.js"></script>
+  <script src="/public/js/libs/perfect-scrollbar.js"></script>
+  <script src="/public/js/libs/popper.min.js"></script>
+  <script src="/public/js/libs/run-chart.js"></script>
+  <script src="/public/js/libs/selectize.js"></script>
+  <script src="/public/js/libs/smooth-scroll.js"></script>
+  <script src="/public/js/libs/sticky-sidebar.js"></script>
+  <script src="/public/js/libs/svgxuse.js"></script>
+  <script src="/public/js/libs/swiper.jquery.js"></script>
+  <script src="/public/js/libs/velocity.js"></script>
+  <script src="/public/js/libs/webfontloader.min.js"></script>
+  <!-- <script src="/public/js/main.js"></script> -->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-app.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-auth.js"></script>
+
+  <script src="/public/js/mainScript.js"></script>
+</head>
+
+<body class="landing-page">
+  <!-- Preloader -->
+
+  <div id="hellopreloader">
+    <div class="preloader">
+      <svg width="45" height="45" stroke="#fff">
+        <g fill="none" fill-rule="evenodd" stroke-width="2" transform="translate(1 1)">
+          <circle cx="22" cy="22" r="6" stroke="none">
+            <animate attributeName="r" begin="1.5s" calcMode="linear" dur="3s" repeatCount="indefinite" values="6;22" />
+            <animate attributeName="stroke-opacity" begin="1.5s" calcMode="linear" dur="3s" repeatCount="indefinite"
+              values="1;0" />
+            <animate attributeName="stroke-width" begin="1.5s" calcMode="linear" dur="3s" repeatCount="indefinite"
+              values="2;0" />
+          </circle>
+          <circle cx="22" cy="22" r="6" stroke="none">
+            <animate attributeName="r" begin="3s" calcMode="linear" dur="3s" repeatCount="indefinite" values="6;22" />
+            <animate attributeName="stroke-opacity" begin="3s" calcMode="linear" dur="3s" repeatCount="indefinite"
+              values="1;0" />
+            <animate attributeName="stroke-width" begin="3s" calcMode="linear" dur="3s" repeatCount="indefinite"
+              values="2;0" />
+          </circle>
+          <circle cx="22" cy="22" r="8">
+            <animate attributeName="r" begin="0s" calcMode="linear" dur="1.5s" repeatCount="indefinite"
+              values="6;1;2;3;4;5;6" />
+          </circle>
+        </g>
+      </svg>
+
+      <div class="text">Loading ...</div>
+    </div>
+  </div>
+
+  <!-- ... end Preloader -->
+
+  <%- include('./shared/leftsidebar') %>
+  <%- include('./shared/rightsidebar') %>
+  <%- include('./shared/header') %>
+  <%- content %>
+  <a class="back-to-top" href="#">
+    <img src="/public/svg-icons/back-to-top.svg" alt="arrow" class="back-icon">
+  </a>
+
+
+</body>
+
+</html>
