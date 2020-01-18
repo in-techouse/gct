@@ -12,6 +12,7 @@
     "ejs": "^3.0.1",
     "express": "~4.16.1",
     "express-ejs-extend": "0.0.1",
+    "express-sessions": "^1.0.6",
     "firebase": "^7.6.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1"
