@@ -4,7 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 require("dotenv").config();
-var session = require('express-sessions');
+var session = require('express-session');
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/user");
 var app = express();
@@ -20,7 +20,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use("/public", express.static(path.join(__dirname, "public")));
 
-app.use(session({secret:'XASDASDA'}));
+app.set("trust proxy", 1); // trust first proxy
+app.use(
+  session({
+    secret: "XAS98HKN",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  })
+);
+
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 
