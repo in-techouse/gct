@@ -12,36 +12,38 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
-function loginwithTwitter() {
+function loginwithTwitter(d) {
   $.ajax({
     url: '/twitterLogin',
     type: 'POST',
     data: {
-      val: 1,
+      accessToken: d.credential.accessToken,
+      secret: d.credential.secret,
     },
     success: function (data) {
-      alert('done' + data);
+      console.log('Success: ', data);
     },
     error: function (error) {
       console.log('Error:', error);
-      // alert('error');
+      $('#mainError').show(300);
     }
   });
 }
 
-function loginWithFacebook() {
+function loginWithFacebook(d) {
   $.ajax({
     url: '/facebookLogin',
     type: 'POST',
     data: {
-      val: 1,
+      accessToken: d.credential.accessToken,
+      secret: d.credential.secret,
     },
     success: function (data) {
-      alert('done' + data);
+      console.log('Success: ', data);
     },
     error: function (error) {
       console.log('Error:', error);
-      // alert('error');
+      $('#mainError').show(300);
     }
   });
 }
@@ -55,31 +57,37 @@ $(document).ready(function () {
 
   $("#facebookLogin").click(function () {
     console.log("Clicked");
+    $('#mainError').hide(300);
     var provider = new firebase.auth.FacebookAuthProvider();
     firebase
       .auth()
       .signInWithPopup(provider)
       .then(r => {
         console.log("Success: ", r);
-        loginWithFacebook();
+        $('#upperFacebook').hide(300);
+        loginWithFacebook(r);
       })
       .catch(e => {
         console.log("Error: ", e);
+        $('#mainError').show(300);
       });
   });
 
   $("#twitterLogin").click(function () {
     console.log("Clicked");
+    $('#mainError').hide(300);
     var provider = new firebase.auth.TwitterAuthProvider();
     firebase
       .auth()
       .signInWithPopup(provider)
       .then(r => {
         console.log("Success: ", r);
-        loginwithTwitter();
+        $('#upperTwitter').hide(300);
+        loginwithTwitter(r);
       })
       .catch(e => {
         console.log("Error: ", e);
+        $('#mainError').show(300);
       });
   });
 });
