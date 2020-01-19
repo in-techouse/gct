@@ -17,7 +17,12 @@ firebase.initializeApp(firebaseConfig);
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('pages/index');
+  if(req.session.isLoggedIn == true){
+    res.redirect('/user/dashboard');
+  }
+  else{
+    res.render('pages/index');
+  }
 });
 router.post('/facebookLogin', function(req, res) {
   res.json(req.body);
