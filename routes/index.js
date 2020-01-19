@@ -20,16 +20,10 @@ router.get('/', function(req, res) {
   res.render('pages/index');
 });
 router.post('/facebookLogin', function(req, res) {
-  var provider = new firebase.auth.FacebookAuthProvider();
-  provider.addScope('user_birthday');
-  firebase.auth().signInWithPopup(provider).then(result=>{
-  	res.json(result);
-  }).catch(err=>{
-  	res.json(err);
-  });
+  
 });
 
-router.get('/twitterLogin', function(req, res) {
+router.post('/twitterLogin', function(req, res) {
    	
 });
 
