@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
   res.render('pages/index');
 });
 router.post('/facebookLogin', function(req, res) {
-  
+  res.json("1");
 });
 
 router.post('/twitterLogin', function(req, res) {

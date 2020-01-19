@@ -13,6 +13,23 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
+function loginWithFacebook(){
+ $.ajax({
+  url: '/facebookLogin',
+  type: 'POST',
+  data: {
+    val2: val1,
+  },
+  success: function(data){
+    alert('done' + data);
+  },
+  error: function(error){
+    console.log('Error:', error);
+    // alert('error');
+  }
+ });
+}
+
 $(document).ready(function() {
   console.log("Main Script Document is ready");
   setTimeout(function() {
@@ -28,6 +45,7 @@ $(document).ready(function() {
       .signInWithPopup(provider)
       .then(r => {
         console.log("Success: ", r);
+        loginWithFacebook();
       })
       .catch(e => {
         console.log("Error: ", e);
