@@ -24,6 +24,7 @@ router.post('/facebookLogin', function(req, res) {
 });
 
 router.post('/twitterLogin', function(req, res) {
+  res.json("1");
    	
 });
 

@@ -12,32 +12,48 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
-
-function loginWithFacebook(){
- $.ajax({
-  url: '/facebookLogin',
-  type: 'POST',
-  data: {
-    val2: val1,
-  },
-  success: function(data){
-    alert('done' + data);
-  },
-  error: function(error){
-    console.log('Error:', error);
-    // alert('error');
-  }
- });
+function loginwithTwitter() {
+  $.ajax({
+    url: '/twitterLogin',
+    type: 'POST',
+    data: {
+      val: 1,
+    },
+    success: function (data) {
+      alert('done' + data);
+    },
+    error: function (error) {
+      console.log('Error:', error);
+      // alert('error');
+    }
+  });
 }
 
-$(document).ready(function() {
+function loginWithFacebook() {
+  $.ajax({
+    url: '/facebookLogin',
+    type: 'POST',
+    data: {
+      val: 1,
+    },
+    success: function (data) {
+      alert('done' + data);
+    },
+    error: function (error) {
+      console.log('Error:', error);
+      // alert('error');
+    }
+  });
+}
+
+$(document).ready(function () {
   console.log("Main Script Document is ready");
-  setTimeout(function() {
+  setTimeout(function () {
     console.log("Time out called");
     $("#hellopreloader").fadeOut(1000);
   }, 1000);
 
-  $("#facebookLogin").click(function() {
+  $("#facebookLogin").click(function () {
     console.log("Clicked");
     var provider = new firebase.auth.FacebookAuthProvider();
     firebase
@@ -52,7 +68,7 @@ $(document).ready(function() {
       });
   });
 
-  $("#twitterLogin").click(function() {
+  $("#twitterLogin").click(function () {
     console.log("Clicked");
     var provider = new firebase.auth.TwitterAuthProvider();
     firebase
@@ -60,6 +76,7 @@ $(document).ready(function() {
       .signInWithPopup(provider)
       .then(r => {
         console.log("Success: ", r);
+        loginwithTwitter();
       })
       .catch(e => {
         console.log("Error: ", e);
