@@ -2,9 +2,7 @@
 var firebaseConfig = {
   apiKey: "AIzaSyAFSBuiVUoFC18qzI3xd3EsGL_Fsy4y5VA",
   authDomain: "global-ct.firebaseapp.com",
-  databaseURL: "https://global-ct.firebaseio.com",
   projectId: "global-ct",
-  storageBucket: "global-ct.appspot.com",
   messagingSenderId: "559718967029",
   appId: "1:559718967029:web:6cd2b538b1fe3d940dc7bc",
   measurementId: "G-H4442SC9K6"
@@ -22,6 +20,13 @@ function loginwithTwitter(d) {
     },
     success: function (data) {
       console.log('Success: ', data);
+      if(data == "-1"){
+        $('#upperTwitter').show(300);
+        $('#mainError').show(300);
+      }
+      else if (data == "2"){
+        window.location.reload();
+      }
     },
     error: function (error) {
       console.log('Error:', error);
@@ -36,10 +41,16 @@ function loginWithFacebook(d) {
     type: 'POST',
     data: {
       accessToken: d.credential.accessToken,
-      secret: d.credential.secret,
     },
     success: function (data) {
       console.log('Success: ', data);
+      if(data == "-1"){
+        $('#upperFacebook').show(300);
+        $('#mainError').show(300);
+      }
+      else if (data == "2"){
+        window.location.reload();
+      }
     },
     error: function (error) {
       console.log('Error:', error);
@@ -86,7 +97,7 @@ $(document).ready(function () {
         loginwithTwitter(r);
       })
       .catch(e => {
-        console.log("Error: ", e);
+        console.log("Twitter Error: ", e);
         $('#mainError').show(300);
       });
   });
