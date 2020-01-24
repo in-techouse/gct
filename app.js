@@ -4,7 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 require("dotenv").config();
-var session = require('express-session');
+var session = require("express-session");
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/user");
 var app = express();
@@ -23,10 +23,9 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 app.set("trust proxy", 1); // trust first proxy
 app.use(
   session({
-    secret: "XAS98HKN",
+    secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
   })
 );
 

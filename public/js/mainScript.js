@@ -10,6 +10,24 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
+
+function testLogin(){
+  $.ajax({
+    url: '/testLogin',
+    type: 'POST',
+    data: {
+      accessToken: 'bla bla',
+    },
+    success: function (data) {
+      console.log('Success: ', data);
+    },
+    error: function (error) {
+      console.log('Error:', error);
+      $('#mainError').show(300);
+    }
+  });
+}
+
 function loginwithTwitter(d) {
   $.ajax({
     url: '/twitterLogin',
@@ -100,5 +118,9 @@ $(document).ready(function () {
         console.log("Twitter Error: ", e);
         $('#mainError').show(300);
       });
+  });
+  $('#testButton').click(function() {
+    console.log('Test Clicked');
+    testLogin();
   });
 });

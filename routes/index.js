@@ -84,4 +84,18 @@ router.post("/twitterLogin", function(req, res) {
   }
 });
 
+router.post("/testLogin", function(req, res) {
+  // if(req.session.twitter){
+  res.json(req.session);
+  // }
+  // else{
+  //   req.session.twitter = true;
+  //   res.json('Session Set');
+  // }
+  // let data = {
+  //   request: req.body,
+  //   sessions: req.session.twitter
+  // };
+  // res.json(data);
+});
 module.exports = router;
