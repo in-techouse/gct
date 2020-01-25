@@ -19,15 +19,41 @@
 					</a>
 
 					<h1>The Most Complete Social Network is Here!</h1>
-					<div class="row">
+					<div class="row" id="loading" style="display:none;">
+						<div class="col-md-4"></div>
+						<div class="col-md-4">
+							<img src="/public/img/loading_1.gif" />
+						</div>
+						<div class="col-md-4"></div>
+					</div>
+					<div class="row" id="mainAuth">
 						<div class="col-md-12" id="upperFacebook">
-							<a id="facebookLogin" href="#" class="btn btn-purple btn-sm">CONNECT YOUR FACEBOOK ACCOUNT</a>
+							<a id="facebookLogin" href="#" class="btn btn-purple btn-sm">CONNECT YOUR FACEBOOK
+								ACCOUNT</a>
 						</div>
 						<div class="col-md-12" id="upperTwitter">
 							<a id="twitterLogin" href="#" class="btn btn-purple btn-sm">CONNECT YOUR TWITTER ACCOUNT</a>
 						</div>
-						<div class="col-md-12" id="upperFacebook">
-							<a id="testButton" href="#" class="btn btn-purple btn-sm">CONNECT YOUR TEST ACCOUNT</a>
+					</div>
+					<div class="row" id="username" style="display:none;">
+						<div class="jumbotron" style="background:white; width: 100%;">
+							<form method="post" action="/username" style="width: 100%;">
+								<div class="col-md-12">
+									<h5>Your detail please</h5>
+									<div class="form-group">
+										<input class="form-control" type="text" name="firstname"
+											placeholder="Enter your first name" required />
+									</div>
+									<div class="form-group">
+											<input class="form-control" type="text" name="lastname"
+												placeholder="Enter your last name" required />
+									</div>
+									<div class="form-group">
+										<input type="submit" value="CONTINUE" class="btn btn-block btn-primary"/>
+									</div>
+	
+								</div>
+							</form>
 						</div>
 					</div>
 					<div class="form-group form-success-gone" style="display: none;" id="mainError">
@@ -35,7 +61,7 @@
 							Something Went Wrong, please try again later.
 						</div>
 					</div>
-			
+
 				</div>
 			</div>
 		</div>

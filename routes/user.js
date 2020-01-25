@@ -4,11 +4,21 @@ var router = express.Router();
 
 
 router.get('/newsfeed', function(req, res) {
-  res.render('pages/user/dashboard');
+  if(req.session.isLoggedIn){
+    res.render('pages/user/dashboard');
+  }
+  else{
+    res.redirect("/");
+  }
 });
 
 router.get('/profile', function(req, res) {
-  res.render('pages/user/profile');
+  if(req.session.isLoggedIn){
+    res.render('pages/user/profile');
+  }
+  else{
+    res.redirect("/");
+  }
 });
 
 module.exports = router;

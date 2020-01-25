@@ -16,14 +16,36 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 /* GET home page. */
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
   if (req.session.isLoggedIn == true) {
-    res.redirect("/user/dashboard");
+    res.redirect("/user/newsfeed");
   } else {
     res.render("pages/index");
   }
 });
-router.post("/facebookLogin", function(req, res) {
+router.post("/username", function (req, res) {
+  let id = firebase.auth().currentUser.uid;
+  let img = firebase.auth().currentUser.photoURL;
+  let user = {
+    firstName: req.body.firstname,
+    lastName: req.body.lastname,
+    image: img,
+    id: id,
+  };
+  firebase.database().ref().child("Users").child(user.id).set(user).then(r => {
+    req.session.firstName = user.firstName;
+    req.session.lastName = user.lastName;
+    req.session.img = user.img;
+    req.session.id = id;
+    res.redirect('/user/newsfeed');
+  })
+    .catch(e => {
+      res.render('pages/index');
+    });
+
+});
+
+router.post("/facebookLogin", function (req, res) {
   var credential = firebase.auth.FacebookAuthProvider.credential(
     req.body.accessToken
   );
@@ -37,23 +59,42 @@ router.post("/facebookLogin", function(req, res) {
         res.json("2");
       })
       .catch(e => {
-        res.json("-1");
+        res.json(e.message);
       });
   } else {
     firebase
       .auth()
       .signInWithCredential(credential)
       .then(result => {
-        req.session.facebook = true;
-        res.json("1");
+        // Chec user record in database
+        firebase.database.child("Users").child(firebase.auth().currentUser.uid).once('value').then(r => {
+          if (r == null || r == undefined || r.val() == null || r.val() == undefined) {
+            req.session.facebook = true;
+            res.json("1");
+
+          }
+          else {
+            req.session.isLoggedIn = true;
+            req.session.firstName = r.val().firstName;
+            req.session.lastName = r.val().lastName;
+            req.session.img = r.val().img;
+            req.session.id = r.val().id;
+            res.json("3");
+          }
+        })
+          .catch(e => {
+            req.session.facebook = true;
+            res.json("1");
+          });
+
       })
       .catch(e => {
-        res.json("-1");
+        res.json(e.message);
       });
   }
 });
 
-router.post("/twitterLogin", function(req, res) {
+router.post("/twitterLogin", function (req, res) {
   var credential = firebase.auth.TwitterAuthProvider.credential(
     req.body.accessToken,
     req.body.secret
@@ -68,34 +109,39 @@ router.post("/twitterLogin", function(req, res) {
         res.json("2");
       })
       .catch(e => {
-        res.json("-1");
+        res.json(e.message);
       });
   } else {
     firebase
       .auth()
       .signInWithCredential(credential)
       .then(result => {
-        req.session.twitter = true;
-        res.json("1");
+        // Chec user record in database
+        firebase.database.child("Users").child(firebase.auth().currentUser.uid).once('value').then(r => {
+          if (r == null || r == undefined || r.val() == null || r.val() == undefined) {
+            req.session.twitter = true;
+            res.json("1");
+
+          }
+          else {
+            req.session.isLoggedIn = true;
+            req.session.firstName = r.val().firstName;
+            req.session.lastName = r.val().lastName;
+            req.session.img = r.val().img;
+            req.session.id = r.val().id;
+            res.json("3");
+          }
+        })
+          .catch(e => {
+            req.session.twitter = true;
+            res.json("1");
+          });
+
       })
       .catch(e => {
-        res.json("-1");
+        res.json(e.message);
       });
   }
 });
 
-router.post("/testLogin", function(req, res) {
-  // if(req.session.twitter){
-  res.json(req.session);
-  // }
-  // else{
-  //   req.session.twitter = true;
-  //   res.json('Session Set');
-  // }
-  // let data = {
-  //   request: req.body,
-  //   sessions: req.session.twitter
-  // };
-  // res.json(data);
-});
 module.exports = router;

@@ -11,23 +11,6 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
-function testLogin(){
-  $.ajax({
-    url: '/testLogin',
-    type: 'POST',
-    data: {
-      accessToken: 'bla bla',
-    },
-    success: function (data) {
-      console.log('Success: ', data);
-    },
-    error: function (error) {
-      console.log('Error:', error);
-      $('#mainError').show(300);
-    }
-  });
-}
-
 function loginwithTwitter(d) {
   $.ajax({
     url: '/twitterLogin',
@@ -43,11 +26,18 @@ function loginwithTwitter(d) {
         $('#mainError').show(300);
       }
       else if (data == "2"){
+        // window.location.reload();
+        $('#username').show(300);
+      }
+      else if (data == "3"){
         window.location.reload();
       }
+      $('#loading').hide(300);
+    $('#mainAuth').show(300);
     },
     error: function (error) {
       console.log('Error:', error);
+      $('#upperTwitter').show(300);
       $('#mainError').show(300);
     }
   });
@@ -68,7 +58,13 @@ function loginWithFacebook(d) {
       }
       else if (data == "2"){
         window.location.reload();
+        $('#username').show(300);
       }
+      else if (data == "3"){
+        window.location.reload();
+      }
+      $('#loading').hide(300);
+    $('#mainAuth').show(300);
     },
     error: function (error) {
       console.log('Error:', error);
@@ -87,6 +83,8 @@ $(document).ready(function () {
   $("#facebookLogin").click(function () {
     console.log("Clicked");
     $('#mainError').hide(300);
+    $('#loading').show(300);
+    $('#mainAuth').hide(300);
     var provider = new firebase.auth.FacebookAuthProvider();
     firebase
       .auth()
@@ -94,17 +92,23 @@ $(document).ready(function () {
       .then(r => {
         console.log("Success: ", r);
         $('#upperFacebook').hide(300);
-        loginWithFacebook(r);
+        firebase.auth().currentUser.delete().then(d=>{
+          loginWithFacebook(r);
+        });
       })
       .catch(e => {
         console.log("Error: ", e);
         $('#mainError').show(300);
+        $('#loading').hide(300);
+        $('#mainAuth').show(300);
       });
   });
 
   $("#twitterLogin").click(function () {
     console.log("Clicked");
     $('#mainError').hide(300);
+    $('#loading').show(300);
+    $('#mainAuth').hide(300);
     var provider = new firebase.auth.TwitterAuthProvider();
     firebase
       .auth()
@@ -112,15 +116,15 @@ $(document).ready(function () {
       .then(r => {
         console.log("Success: ", r);
         $('#upperTwitter').hide(300);
-        loginwithTwitter(r);
+        firebase.auth().currentUser.delete().then(d=>{
+          loginwithTwitter(r);
+        });
       })
       .catch(e => {
         console.log("Twitter Error: ", e);
         $('#mainError').show(300);
+        $('#loading').hide(300);
+    $('#mainAuth').show(300);
       });
-  });
-  $('#testButton').click(function() {
-    console.log('Test Clicked');
-    testLogin();
   });
 });
