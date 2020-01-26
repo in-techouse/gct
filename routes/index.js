@@ -67,6 +67,7 @@ router.post("/username", function(req, res) {
       req.session.lastName = user.lastName;
       req.session.img = user.img;
       req.session.id = id;
+      req.session.isLoggedIn= true;
       res.redirect("/user/newsfeed");
     })
     .catch(e => {
