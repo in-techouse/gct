@@ -6,7 +6,7 @@ var router = express.Router();
 router.get('/newsfeed', function(req, res) {
   if(req.session.isLoggedIn){
     let user = req.session;
-    res.render('pages/user/dashboard', { user: user});
+    res.render('pages/user/dashboard', {user: user});
   }
   else{
     res.redirect("/");
