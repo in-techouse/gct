@@ -24,13 +24,23 @@ router.get('/profile', function(req, res) {
 });
 
 router.get('/profilesettings', function(req, res) {
-  if(req.session.isLoggedIn){
-    let user = req.session;
+  // if(req.session.isLoggedIn){
+  //   let user = req.session;
     res.render('pages/user/profilesettings', { user: user});
-  }
-  else{
-    res.redirect("/");
-  }
+  // }
+  // else{
+  //   res.redirect("/");
+  // }
+});
+
+router.get('/profileabout', function(req, res) {
+  // if(req.session.isLoggedIn){
+    let user = req.session;
+    res.render('pages/user/profileabout', { user: user});
+  // }
+  // else{
+  //   res.redirect("/");
+  // }
 });
 
 module.exports = router;

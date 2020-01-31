@@ -1,6 +1,7 @@
-extends layout
+<% extend ('../layout')%>
 
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+<div class="main-header main-landing">
+  <h1><%= message%></h1>
+  <h4><%= error.status %></h4>
+  <p><%= error.stack %></p>
+</div>
