@@ -10,6 +10,7 @@ function gettweets() {
                 let tweets=data.t;
                 tweets.forEach(tweet  => {
                     console.log("tweet: " , tweet);
+$("#newsfeed-items-grid").append("<p>hello world </p>");
                     
                 });
             }
