@@ -1,5 +1,6 @@
 var express = require('express');
 var firebase = require('firebase');
+var graph = require('fbgraph');
 var router = express.Router();
 
 
@@ -52,4 +53,54 @@ router.get('/friends', function (req, res) {
     res.redirect("/");
   }
 });
+
+router.get('/photos', function (req, res) {
+  if (req.session.isLoggedIn) {
+    let user = req.session;
+    res.render('pages/user/photos', { user: user, action: 'Photos'});
+  }
+  else {
+    res.redirect("/");
+  }
+});
+
+router.get('/videos', function (req, res) {
+  if (req.session.isLoggedIn) {
+    let user = req.session;
+    res.render('pages/user/videos', { user: user, action: 'Videos'});
+  }
+  else {
+    res.redirect("/");
+  }
+});
+
+
+
+router.get('/fbgraph', function (req, res)  {
+  res.json("1")
+  // if () {
+
+  // }
+  // else {
+
+  // }
+});
+
+router.get('/logout', function (req, res)  {
+  firebase.auth().signOut();
+  req.session.destroy(function(err){
+    if(err) {
+      res.negotiate(err);
+    }
+    res.redirect("/");
+
+  });
+  // if () {
+
+  // }
+  // else {
+
+  // }
+});
+
 module.exports = router;
