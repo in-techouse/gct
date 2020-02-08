@@ -79,6 +79,7 @@ router.post("/facebookLogin", function(req, res) {
   var credential = firebase.auth.FacebookAuthProvider.credential(
     req.body.accessToken
   );
+  req.session.facebookAccessToken= req.body.accessToken;
   if (req.session.twitter == true) {
     firebase
       .auth()
@@ -132,6 +133,8 @@ router.post("/twitterLogin", function(req, res) {
     req.body.accessToken,
     req.body.secret
   );
+  req.session.twitterAccessToken= req.body.accessToken;
+  req.session.twitterSecret= req.body.secret;
   if (req.session.facebook == true) {
     firebase
       .auth()

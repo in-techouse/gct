@@ -1,13 +1,15 @@
 var express = require('express');
 var firebase = require('firebase');
 var graph = require('fbgraph');
+var Twitter = require('twitter');
 var router = express.Router();
 
 
 router.get('/newsfeed', function (req, res) {
   if (req.session.isLoggedIn) {
-    let user = req.session;
-    res.render('pages/user/dashboard', { user: user, action: 'News feed'});
+    //let user = req.session;
+    //res.render('pages/user/dashboard', { user: user, action: 'News feed' });
+   res.redirect("/user/test");
   }
   else {
     res.redirect("/");
@@ -57,7 +59,7 @@ router.get('/friends', function (req, res) {
 router.get('/photos', function (req, res) {
   if (req.session.isLoggedIn) {
     let user = req.session;
-    res.render('pages/user/photos', { user: user, action: 'Photos'});
+    res.render('pages/user/photos', { user: user, action: 'Photos' });
   }
   else {
     res.redirect("/");
@@ -67,7 +69,7 @@ router.get('/photos', function (req, res) {
 router.get('/videos', function (req, res) {
   if (req.session.isLoggedIn) {
     let user = req.session;
-    res.render('pages/user/videos', { user: user, action: 'Videos'});
+    res.render('pages/user/videos', { user: user, action: 'Videos' });
   }
   else {
     res.redirect("/");
@@ -76,7 +78,7 @@ router.get('/videos', function (req, res) {
 
 
 
-router.get('/fbgraph', function (req, res)  {
+router.get('/fbgraph', function (req, res) {
   res.json("1")
   // if () {
 
@@ -86,21 +88,35 @@ router.get('/fbgraph', function (req, res)  {
   // }
 });
 
-router.get('/logout', function (req, res)  {
+router.get('/logout', function (req, res) {
   firebase.auth().signOut();
-  req.session.destroy(function(err){
-    if(err) {
+  req.session.destroy(function (err) {
+    if (err) {
       res.negotiate(err);
     }
     res.redirect("/");
 
   });
-  // if () {
+  
+});
 
-  // }
-  // else {
-
-  // }
+router.get('/test', function (req, res) {
+  var client = new Twitter({
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token_key: req.session.twitterAccessToken,
+    access_token_secret: req.session.twitterSecret,
+  });
+  var params = { screen_name: 'nodejs' };
+  client.get('statuses/home_timeline', function (error, tweets, response) {
+    res.json({ e: error, r: response, t: tweets });
+    // if (!error) {
+    //   res.json({tweets: tweets});
+    // }
+    // else{
+    //   res.json({error: error});
+    // }
+  });
 });
 
 module.exports = router;
