@@ -1,43 +1,28 @@
 function gettweets() {
-    $.ajax({
-        url: "/user/tweets",
-        type: "GET",
+  $.ajax({
+    url: "/user/tweets",
+    type: "GET",
 
-        success: function (data) {
-            console.log("Success: ", data);
-            if (data !== "-1") {
-                console.log("tweets: ", data.t);
-                let tweets = data.t;
-                tweets.forEach(tweet => {
-                    console.log("tweet: ", tweet);
-                    let tweetMedia = "";
-                //     <div class="post-video">
-                //     <div class="video-thumb">
-                //         <img src="/public/img/video-youtube1.jpg" alt="photo">
-                //         <a href="https://youtube.com/watch?v=excVFQ2TWig" class="play-video">
-                //             <svg class="olymp-play-icon">
-                //                 <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-play-icon"></use>
-                //             </svg>
-                //         </a>
-                //     </div>
-
-                //     <div class="video-content">
-                //         <a href="#" class="h4 title">Iron Maid - ChillGroves</a>
-                //         <p>Lorem ipsum dolor sit amet, consectetur ipisicing elit, sed do eiusmod tempor
-                //             incididunt
-                //             ut labore et dolore magna aliqua...
-                //         </p>
-                //         <a href="#" class="link-site">YOUTUBE.COM</a>
-                //     </div>
-                // </div>
-                    if(tweet.extended_entities){
-                        tweetMedia = `
+    success: function(data) {
+      console.log("Success: ", data);
+      if (data !== "-1") {
+        console.log("Request Code: ", data.r);
+        if (data.r.statusCode !== 200) {
+          return;
+        }
+        console.log("Tweets: ", data.t);
+        let tweets = data.t;
+        tweets.forEach(tweet => {
+          console.log("Tweet: ", tweet);
+          let tweetMedia = "";
+          if (tweet.extended_entities) {
+            tweetMedia = `
                         <div class="post-video">
                             <img src="${tweet.extended_entities.media[0].media_url_https}"/>
                             <a href="${tweet.extended_entities.media[0].expanded_url}" target="_blank">READ MORE</a>
                         </div>`;
-                    }
-                    let tweetHTML = `
+          }
+          let tweetHTML = `
                     <div class="ui-block">
 
 					<article class="hentry post video">
@@ -139,8 +124,6 @@ function gettweets() {
 									<span>16</span>
 								</a>
 							</div>
-
-
 						</div>
 
 						<div class="control-block-button post-control-button">
@@ -168,24 +151,19 @@ function gettweets() {
 
 					</article>
 				</div>`;
-                    $("#newsfeed-items-grid").append(tweetHTML);
-                });
-            }
-            else {
-                window.location.reload();
-            }
-
-        },
-        error: function (error) {
-            console.log("Error:", error);
-
-        }
-    });
-
-
+          $("#newsfeed-items-grid").append(tweetHTML);
+        });
+      } else {
+        window.location.reload();
+      }
+    },
+    error: function(error) {
+      console.log("Error:", error);
+    }
+  });
 }
 
-$(document).ready(function () {
-    console.log("newsfeed document is ready");
-    gettweets();
+$(document).ready(function() {
+  console.log("newsfeed document is ready");
+  gettweets();
 });
