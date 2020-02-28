@@ -78,13 +78,23 @@ router.get('/videos', function (req, res) {
 
 
 router.get('/fbgraph', function (req, res) {
-  res.json("1")
-  // if () {
-
-  // }
-  // else {
-
-  // }
+  graph.setAccessToken(req.session.facebookAccessToken);
+  graph.batch([
+    {
+      method: "GET",
+      relative_url: "me" // Get the current user's profile information
+    },
+    {
+      method: "GET",
+      relative_url: "me/friends?limit=50" // Get the first 50 friends of the current user
+    }
+  ], function(err, result) {
+    console.log(result);
+    res.json({error:err,result:result});
+   
+    
+  });
+ 
 });
 
 router.get('/logout', function (req, res) {
