@@ -66,8 +66,8 @@ router.post("/username", function(req, res) {
       req.session.firstName = user.firstName;
       req.session.lastName = user.lastName;
       req.session.img = user.img;
-      req.session.id = id;
-      req.session.isLoggedIn= true;
+      req.session.userId = id;
+      req.session.isLoggedIn = true;
       res.redirect("/user/newsfeed");
     })
     .catch(e => {
@@ -79,7 +79,7 @@ router.post("/facebookLogin", function(req, res) {
   var credential = firebase.auth.FacebookAuthProvider.credential(
     req.body.accessToken
   );
-  req.session.facebookAccessToken= req.body.accessToken;
+  req.session.facebookAccessToken = req.body.accessToken;
   if (req.session.twitter == true) {
     firebase
       .auth()
@@ -97,7 +97,7 @@ router.post("/facebookLogin", function(req, res) {
       .auth()
       .signInWithCredential(credential)
       .then(result => {
-        // Chec user record in database
+        // Check user record in database
         firebase
           .database()
           .ref()
@@ -113,7 +113,7 @@ router.post("/facebookLogin", function(req, res) {
               req.session.firstName = r.val().firstName;
               req.session.lastName = r.val().lastName;
               req.session.img = r.val().image;
-              req.session.id = r.val().id;
+              req.session.userId = r.val().id;
               res.json("3");
             }
           })
@@ -133,8 +133,8 @@ router.post("/twitterLogin", function(req, res) {
     req.body.accessToken,
     req.body.secret
   );
-  req.session.twitterAccessToken= req.body.accessToken;
-  req.session.twitterSecret= req.body.secret;
+  req.session.twitterAccessToken = req.body.accessToken;
+  req.session.twitterSecret = req.body.secret;
   if (req.session.facebook == true) {
     firebase
       .auth()
@@ -152,7 +152,7 @@ router.post("/twitterLogin", function(req, res) {
       .auth()
       .signInWithCredential(credential)
       .then(result => {
-        // Chec user record in database
+        // Check user record in database
         firebase
           .database()
           .ref()
@@ -168,7 +168,7 @@ router.post("/twitterLogin", function(req, res) {
               req.session.firstName = r.val().firstName;
               req.session.lastName = r.val().lastName;
               req.session.img = r.val().image;
-              req.session.id = r.val().id;
+              req.session.userId = r.val().id;
               res.json("3");
             }
           })
