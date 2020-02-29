@@ -15,29 +15,29 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-router.get("/user", function(req, res) {
-  firebase
-    .database()
-    .ref()
-    .child("Users")
-    .child("PEIMndySWkdAuPD6IRbP1MIIpJ02")
-    .once("value")
-    .then(r => {
-      if (r.val() == null || r.val() == undefined) {
-        res.json("-1");
-      } else {
-        res.json("1");
-      }
-    })
-    .catch(e => {
-      res.json(e);
-    });
-  // if (req.session.isLoggedIn == true) {
-  //   res.redirect("/user/newsfeed");
-  // } else {
-  //   res.render("pages/index");
-  // }
-});
+// router.get("/user", function(req, res) {
+//   firebase
+//     .database()
+//     .ref()
+//     .child("Users")
+//     .child("PEIMndySWkdAuPD6IRbP1MIIpJ02")
+//     .once("value")
+//     .then(r => {
+//       if (r.val() == null || r.val() == undefined) {
+//         res.json("-1");
+//       } else {
+//         res.json("1");
+//       }
+//     })
+//     .catch(e => {
+//       res.json(e);
+//     });
+//   // if (req.session.isLoggedIn == true) {
+//   //   res.redirect("/user/newsfeed");
+//   // } else {
+//   //   res.render("pages/index");
+//   // }
+// });
 
 /* GET home page. */
 router.get("/", function(req, res) {
@@ -181,6 +181,14 @@ router.post("/twitterLogin", function(req, res) {
         res.json(e.message);
       });
   }
+});
+
+router.get("/privacy", function(req, res) {
+  res.render("pages/policy");
+});
+
+router.get("/terms", function(req, res) {
+  res.render("pages/terms");
 });
 
 module.exports = router;
