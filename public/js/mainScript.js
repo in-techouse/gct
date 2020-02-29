@@ -82,7 +82,7 @@ $(document).ready(function() {
     $("#loading").show(300);
     $("#mainAuth").hide(300);
     let signIn = 1;
-    if(firebase.auth().currentUser === null){
+    if (firebase.auth().currentUser === null) {
       signIn = 0;
     }
     var provider = new firebase.auth.FacebookAuthProvider();
@@ -92,18 +92,16 @@ $(document).ready(function() {
       .then(r => {
         console.log("Success: ", r);
         $("#upperFacebook").hide(300);
-        if(signIn === 1){
+        if (signIn === 1) {
           firebase
-          .auth()
-          .currentUser.delete()
-          .then(d => {
-            loginWithFacebook(r);
-          });
-        }
-        else{
+            .auth()
+            .currentUser.delete()
+            .then(d => {
+              loginWithFacebook(r);
+            });
+        } else {
           loginWithFacebook(r);
         }
-
       })
       .catch(e => {
         console.log("Error: ", e);
@@ -119,7 +117,7 @@ $(document).ready(function() {
     $("#loading").show(300);
     $("#mainAuth").hide(300);
     let signIn = 1;
-    if(firebase.auth().currentUser === null){
+    if (firebase.auth().currentUser === null) {
       signIn = 0;
     }
     var provider = new firebase.auth.TwitterAuthProvider();
@@ -129,16 +127,15 @@ $(document).ready(function() {
       .then(r => {
         console.log("Success: ", r);
         $("#upperTwitter").hide(300);
-        if(signIn === 1){
+        if (signIn === 1) {
           firebase
-          .auth()
-          .currentUser.delete()
-          .then(d => {
-            loginwithTwitter(r);
-          });
-        }
-        else{
-          loginwithTwitter(r); 
+            .auth()
+            .currentUser.delete()
+            .then(d => {
+              loginwithTwitter(r);
+            });
+        } else {
+          loginwithTwitter(r);
         }
       })
       .catch(e => {
@@ -149,5 +146,3 @@ $(document).ready(function() {
       });
   });
 });
-
-
