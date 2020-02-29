@@ -80,21 +80,17 @@ router.get('/videos', function (req, res) {
 router.get('/fbgraph', function (req, res) {
   graph.setAccessToken(req.session.facebookAccessToken);
   graph.batch([
+    // {
+    //   method: "GET",
+    //   relative_url: "me" // Get the current user's profile information
+    // },
     {
       method: "GET",
-      relative_url: "me" // Get the current user's profile information
-    },
-    {
-      method: "GET",
-      relative_url: "me/friends?limit=50" // Get the first 50 friends of the current user
+      relative_url: "me/friends" // Get the first 50 friends of the current user
     }
-  ], function(err, result) {
-    console.log(result);
-    res.json({error:err,result:result});
-   
-    
+  ], function (err, result) {
+    res.json({ error: err, result: result });
   });
- 
 });
 
 router.get('/logout', function (req, res) {
