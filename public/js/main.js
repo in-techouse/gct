@@ -1,37 +1,33 @@
 var CRUMINA = {};
-!function(e) {
+!function (e) {
   "use strict";
   var n = e(window),
     t = e(document),
     o = e("body"),
     i = e(".fixed-sidebar"),
     a = e("#hellopreloader");
-  (CRUMINA.preloader = function() {
+  (CRUMINA.preloader = function () {
     return (
       n.scrollTop(0),
-      setTimeout(function() {
+      setTimeout(function () {
         a.fadeOut(800);
       }, 500),
       !1
     );
   }),
-    jQuery(".back-to-top").on("click", function() {
+    jQuery(".back-to-top").on("click", function () {
       return (
         e("html,body").animate(
           {
-            scrollTop: 0
+            scrollTop: 0,
           },
           1200
         ),
         !1
       );
     }),
-    e(document).on("click", ".quantity-plus", function() {
-      var n = parseInt(
-        e(this)
-          .prev("input")
-          .val()
-      );
+    e(document).on("click", ".quantity-plus", function () {
+      var n = parseInt(e(this).prev("input").val());
       return (
         e(this)
           .prev("input")
@@ -40,12 +36,8 @@ var CRUMINA = {};
         !1
       );
     }),
-    e(document).on("click", ".quantity-minus", function() {
-      var n = parseInt(
-        e(this)
-          .next("input")
-          .val()
-      );
+    e(document).on("click", ".quantity-minus", function () {
+      var n = parseInt(e(this).next("input").val());
       return (
         1 !== n &&
           e(this)
@@ -55,27 +47,24 @@ var CRUMINA = {};
         !1
       );
     }),
-    e(function() {
+    e(function () {
       var n;
       e(document).on(
         "touchstart mousedown",
         ".number-spinner button",
-        function() {
+        function () {
           var t = e(this),
             o = t.closest(".number-spinner").find("input");
-          t
-            .closest(".number-spinner")
-            .find("button")
-            .prop("disabled", !1),
+          t.closest(".number-spinner").find("button").prop("disabled", !1),
             (n =
               "up" == t.attr("data-dir")
-                ? setInterval(function() {
+                ? setInterval(function () {
                     void 0 == o.attr("max") ||
                     parseInt(o.val()) < parseInt(o.attr("max"))
                       ? o.val(parseInt(o.val()) + 1)
                       : (t.prop("disabled", !0), clearInterval(n));
                   }, 50)
-                : setInterval(function() {
+                : setInterval(function () {
                     void 0 == o.attr("min") ||
                     parseInt(o.val()) > parseInt(o.attr("min"))
                       ? o.val(parseInt(o.val()) - 1)
@@ -86,15 +75,15 @@ var CRUMINA = {};
         e(document).on(
           "touchend mouseup",
           ".number-spinner button",
-          function() {
+          function () {
             clearInterval(n);
           }
         );
     }),
-    e('a[data-toggle="tab"]').on("shown.bs.tab", function(n) {
+    e('a[data-toggle="tab"]').on("shown.bs.tab", function (n) {
       "#events" === e(n.target).attr("href") && e(".fc-state-active").click();
     }),
-    e(".js-sidebar-open").on("click", function() {
+    e(".js-sidebar-open").on("click", function () {
       return (
         e("body").outerWidth() <= 560 &&
           e(this)
@@ -102,22 +91,20 @@ var CRUMINA = {};
             .find(".popup-chat-responsive")
             .removeClass("open-chat"),
         e(this).toggleClass("active"),
-        e(this)
-          .closest(i)
-          .toggleClass("open"),
+        e(this).closest(i).toggleClass("open"),
         !1
       );
     }),
-    n.keydown(function(e) {
+    n.keydown(function (e) {
       27 == e.which && i.is(":visible") && i.removeClass("open");
     }),
-    t.on("click", function(n) {
+    t.on("click", function (n) {
       !e(n.target).closest(i).length &&
         i.is(":visible") &&
         i.removeClass("open");
     });
   var r = e(".window-popup");
-  e(".js-open-popup").on("click", function(n) {
+  e(".js-open-popup").on("click", function (n) {
     var t = e(this).data("popup-target"),
       i = r.filter(t),
       a = e(this).offset();
@@ -128,7 +115,7 @@ var CRUMINA = {};
       !1
     );
   }),
-    n.keydown(function(n) {
+    n.keydown(function (n) {
       27 == n.which &&
         (r.removeClass("open"),
         o.removeClass("overlay-enable"),
@@ -138,7 +125,7 @@ var CRUMINA = {};
         e(".header-menu").removeClass("open"),
         e(".js-sidebar-open").removeClass("active"));
     }),
-    t.on("click", function(n) {
+    t.on("click", function (n) {
       e(n.target).closest(r).length ||
         (r.removeClass("open"),
         o.removeClass("overlay-enable"),
@@ -146,12 +133,10 @@ var CRUMINA = {};
         e(".header-menu").removeClass("open"),
         e(".profile-settings-responsive").removeClass("open"));
     }),
-    e("[data-toggle=tab]").on("click", function() {
+    e("[data-toggle=tab]").on("click", function () {
       if (
         e(this).hasClass("active") &&
-        e(this)
-          .closest("ul")
-          .hasClass("mobile-app-tabs")
+        e(this).closest("ul").hasClass("mobile-app-tabs")
       )
         return (
           e(e(this).attr("href")).toggleClass("active"),
@@ -159,123 +144,121 @@ var CRUMINA = {};
           !1
         );
     }),
-    e(".js-close-popup").on("click", function() {
+    e(".js-close-popup").on("click", function () {
       return (
-        e(this)
-          .closest(r)
-          .removeClass("open"),
+        e(this).closest(r).removeClass("open"),
         o.removeClass("overlay-enable"),
         !1
       );
     }),
-    e(".profile-settings-open").on("click", function() {
+    e(".profile-settings-open").on("click", function () {
       return e(".profile-settings-responsive").toggleClass("open"), !1;
     }),
-    e(".js-expanded-menu").on("click", function() {
+    e(".js-expanded-menu").on("click", function () {
       return e(".header-menu").toggleClass("expanded-menu"), !1;
     }),
-    e(".js-chat-open").on("click", function() {
+    e(".js-chat-open").on("click", function () {
       return e(".popup-chat-responsive").toggleClass("open-chat"), !1;
     }),
-    e(".js-chat-close").on("click", function() {
+    e(".js-chat-close").on("click", function () {
       return e(".popup-chat-responsive").removeClass("open-chat"), !1;
     }),
-    e(".js-open-responsive-menu").on("click", function() {
+    e(".js-open-responsive-menu").on("click", function () {
       return e(".header-menu").toggleClass("open"), !1;
     }),
-    e(".js-close-responsive-menu").on("click", function() {
+    e(".js-close-responsive-menu").on("click", function () {
       return e(".header-menu").removeClass("open"), !1;
     }),
-    (CRUMINA.CallToActionAnimation = function() {
+    (CRUMINA.CallToActionAnimation = function () {
       var e = new ScrollMagic.Controller();
       new ScrollMagic.Scene({
-        triggerElement: ".call-to-action-animation"
+        triggerElement: ".call-to-action-animation",
       })
         .setVelocity(
           ".first-img",
           {
             opacity: 1,
             bottom: "0",
-            scale: "1"
+            scale: "1",
           },
           1200
         )
         .triggerHook(1)
         .addTo(e),
         new ScrollMagic.Scene({
-          triggerElement: ".call-to-action-animation"
+          triggerElement: ".call-to-action-animation",
         })
           .setVelocity(
             ".second-img",
             {
               opacity: 1,
               bottom: "50%",
-              right: "40%"
+              right: "40%",
             },
             1500
           )
           .triggerHook(1)
           .addTo(e);
     }),
-    (CRUMINA.ImgScaleAnimation = function() {
+    (CRUMINA.ImgScaleAnimation = function () {
       var e = new ScrollMagic.Controller();
       new ScrollMagic.Scene({
-        triggerElement: ".img-scale-animation"
+        triggerElement: ".img-scale-animation",
       })
         .setVelocity(
           ".main-img",
           {
             opacity: 1,
-            scale: "1"
+            scale: "1",
           },
           200
         )
         .triggerHook(0.3)
         .addTo(e),
         new ScrollMagic.Scene({
-          triggerElement: ".img-scale-animation"
+          triggerElement: ".img-scale-animation",
         })
           .setVelocity(
             ".first-img1",
             {
               opacity: 1,
-              scale: "1"
+              scale: "1",
             },
             1200
           )
           .triggerHook(0.8)
           .addTo(e),
         new ScrollMagic.Scene({
-          triggerElement: ".img-scale-animation"
+          triggerElement: ".img-scale-animation",
         })
           .setVelocity(
             ".second-img1",
             {
               opacity: 1,
-              scale: "1"
+              scale: "1",
             },
             1200
           )
           .triggerHook(1.1)
           .addTo(e),
         new ScrollMagic.Scene({
-          triggerElement: ".img-scale-animation"
+          triggerElement: ".img-scale-animation",
         })
           .setVelocity(
             ".third-img1",
             {
               opacity: 1,
-              scale: "1"
+              scale: "1",
             },
             1200
           )
           .triggerHook(1.4)
           .addTo(e);
     }),
-    (CRUMINA.SubscribeAnimation = function() {
+    (CRUMINA.SubscribeAnimation = function () {
       var e = new ScrollMagic.Controller();
       new ScrollMagic.Scene({
-        triggerElement: ".subscribe-animation"
+        triggerElement: ".subscribe-animation",
       })
         .setVelocity(
           ".plane",
@@ -284,51 +267,51 @@ var CRUMINA = {};
             bottom: "auto",
             top: "-20",
             left: "50%",
-            scale: "1"
+            scale: "1",
           },
           1200
         )
         .triggerHook(1)
         .addTo(e);
     }),
-    (CRUMINA.PlanerAnimation = function() {
+    (CRUMINA.PlanerAnimation = function () {
       var e = new ScrollMagic.Controller();
       new ScrollMagic.Scene({
-        triggerElement: ".planer-animation"
+        triggerElement: ".planer-animation",
       })
         .setVelocity(
           ".planer",
           {
             opacity: 1,
             left: "80%",
-            scale: "1"
+            scale: "1",
           },
           2e3
         )
         .triggerHook(0.1)
         .addTo(e);
     }),
-    (CRUMINA.ContactAnimationAnimation = function() {
+    (CRUMINA.ContactAnimationAnimation = function () {
       var e = new ScrollMagic.Controller();
       new ScrollMagic.Scene({
-        triggerElement: ".contact-form-animation"
+        triggerElement: ".contact-form-animation",
       })
         .setVelocity(
           ".crew",
           {
             opacity: 1,
             left: "77%",
-            scale: "1"
+            scale: "1",
           },
           1e3
         )
         .triggerHook(0.1)
         .addTo(e);
     }),
-    (CRUMINA.perfectScrollbarInit = function() {
+    (CRUMINA.perfectScrollbarInit = function () {
       var n = e(".popup-chat .mCustomScrollbar");
       e(".mCustomScrollbar").perfectScrollbar({
-        wheelPropagation: !1
+        wheelPropagation: !1,
       }),
         n.length &&
           (n.scrollTop(n.prop("scrollHeight")), n.perfectScrollbar("update"));
@@ -337,7 +320,7 @@ var CRUMINA = {};
       $profilePanel: null,
       $desktopContainerPanel: null,
       $responsiveContainerPanel: null,
-      init: function() {
+      init: function () {
         (this.$profilePanel = jQuery("#profile-panel")),
           (this.$desktopContainerPanel = jQuery(
             "#desktop-container-panel > .ui-block"
@@ -347,28 +330,28 @@ var CRUMINA = {};
           )),
           this.update();
       },
-      mixPanel: function() {
+      mixPanel: function () {
         window.matchMedia("(max-width: 1024px)").matches
           ? this.$responsiveContainerPanel.append(this.$profilePanel)
           : this.$desktopContainerPanel.append(this.$profilePanel);
       },
-      update: function() {
+      update: function () {
         var n = this,
           t = null,
-          o = function() {
+          o = function () {
             (t = null), n.mixPanel();
           };
         e(window)
-          .on("resize", function() {
+          .on("resize", function () {
             null === t &&
-              (t = window.setTimeout(function() {
+              (t = window.setTimeout(function () {
                 o();
               }, 300));
           })
           .resize();
-      }
+      },
     }),
-    t.ready(function() {
+    t.ready(function () {
       CRUMINA.perfectScrollbarInit(),
         e(".call-to-action-animation").length &&
           CRUMINA.CallToActionAnimation(),
@@ -389,8 +372,8 @@ var CRUMINA = {};
               "current",
               "progress",
               "duration",
-              "volume"
-            ]
+              "volume",
+            ],
           }),
         CRUMINA.responsive.init();
     });

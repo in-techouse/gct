@@ -3,7 +3,7 @@ function gettweets() {
     url: "/user/tweets",
     type: "GET",
 
-    success: function(data) {
+    success: function (data) {
       console.log("Success: ", data);
       if (data !== "-1") {
         console.log("Request Code: ", data.r);
@@ -12,7 +12,7 @@ function gettweets() {
         }
         console.log("Tweets: ", data.t);
         let tweets = data.t;
-        tweets.forEach(tweet => {
+        tweets.forEach((tweet) => {
           console.log("Tweet: ", tweet);
           let tweetMedia = "";
           if (tweet.extended_entities) {
@@ -157,13 +157,13 @@ function gettweets() {
         window.location.reload();
       }
     },
-    error: function(error) {
+    error: function (error) {
       console.log("Error:", error);
-    }
+    },
   });
 }
 
-$(document).ready(function() {
-  console.log("newsfeed document is ready");
+$(document).ready(function () {
+  console.log("Newsfeed document is ready");
   gettweets();
 });

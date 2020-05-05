@@ -10,7 +10,7 @@ var firebaseConfig = {
   storageBucket: process.env.STORAGE_BUCKET,
   messagingSenderId: process.env.MESSAGING_SENDER_ID,
   appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID
+  measurementId: process.env.MEASUREMENT_ID,
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -40,21 +40,21 @@ firebase.initializeApp(firebaseConfig);
 // });
 
 /* GET home page. */
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
   if (req.session.isLoggedIn == true) {
     res.redirect("/user/newsfeed");
   } else {
     res.render("pages/index");
   }
 });
-router.post("/username", function(req, res) {
+router.post("/username", function (req, res) {
   let id = firebase.auth().currentUser.uid;
   let img = firebase.auth().currentUser.photoURL;
   let user = {
     firstName: req.body.firstname,
     lastName: req.body.lastname,
     image: img,
-    id: id
+    id: id,
   };
   firebase
     .database()
@@ -62,7 +62,7 @@ router.post("/username", function(req, res) {
     .child("Users")
     .child(user.id)
     .set(user)
-    .then(r => {
+    .then((r) => {
       req.session.firstName = user.firstName;
       req.session.lastName = user.lastName;
       req.session.img = user.img;
@@ -70,12 +70,12 @@ router.post("/username", function(req, res) {
       req.session.isLoggedIn = true;
       res.redirect("/user/newsfeed");
     })
-    .catch(e => {
+    .catch((e) => {
       res.render("pages/index");
     });
 });
 
-router.post("/facebookLogin", function(req, res) {
+router.post("/facebookLogin", function (req, res) {
   var credential = firebase.auth.FacebookAuthProvider.credential(
     req.body.accessToken
   );
@@ -84,19 +84,19 @@ router.post("/facebookLogin", function(req, res) {
     firebase
       .auth()
       .currentUser.linkWithCredential(credential)
-      .then(result => {
+      .then((result) => {
         req.session.facebook = true;
         req.session.isLoggedIn = true;
         res.json("2");
       })
-      .catch(e => {
+      .catch((e) => {
         res.json(e.message);
       });
   } else {
     firebase
       .auth()
       .signInWithCredential(credential)
-      .then(result => {
+      .then((result) => {
         // Check user record in database
         firebase
           .database()
@@ -104,7 +104,7 @@ router.post("/facebookLogin", function(req, res) {
           .child("Users")
           .child(firebase.auth().currentUser.uid)
           .once("value")
-          .then(r => {
+          .then((r) => {
             if (r.val() == null || r.val() == undefined) {
               req.session.facebook = true;
               res.json("1");
@@ -117,18 +117,18 @@ router.post("/facebookLogin", function(req, res) {
               res.json("3");
             }
           })
-          .catch(e => {
+          .catch((e) => {
             req.session.facebook = true;
             res.json("1");
           });
       })
-      .catch(e => {
+      .catch((e) => {
         res.json(e.message);
       });
   }
 });
 
-router.post("/twitterLogin", function(req, res) {
+router.post("/twitterLogin", function (req, res) {
   var credential = firebase.auth.TwitterAuthProvider.credential(
     req.body.accessToken,
     req.body.secret
@@ -139,19 +139,19 @@ router.post("/twitterLogin", function(req, res) {
     firebase
       .auth()
       .currentUser.linkWithCredential(credential)
-      .then(result => {
+      .then((result) => {
         req.session.twitter = true;
         req.session.isLoggedIn = true;
         res.json("2");
       })
-      .catch(e => {
+      .catch((e) => {
         res.json(e.message);
       });
   } else {
     firebase
       .auth()
       .signInWithCredential(credential)
-      .then(result => {
+      .then((result) => {
         // Check user record in database
         firebase
           .database()
@@ -159,7 +159,7 @@ router.post("/twitterLogin", function(req, res) {
           .child("Users")
           .child(firebase.auth().currentUser.uid)
           .once("value")
-          .then(r => {
+          .then((r) => {
             if (r.val() == null || r.val() == undefined) {
               req.session.twitter = true;
               res.json("1");
@@ -172,22 +172,22 @@ router.post("/twitterLogin", function(req, res) {
               res.json("3");
             }
           })
-          .catch(e => {
+          .catch((e) => {
             req.session.twitter = true;
             res.json("1");
           });
       })
-      .catch(e => {
+      .catch((e) => {
         res.json(e.message);
       });
   }
 });
 
-router.get("/privacy", function(req, res) {
+router.get("/privacy", function (req, res) {
   res.render("pages/policy");
 });
 
-router.get("/terms", function(req, res) {
+router.get("/terms", function (req, res) {
   res.render("pages/terms");
 });
 
