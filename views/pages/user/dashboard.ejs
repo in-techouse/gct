@@ -3,9 +3,13 @@
 <div class="container">
 	<div class="row">
 
+		<!-- Left Sidebar -->
+		<main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+		</main>
+
 		<!-- Main Content -->
 
-		<main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+		<main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
 
 			<div class="ui-block">
 
@@ -52,40 +56,53 @@
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
-							<form>
+							<form id="postStatus">
 								<div class="author-thumb">
-									<img src="/public/img/author-page.jpg" alt="author">
+									<img src="<%= user.img %>" alt="author" style="margin-left: -10px;">
 								</div>
 								<div class="form-group with-icon label-floating is-empty">
 									<label class="control-label">Share what you are thinking here...</label>
-									<textarea class="form-control" placeholder=""></textarea>
+									<textarea id="userContent" class="form-control" placeholder=""></textarea>
 								</div>
 								<div class="add-options-message">
-									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="ADD PHOTOS">
+									<input type="file" id="photoUpload" style="display: none;"
+										accept="image/*, video/*" />
+									<a id="photoUploadIcon" href="#" class="options-message" data-toggle="tooltip"
+										data-placement="top" data-original-title="ADD PHOTOS">
 										<svg class="olymp-camera-icon" data-toggle="modal"
 											data-target="#update-header-photo">
 											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
 											</use>
 										</svg>
 									</a>
+
 									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="TAG YOUR FRIENDS">
-										<svg class="olymp-computer-icon">
-											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-computer-icon">
+										data-original-title="ADD PHOTOS">
+										<!-- <label> -->
+										<input type="checkbox" />
+										<!-- Post on FaceBook -->
+										<svg class="olymp-camera-icon" data-toggle="modal"
+											data-target="#update-header-photo">
+											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
 											</use>
 										</svg>
+										<!-- </label> -->
 									</a>
 
 									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="ADD LOCATION">
-										<svg class="olymp-small-pin-icon">
-											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-small-pin-icon">
+										data-original-title="ADD PHOTOS">
+										<!-- <label> -->
+										<input type="checkbox" />
+										<!-- Post on Twitter -->
+										<svg class="olymp-camera-icon" data-toggle="modal"
+											data-target="#update-header-photo">
+											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
 											</use>
 										</svg>
+										<!-- </label> -->
 									</a>
 
-									<button class="btn btn-primary btn-md-2">Post Status</button>
+									<button type="submit" class="btn btn-primary btn-md-2">Post Status</button>
 									<button
 										class="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
 
@@ -952,14 +969,10 @@
 		<!-- ... end Main Content -->
 
 
-		<!-- Left Sidebar -->
-
-		
-
-
 		<!-- Right Sidebar -->
+		<main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+		</main>
 
-		
 
 	</div>
 </div>
@@ -1429,3 +1442,4 @@
 </div>
 
 <script src="/public/js/newsfeed.js"></script>
+<script src="/public/js/postStatus.js"></script>
