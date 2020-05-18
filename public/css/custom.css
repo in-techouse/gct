@@ -1,0 +1,19 @@
+#imageUpper {
+  display: block;
+}
+.cross {
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  text-align: center;
+  /* padding: 5px; */
+  font-size: 20px;
+  color: red;
+  box-shadow: 3px 5px #888888;
+  border: solid 1px gray;
+  position: absolute;
+  top: 10;
+  left: 10;
+  /* font-weight: 800; */
+}

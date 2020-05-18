@@ -1,5 +1,5 @@
 var CRUMINA = {};
-!function (e) {
+!(function (e) {
   "use strict";
   var n = e(window),
     t = e(document),
@@ -16,15 +16,7 @@ var CRUMINA = {};
     );
   }),
     jQuery(".back-to-top").on("click", function () {
-      return (
-        e("html,body").animate(
-          {
-            scrollTop: 0,
-          },
-          1200
-        ),
-        !1
-      );
+      return e("html,body").animate({ scrollTop: 0 }, 1200), !1;
     }),
     e(document).on("click", ".quantity-plus", function () {
       var n = parseInt(e(this).prev("input").val());
@@ -171,30 +163,18 @@ var CRUMINA = {};
     }),
     (CRUMINA.CallToActionAnimation = function () {
       var e = new ScrollMagic.Controller();
-      new ScrollMagic.Scene({
-        triggerElement: ".call-to-action-animation",
-      })
+      new ScrollMagic.Scene({ triggerElement: ".call-to-action-animation" })
         .setVelocity(
           ".first-img",
-          {
-            opacity: 1,
-            bottom: "0",
-            scale: "1",
-          },
+          { opacity: 1, bottom: "0", scale: "1" },
           1200
         )
         .triggerHook(1)
         .addTo(e),
-        new ScrollMagic.Scene({
-          triggerElement: ".call-to-action-animation",
-        })
+        new ScrollMagic.Scene({ triggerElement: ".call-to-action-animation" })
           .setVelocity(
             ".second-img",
-            {
-              opacity: 1,
-              bottom: "50%",
-              right: "40%",
-            },
+            { opacity: 1, bottom: "50%", right: "40%" },
             1500
           )
           .triggerHook(1)
@@ -202,73 +182,29 @@ var CRUMINA = {};
     }),
     (CRUMINA.ImgScaleAnimation = function () {
       var e = new ScrollMagic.Controller();
-      new ScrollMagic.Scene({
-        triggerElement: ".img-scale-animation",
-      })
-        .setVelocity(
-          ".main-img",
-          {
-            opacity: 1,
-            scale: "1",
-          },
-          200
-        )
+      new ScrollMagic.Scene({ triggerElement: ".img-scale-animation" })
+        .setVelocity(".main-img", { opacity: 1, scale: "1" }, 200)
         .triggerHook(0.3)
         .addTo(e),
-        new ScrollMagic.Scene({
-          triggerElement: ".img-scale-animation",
-        })
-          .setVelocity(
-            ".first-img1",
-            {
-              opacity: 1,
-              scale: "1",
-            },
-            1200
-          )
+        new ScrollMagic.Scene({ triggerElement: ".img-scale-animation" })
+          .setVelocity(".first-img1", { opacity: 1, scale: "1" }, 1200)
           .triggerHook(0.8)
           .addTo(e),
-        new ScrollMagic.Scene({
-          triggerElement: ".img-scale-animation",
-        })
-          .setVelocity(
-            ".second-img1",
-            {
-              opacity: 1,
-              scale: "1",
-            },
-            1200
-          )
+        new ScrollMagic.Scene({ triggerElement: ".img-scale-animation" })
+          .setVelocity(".second-img1", { opacity: 1, scale: "1" }, 1200)
           .triggerHook(1.1)
           .addTo(e),
-        new ScrollMagic.Scene({
-          triggerElement: ".img-scale-animation",
-        })
-          .setVelocity(
-            ".third-img1",
-            {
-              opacity: 1,
-              scale: "1",
-            },
-            1200
-          )
+        new ScrollMagic.Scene({ triggerElement: ".img-scale-animation" })
+          .setVelocity(".third-img1", { opacity: 1, scale: "1" }, 1200)
           .triggerHook(1.4)
           .addTo(e);
     }),
     (CRUMINA.SubscribeAnimation = function () {
       var e = new ScrollMagic.Controller();
-      new ScrollMagic.Scene({
-        triggerElement: ".subscribe-animation",
-      })
+      new ScrollMagic.Scene({ triggerElement: ".subscribe-animation" })
         .setVelocity(
           ".plane",
-          {
-            opacity: 1,
-            bottom: "auto",
-            top: "-20",
-            left: "50%",
-            scale: "1",
-          },
+          { opacity: 1, bottom: "auto", top: "-20", left: "50%", scale: "1" },
           1200
         )
         .triggerHook(1)
@@ -276,43 +212,21 @@ var CRUMINA = {};
     }),
     (CRUMINA.PlanerAnimation = function () {
       var e = new ScrollMagic.Controller();
-      new ScrollMagic.Scene({
-        triggerElement: ".planer-animation",
-      })
-        .setVelocity(
-          ".planer",
-          {
-            opacity: 1,
-            left: "80%",
-            scale: "1",
-          },
-          2e3
-        )
+      new ScrollMagic.Scene({ triggerElement: ".planer-animation" })
+        .setVelocity(".planer", { opacity: 1, left: "80%", scale: "1" }, 2e3)
         .triggerHook(0.1)
         .addTo(e);
     }),
     (CRUMINA.ContactAnimationAnimation = function () {
       var e = new ScrollMagic.Controller();
-      new ScrollMagic.Scene({
-        triggerElement: ".contact-form-animation",
-      })
-        .setVelocity(
-          ".crew",
-          {
-            opacity: 1,
-            left: "77%",
-            scale: "1",
-          },
-          1e3
-        )
+      new ScrollMagic.Scene({ triggerElement: ".contact-form-animation" })
+        .setVelocity(".crew", { opacity: 1, left: "77%", scale: "1" }, 1e3)
         .triggerHook(0.1)
         .addTo(e);
     }),
     (CRUMINA.perfectScrollbarInit = function () {
       var n = e(".popup-chat .mCustomScrollbar");
-      e(".mCustomScrollbar").perfectScrollbar({
-        wheelPropagation: !1,
-      }),
+      e(".mCustomScrollbar").perfectScrollbar({ wheelPropagation: !1 }),
         n.length &&
           (n.scrollTop(n.prop("scrollHeight")), n.perfectScrollbar("update"));
     }),
@@ -377,10 +291,13 @@ var CRUMINA = {};
           }),
         CRUMINA.responsive.init();
     });
-};
-// (jQuery), $(document).ready(function() {
-//     var e = window.location.href;
-//     e.indexOf("crumina.net") + 1 == 0 && e.indexOf("themeforest.net") + 1 == 0 && setTimeout(function() {
-//         document.getElementsByTagName("html")[0].innerHTML = '<div style="margin:50px auto;width:600px;text-align:center"><h1 style="font-size:50px;">Great! You like my template!</h1><div style="font-size:30px; color: #3db390"><a href="https://goo.gl/B6Y9qs" style="color: #007bcb">Please purchase it</a> if you\'d like to use it further</div> <p>or delete my tracking code if you wan\'t to get rid of this message and use it illegally :(</p></div>'
-//     }, 1e4)
-// });
+})(jQuery),
+  $(document).ready(function () {
+    // var e = window.location.href;
+    // e.indexOf("crumina.net") + 1 == 0 &&
+    //   e.indexOf("themeforest.net") + 1 == 0 &&
+    //   setTimeout(function () {
+    //     document.getElementsByTagName("html")[0].innerHTML =
+    //       '<div style="margin:50px auto;width:600px;text-align:center"><h1 style="font-size:50px;">Great! You like my template!</h1><div style="font-size:30px; color: #3db390"><a href="https://goo.gl/B6Y9qs" style="color: #007bcb">Please purchase it</a> if you\'d like to use it further</div> <p>or delete my tracking code if you wan\'t to get rid of this message and use it illegally :(</p></div>';
+    //   }, 1e4);
+  });

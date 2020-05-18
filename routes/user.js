@@ -5,13 +5,12 @@ var Twitter = require("twitter");
 var router = express.Router();
 
 router.get("/newsfeed", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session;
-    console.log("Facebook access token: ", req.session.facebookAccessToken);
-    res.render("pages/user/dashboard", { user: user, action: "News feed" });
-  } else {
-    res.redirect("/");
-  }
+  // if (!req.session.isLoggedIn) {
+  //   res.redirect("/");
+  // }
+  let user = req.session;
+  console.log("Facebook access token: ", req.session.facebookAccessToken);
+  res.render("pages/user/dashboard", { user: user, action: "News feed" });
 });
 
 router.get("/profile", function (req, res) {

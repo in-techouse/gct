@@ -153,9 +153,10 @@ function gettweets() {
 				</div>`;
           $("#newsfeed-items-grid").append(tweetHTML);
         });
-      } else {
-        window.location.reload();
       }
+      //   else {
+      //     window.location.reload();
+      //   }
     },
     error: function (error) {
       console.log("Error:", error);
