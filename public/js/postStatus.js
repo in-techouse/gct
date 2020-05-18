@@ -5,6 +5,10 @@ $(document).ready(function () {
     $("#photoUpload").trigger("click");
   });
 
+  $("#photoUpload").change(function () {
+    readURL(this);
+  });
+
   $("#postStatus").submit(function (event) {
     event.preventDefault();
     console.log("Form is stopped.");
@@ -23,3 +27,17 @@ $(document).ready(function () {
     // });
   });
 });
+
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      $("#postImage").attr("src", e.target.result);
+      $("#imageUpper").show(400);
+      // $("#showDesign").addClass("img-thumbnail");
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}

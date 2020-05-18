@@ -1,5 +1,9 @@
 #imageUpper {
-  display: block;
+  display: none;
+}
+#postImage {
+  width: 120px !important;
+  height: 120px !important;
 }
 .cross {
   background-color: white;
@@ -7,13 +11,24 @@
   height: 30px;
   border-radius: 20px;
   text-align: center;
-  /* padding: 5px; */
   font-size: 20px;
   color: red;
   box-shadow: 3px 5px #888888;
   border: solid 1px gray;
-  position: absolute;
-  top: 10;
-  left: 10;
-  /* font-weight: 800; */
+  margin-left: -17px;
+  margin-top: -5px;
+}
+
+.faceBookIcon {
+  font-size: 25px;
+  color: #3b5998;
+}
+
+.twitterIcon {
+  font-size: 25px;
+  color: #00acee;
+}
+
+.postSocialMedia {
+  display: inline-block;
 }

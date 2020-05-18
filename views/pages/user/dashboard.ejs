@@ -65,9 +65,11 @@
 									<textarea id="userContent" class="form-control" placeholder=""></textarea>
 								</div>
 								<div class="add-options-message" id="imageUpper">
-									<img src="/public/img/author-main1.jpg" class="img-responsive img-thumbnail" />
-									<p class="cross">X
-									</p>
+									<div class="row">
+										<img id="postImage" class="img-responsive img-thumbnail" />
+										<p class="cross">X
+										</p>
+									</div>
 									<hr />
 								</div>
 								<div class="add-options-message">
@@ -82,31 +84,40 @@
 										</svg>
 									</a>
 
-									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="ADD PHOTOS">
-										<!-- <label> -->
+									<div class="form-group">
 										<input type="checkbox" />
-										<!-- Post on FaceBook -->
-										<svg class="olymp-camera-icon" data-toggle="modal"
-											data-target="#update-header-photo">
-											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
-											</use>
-										</svg>
-										<!-- </label> -->
-									</a>
+										<label class="postSocialMedia">
+											Post on Facebook <i class="fab fa-facebook faceBookIcon"></i>
+										</label>
+									</div>
 
-									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="ADD PHOTOS">
-										<!-- <label> -->
+									<div class="form-group">
 										<input type="checkbox" />
-										<!-- Post on Twitter -->
+										<label class="postSocialMedia">
+											Post on Twitter <i class="fab fa-twitter twitterIcon"></i>
+										</label>
+									</div>
+
+
+									<!-- <a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
+										data-original-title="ADD PHOTOS">
+										<input type="checkbox" />
 										<svg class="olymp-camera-icon" data-toggle="modal"
 											data-target="#update-header-photo">
 											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
 											</use>
 										</svg>
-										<!-- </label> -->
-									</a>
+									</a> -->
+
+									<!-- <a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
+										data-original-title="ADD PHOTOS">
+										<input type="checkbox" />
+										<svg class="olymp-camera-icon" data-toggle="modal"
+											data-target="#update-header-photo">
+											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
+											</use>
+										</svg>
+									</a> -->
 
 									<button type="submit" class="btn btn-primary btn-md-2">Post Status</button>
 									<button
