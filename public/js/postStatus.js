@@ -14,6 +14,35 @@ $(document).ready(function () {
     console.log("Form is stopped.");
     let userContent = $("#userContent").val();
     console.log("Content: ", userContent);
+
+    // Save Status to database
+    let post = {
+      content: userContent,
+      id: "",
+      userId: "",
+      url: "",
+      isImage: true,
+      isFacebook: false,
+      isTwitter: false,
+    };
+
+    post.id = firebase.database().ref().child("Posts").push().key;
+    console.log("Post: ", post);
+
+    firebase
+      .database()
+      .ref()
+      .child("Posts")
+      .child(post.id)
+      .set(post)
+      .then((r) => {
+        console.log("Post Success");
+        $("#userContent").val("");
+      })
+      .catch((e) => {
+        console.log("Post Failure: ", e);
+      });
+
     // Ajax Request for post
     // $.ajax({
     //   url: "",

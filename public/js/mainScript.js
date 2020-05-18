@@ -2,6 +2,7 @@
 var firebaseConfig = {
   apiKey: "AIzaSyAFSBuiVUoFC18qzI3xd3EsGL_Fsy4y5VA",
   authDomain: "global-ct.firebaseapp.com",
+  databaseURL: "https://global-ct.firebaseio.com",
   projectId: "global-ct",
   messagingSenderId: "559718967029",
   appId: "1:559718967029:web:6cd2b538b1fe3d940dc7bc",
