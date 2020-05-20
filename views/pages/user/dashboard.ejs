@@ -21,34 +21,10 @@
 						<li class="nav-item">
 							<a class="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab"
 								aria-expanded="true">
-
 								<svg class="olymp-status-icon">
 									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-status-icon"></use>
 								</svg>
-
 								<span>Status</span>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link inline-items" data-toggle="tab" href="#profile-1" role="tab"
-								aria-expanded="false">
-
-								<svg class="olymp-multimedia-icon">
-									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-multimedia-icon"></use>
-								</svg>
-
-								<span>Multimedia</span>
-							</a>
-						</li>
-
-						<li class="nav-item">
-							<a class="nav-link inline-items" data-toggle="tab" href="#blog" role="tab"
-								aria-expanded="false">
-								<svg class="olymp-blog-icon">
-									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-blog-icon"></use>
-								</svg>
-
-								<span>Blog Post</span>
 							</a>
 						</li>
 					</ul>
@@ -94,95 +70,10 @@
 										Post on Twitter <i class="fab fa-twitter twitterIcon"></i>
 									</a>
 
+
 									<button type="submit" class="btn btn-primary btn-md-2">Post Status</button>
-									<button
-										class="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
-
-								</div>
-
-							</form>
-						</div>
-
-						<div class="tab-pane" id="profile-1" role="tabpanel" aria-expanded="true">
-							<form>
-								<div class="author-thumb">
-									<img src="/public/img/author-page.jpg" alt="author">
-								</div>
-								<div class="form-group with-icon label-floating is-empty">
-									<label class="control-label">Share what you are thinking here...</label>
-									<textarea class="form-control" placeholder=""></textarea>
-								</div>
-								<div class="add-options-message">
-									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="ADD PHOTOS">
-										<svg class="olymp-camera-icon" data-toggle="modal"
-											data-target="#update-header-photo">
-											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
-											</use>
-										</svg>
-									</a>
-									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="TAG YOUR FRIENDS">
-										<svg class="olymp-computer-icon">
-											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-computer-icon">
-											</use>
-										</svg>
-									</a>
-
-									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="ADD LOCATION">
-										<svg class="olymp-small-pin-icon">
-											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-small-pin-icon">
-											</use>
-										</svg>
-									</a>
-
-									<button class="btn btn-primary btn-md-2">Post Status</button>
-									<button
-										class="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
-
-								</div>
-
-							</form>
-						</div>
-
-						<div class="tab-pane" id="blog" role="tabpanel" aria-expanded="true">
-							<form>
-								<div class="author-thumb">
-									<img src="/public/img/author-page.jpg" alt="author">
-								</div>
-								<div class="form-group with-icon label-floating is-empty">
-									<label class="control-label">Share what you are thinking here...</label>
-									<textarea class="form-control" placeholder=""></textarea>
-								</div>
-								<div class="add-options-message">
-									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="ADD PHOTOS">
-										<svg class="olymp-camera-icon" data-toggle="modal"
-											data-target="#update-header-photo">
-											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
-											</use>
-										</svg>
-									</a>
-									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="TAG YOUR FRIENDS">
-										<svg class="olymp-computer-icon">
-											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-computer-icon">
-											</use>
-										</svg>
-									</a>
-
-									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
-										data-original-title="ADD LOCATION">
-										<svg class="olymp-small-pin-icon">
-											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-small-pin-icon">
-											</use>
-										</svg>
-									</a>
-
-									<button class="btn btn-primary btn-md-2">Post Status</button>
-									<button
-										class="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
+									<a href="#" class="btn btn-md-2 btn-border-think btn-transparent c-grey customBtn"
+										data-toggle="modal" data-target="#preview-post">PREVIEW POST</a>
 
 								</div>
 
@@ -1432,6 +1323,51 @@
 	</div>
 
 </div>
+
+
+<!-- Window-popup Restore Password -->
+
+<div class="modal fade" id="preview-post" tabindex="-1" role="dialog" aria-labelledby="preview-post" aria-hidden="true">
+	<div class="modal-dialog window-popup restore-password-popup" role="document">
+		<div class="modal-content">
+			<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+				<svg class="olymp-close-icon">
+					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+				</svg>
+			</a>
+
+			<div class="modal-header">
+				<h6 class="title">Restore your Password</h6>
+			</div>
+
+			<div class="modal-body">
+				<form method="get">
+					<p>Enter your email and click the send code button. You’ll receive a code in your email. Please
+						use that
+						code below to change the old password for a new one.
+					</p>
+					<div class="form-group label-floating">
+						<label class="control-label">Your Email</label>
+						<input class="form-control" placeholder="" type="email" value="james-spiegel@yourmail.com">
+					</div>
+					<button class="btn btn-purple btn-lg full-width">Send me the Code</button>
+					<div class="form-group label-floating">
+						<label class="control-label">Enter the Code</label>
+						<input class="form-control" placeholder="" type="text" value="">
+					</div>
+					<div class="form-group label-floating">
+						<label class="control-label">Your New Password</label>
+						<input class="form-control" placeholder="" type="password" value="olympus">
+					</div>
+					<button class="btn btn-primary btn-lg full-width">Change your Password!</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ... end Window-popup Restore Password -->
 
 <script src="/public/js/newsfeed.js"></script>
 <script src="/public/js/postStatus.js"></script>
