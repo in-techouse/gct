@@ -9,11 +9,39 @@ $(document).ready(function () {
     readURL(this);
   });
 
+  $("#twitterPost").click(function () {
+    let isChecked = $("#twitterPost").hasClass("btn-outline-primary");
+    console.log("Twitter Post: ", isChecked);
+    if (isChecked) {
+      $("#twitterPost").removeClass("btn-outline-primary");
+      $("#twitterPost").addClass("btn-primary");
+    } else {
+      $("#twitterPost").removeClass("btn-primary");
+      $("#twitterPost").addClass("btn-outline-primary");
+    }
+  });
+
+  $("#facebookPost").click(function () {
+    let isChecked = $("#facebookPost").hasClass("btn-outline-primary");
+    console.log("Facebook Post: ", isChecked);
+    if (isChecked) {
+      $("#facebookPost").removeClass("btn-outline-primary");
+      $("#facebookPost").addClass("btn-primary");
+    } else {
+      $("#facebookPost").removeClass("btn-primary");
+      $("#facebookPost").addClass("btn-outline-primary");
+    }
+  });
+
   $("#postStatus").submit(function (event) {
     event.preventDefault();
     console.log("Form is stopped.");
     let userContent = $("#userContent").val();
     console.log("Content: ", userContent);
+
+    let isTwitter = $("#twitterPost").hasClass("btn-primary");
+
+    let isFacebook = $("#facebookPost").hasClass("btn-primary");
 
     // Save Status to database
     let post = {
@@ -22,8 +50,8 @@ $(document).ready(function () {
       userId: "",
       url: "",
       isImage: true,
-      isFacebook: false,
-      isTwitter: false,
+      isFacebook: isFacebook,
+      isTwitter: isTwitter,
     };
 
     post.id = firebase.database().ref().child("Posts").push().key;
@@ -42,18 +70,6 @@ $(document).ready(function () {
       .catch((e) => {
         console.log("Post Failure: ", e);
       });
-
-    // Ajax Request for post
-    // $.ajax({
-    //   url: "",
-    //   type: "",
-    //   success: function (data) {
-    //     console.log("Success: ", data);
-    //   },
-    //   error: function (error) {
-    //     console.log("Error:", error);
-    //   },
-    // });
   });
 });
 
@@ -64,7 +80,6 @@ function readURL(input) {
     reader.onload = function (e) {
       $("#postImage").attr("src", e.target.result);
       $("#imageUpper").show(400);
-      // $("#showDesign").addClass("img-thumbnail");
     };
 
     reader.readAsDataURL(input.files[0]);

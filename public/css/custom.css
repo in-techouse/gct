@@ -19,13 +19,28 @@
   margin-top: -5px;
 }
 
+.btn-outline-primary {
+  color: #ff5e3a !important;
+}
+.btn-outline-primary:hover {
+  color: white !important;
+}
+
+.customBtn {
+  margin-top: 15px;
+  margin-left: 10px;
+  border-radius: 25px;
+}
+
 .faceBookIcon {
-  font-size: 25px;
+  margin-left: 2px;
+  font-size: 15px;
   color: #3b5998;
 }
 
 .twitterIcon {
-  font-size: 25px;
+  margin-left: 2px;
+  font-size: 15px;
   color: #00acee;
 }
 
