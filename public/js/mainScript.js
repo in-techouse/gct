@@ -4,6 +4,7 @@ var firebaseConfig = {
   authDomain: "global-ct.firebaseapp.com",
   databaseURL: "https://global-ct.firebaseio.com",
   projectId: "global-ct",
+  storageBucket: "global-ct.appspot.com",
   messagingSenderId: "559718967029",
   appId: "1:559718967029:web:6cd2b538b1fe3d940dc7bc",
   measurementId: "G-H4442SC9K6",

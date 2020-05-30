@@ -32,6 +32,8 @@
 								<div class="author-thumb">
 									<img src="<%= user.img %>" alt="author" style="margin-left: -10px;">
 								</div>
+								<input type="hidden" name="userId" id="userId" value="something" />
+								<input type="hidden" name="url" id="url" />
 								<div class="form-group with-icon label-floating is-empty">
 									<label class="control-label" style="top: 10px;">Share what you are thinking
 										here...</label>
@@ -62,7 +64,7 @@
 										Post on Twitter <i class="fab fa-twitter twitterIcon"></i>
 									</a>
 
-									<button type="submit" class="btn btn-primary btn-md-2">Post Status</button>
+									<button id="submitPost" type="submit" class="btn btn-primary btn-md-2">Post Status</button>
 									<a id="previewPost" href="#"
 										class="btn btn-md-2 btn-border-think btn-transparent c-grey customBtn"
 										data-toggle="modal" data-target="#preview-post">PREVIEW POST</a>
