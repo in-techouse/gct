@@ -1338,10 +1338,10 @@
 					<article class="hentry post">
 
 						<div class="post__author author vcard inline-items">
-							<img src="/public/img/avatar10-sm.jpg" alt="author">
+							<img src="<%= user.img %>" alt="author">
 
 							<div class="author-date">
-								<a class="h6 post__author-name fn" href="#">Elaine Dreyfuss</a>
+								<a class="h6 post__author-name fn" href="#"><%= user.firstName %> <%= user.lastName %> </a>
 								<div class="post__date">
 									<time class="published" datetime="2004-07-24T18:18">
 										Just now
