@@ -79,6 +79,7 @@ function readURL(input) {
 
     reader.onload = function (e) {
       $("#postImage").attr("src", e.target.result);
+      $("#previewImage").attr("src", e.target.result);
       $("#imageUpper").show(400);
     };
 

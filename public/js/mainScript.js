@@ -77,6 +77,13 @@ $(document).ready(function () {
     $("#hellopreloader").fadeOut(1000);
   }, 1000);
 
+  $("#previewPost").click(function () {
+    console.log("Preview Post Clicked");
+    let userContent = $("#userContent").val();
+    console.log("User Content: ", userContent);
+    $("#postText").text(userContent);
+  });
+
   $("#facebookLogin").click(function () {
     console.log("Clicked");
     $("#mainError").hide(300);

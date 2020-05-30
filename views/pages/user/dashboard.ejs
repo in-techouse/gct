@@ -8,13 +8,9 @@
 		</main>
 
 		<!-- Main Content -->
-
 		<main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-
 			<div class="ui-block">
-
 				<!-- News Feed Form  -->
-
 				<div class="news-feed-form">
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs" role="tablist">
@@ -50,13 +46,8 @@
 									<hr />
 								</div>
 								<div class="add-options-message">
-									<div class="row">
-
-									</div>
-									<input type="file" id="photoUpload" style="display: none;"
-										accept="image/*, video/*" />
-									<a id="photoUploadIcon" href="#" class="options-message" data-toggle="tooltip"
-										data-placement="top" data-original-title="ADD PHOTOS">
+									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
+										data-original-title="ADD PHOTOS">
 										<svg class="olymp-camera-icon" data-toggle="modal"
 											data-target="#update-header-photo">
 											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
@@ -71,9 +62,9 @@
 										Post on Twitter <i class="fab fa-twitter twitterIcon"></i>
 									</a>
 
-
 									<button type="submit" class="btn btn-primary btn-md-2">Post Status</button>
-									<a href="#" class="btn btn-md-2 btn-border-think btn-transparent c-grey customBtn"
+									<a id="previewPost" href="#"
+										class="btn btn-md-2 btn-border-think btn-transparent c-grey customBtn"
 										data-toggle="modal" data-target="#preview-post">PREVIEW POST</a>
 
 								</div>
@@ -879,11 +870,11 @@
 			</div>
 
 			<div class="modal-body">
-				<a href="#" class="upload-photo-item">
+				<input type="file" id="photoUpload" style="display: none;" accept="image/*, video/*" />
+				<a id="photoUploadIcon" href="#" class="upload-photo-item">
 					<svg class="olymp-computer-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-computer-icon"></use>
 					</svg>
-
 					<h6>Upload Photo</h6>
 					<span>Browse your computer.</span>
 				</a>
@@ -1101,11 +1092,9 @@
 </a>
 
 
-
-
 <!-- Window-popup-CHAT for responsive min-width: 768px -->
 
-<div class="ui-block popup-chat popup-chat-responsive" tabindex="-1" role="dialog"
+<!-- <div class="ui-block popup-chat popup-chat-responsive" tabindex="-1" role="dialog"
 	aria-labelledby="popup-chat-responsive" aria-hidden="true">
 
 	<div class="modal-content">
@@ -1323,10 +1312,10 @@
 		</div>
 	</div>
 
-</div>
+</div> -->
 
 
-<!-- Window-popup Restore Password -->
+<!-- Window-popup Prweview Post -->
 
 <div class="modal fade" id="preview-post" tabindex="-1" role="dialog" aria-labelledby="preview-post" aria-hidden="true">
 	<div class="modal-dialog window-popup restore-password-popup" role="document">
@@ -1338,37 +1327,36 @@
 			</a>
 
 			<div class="modal-header">
-				<h6 class="title">Restore your Password</h6>
+				<h6 class="title">POST PREVIEW</h6>
 			</div>
 
 			<div class="modal-body">
-				<form method="get">
-					<p>Enter your email and click the send code button. You’ll receive a code in your email. Please
-						use that
-						code below to change the old password for a new one.
-					</p>
-					<div class="form-group label-floating">
-						<label class="control-label">Your Email</label>
-						<input class="form-control" placeholder="" type="email" value="james-spiegel@yourmail.com">
-					</div>
-					<button class="btn btn-purple btn-lg full-width">Send me the Code</button>
-					<div class="form-group label-floating">
-						<label class="control-label">Enter the Code</label>
-						<input class="form-control" placeholder="" type="text" value="">
-					</div>
-					<div class="form-group label-floating">
-						<label class="control-label">Your New Password</label>
-						<input class="form-control" placeholder="" type="password" value="olympus">
-					</div>
-					<button class="btn btn-primary btn-lg full-width">Change your Password!</button>
-				</form>
+				<div class="ui-block">
 
+					<article class="hentry post">
+
+						<div class="post__author author vcard inline-items">
+							<img src="/public/img/avatar10-sm.jpg" alt="author">
+
+							<div class="author-date">
+								<a class="h6 post__author-name fn" href="#">Elaine Dreyfuss</a>
+								<div class="post__date">
+									<time class="published" datetime="2004-07-24T18:18">
+										Just now
+									</time>
+								</div>
+							</div>
+						</div>
+						<img id="previewImage">
+						<p id="postText"></p>
+					</article>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<!-- ... end Window-popup Restore Password -->
+<!-- ... end Window-popup Preview post -->
 
 <script src="/public/js/newsfeed.js"></script>
 <script src="/public/js/postStatus.js"></script>
