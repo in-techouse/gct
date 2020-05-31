@@ -33,6 +33,9 @@
 									<img src="<%= user.img %>" alt="author" style="margin-left: -10px;">
 								</div>
 								<input type="hidden" name="userId" id="userId" value="<%= user.userId %>" />
+								<input type="hidden" name="userImg" id="userImg" value="<%= user.img %>" />
+								<input type="hidden" name="userName" id="userName"
+									value="<%= user.firstName %> <%= user.lastName %>" />
 								<input type="hidden" name="url" id="url" />
 								<div class="form-group with-icon label-floating is-empty">
 									<label class="control-label" style="top: 10px;">Share what you are thinking
@@ -64,7 +67,8 @@
 										Post on Twitter <i class="fab fa-twitter twitterIcon"></i>
 									</a>
 
-									<button id="submitPost" type="submit" class="btn btn-primary btn-md-2">Post Status</button>
+									<button id="submitPost" type="submit" class="btn btn-primary btn-md-2">Post
+										Status</button>
 									<a id="previewPost" href="#"
 										class="btn btn-md-2 btn-border-think btn-transparent c-grey customBtn"
 										data-toggle="modal" data-target="#preview-post">PREVIEW POST</a>
@@ -1341,7 +1345,8 @@
 							<img src="<%= user.img %>" alt="author">
 
 							<div class="author-date">
-								<a class="h6 post__author-name fn" href="#"><%= user.firstName %> <%= user.lastName %> </a>
+								<a class="h6 post__author-name fn" href="#"><%= user.firstName %> <%= user.lastName %>
+								</a>
 								<div class="post__date">
 									<time class="published" datetime="2004-07-24T18:18">
 										Just now

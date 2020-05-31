@@ -40,6 +40,9 @@ $(document).ready(function () {
     let userContent = $("#userContent").val();
     console.log("Content: ", userContent);
     let userId = $("#userId").val();
+    let userImg = $("#userImg").val();
+    let userName = $("#userName").val();
+
     let url = $("#url").val();
     let isTwitter = $("#twitterPost").hasClass("btn-primary");
 
@@ -74,6 +77,136 @@ $(document).ready(function () {
         console.log("Post Success");
         $("#userContent").val("");
         $("#submitPost").prop("disabled", false);
+        let tweetHTML = `
+                    <div class="ui-block">
+
+					<article class="hentry post video">
+
+						<div class="post__author author vcard inline-items">
+							<img src="${userImg}" alt="author">
+
+							<div class="author-date">
+								<a class="h6 post__author-name fn" href="userImg" target="_blank">${userName}</a>
+								<div class="post__date">
+									<time class="published" datetime="2004-07-24T18:18">
+										Just now
+									</time>
+								</div>
+							</div>
+
+							<div class="more"><svg class="olymp-three-dots-icon">
+									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+								</svg>
+								<ul class="more-dropdown">
+									<li>
+										<a href="#">Edit Post</a>
+									</li>
+									<li>
+										<a href="#">Delete Post</a>
+									</li>
+									<li>
+										<a href="#">Turn Off Notifications</a>
+									</li>
+									<li>
+										<a href="#">Select as Featured</a>
+									</li>
+								</ul>
+							</div>
+
+            </div>
+            <div class="row">            
+            ${post.content}
+            </div>
+            <div class="row">            
+            <img src="${post.url}" />
+            </div>
+						<div class="post-additional-info inline-items">
+							<a href="#" class="post-add-icon inline-items">
+								<svg class="olymp-heart-icon">
+									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+								</svg>
+								<span>18</span>
+							</a>
+
+							<ul class="friends-harmonic">
+								<li>
+									<a href="#">
+										<img src="/public/img/friend-harmonic9.jpg" alt="friend">
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="/public/img/friend-harmonic10.jpg" alt="friend">
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="/public/img/friend-harmonic7.jpg" alt="friend">
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="/public/img/friend-harmonic8.jpg" alt="friend">
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="/public/img/friend-harmonic11.jpg" alt="friend">
+									</a>
+								</li>
+							</ul>
+
+							<div class="names-people-likes">
+								<a href="#">Jenny</a>, <a href="#">Robert</a> and
+								<br>18 more liked this
+							</div>
+
+							<div class="comments-shared">
+								<a href="#" class="post-add-icon inline-items">
+									<svg class="olymp-speech-balloon-icon">
+										<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
+										</use>
+									</svg>
+
+									<span>0</span>
+								</a>
+
+								<a href="#" class="post-add-icon inline-items">
+									<svg class="olymp-share-icon">
+										<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+									</svg>
+
+									<span>16</span>
+								</a>
+							</div>
+						</div>
+
+						<div class="control-block-button post-control-button">
+
+							<a href="#" class="btn btn-control">
+								<svg class="olymp-like-post-icon">
+									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
+								</svg>
+							</a>
+
+							<a href="#" class="btn btn-control">
+								<svg class="olymp-comments-post-icon">
+									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon">
+									</use>
+								</svg>
+							</a>
+
+							<a href="#" class="btn btn-control">
+								<svg class="olymp-share-icon">
+									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+								</svg>
+							</a>
+
+						</div>
+
+					</article>
+				</div>`;
+        $("#newsfeed-items-grid").prepend(tweetHTML);
       })
       .catch((e) => {
         console.log("Post Failure: ", e);
