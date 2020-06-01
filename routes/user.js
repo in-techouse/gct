@@ -5,9 +5,9 @@ var Twitter = require("twitter");
 var router = express.Router();
 
 router.get("/newsfeed", function (req, res) {
-  // if (!req.session.isLoggedIn) {
-  //   res.redirect("/");
-  // }
+  if (!req.session.isLoggedIn) {
+    res.redirect("/");
+  }
   let user = req.session;
   console.log("Facebook access token: ", req.session.facebookAccessToken);
   res.render("pages/user/dashboard", { user: user, action: "News feed" });
@@ -113,6 +113,33 @@ router.get("/tweets", function (req, res) {
     client.get("statuses/home_timeline", function (error, tweets, response) {
       res.json({ e: error, r: response, t: tweets });
     });
+  } else {
+    res.json("-1");
+  }
+});
+
+router.get("/myPosts", function (req, res) {
+  if (req.session.isLoggedIn) {
+    let posts = [];
+    let isTweet = false;
+    firebase
+      .database()
+      .ref()
+      .child("Posts")
+      .orderByChild("userId")
+      .equalTo(req.session.userId)
+      .once("value")
+      .then((data) => {
+        data.forEach((d) => {
+          let post = d.val();
+          post = { ...post, isTweet };
+          posts.push(post);
+        });
+        res.json(posts);
+      })
+      .catch((err) => {
+        res.json(posts);
+      });
   } else {
     res.json("-1");
   }

@@ -1,3 +1,4 @@
+const allPosts = [];
 function gettweets() {
   $.ajax({
     url: "/user/tweets",
@@ -6,153 +7,19 @@ function gettweets() {
     success: function (data) {
       console.log("Success: ", data);
       if (data !== "-1") {
-        console.log("Request Code: ", data.r);
         if (data.r.statusCode !== 200) {
           return;
         }
-        console.log("Tweets: ", data.t);
         let tweets = data.t;
         tweets.forEach((tweet) => {
-          console.log("Tweet: ", tweet);
-          let tweetMedia = "";
-          if (tweet.extended_entities) {
-            tweetMedia = `
-                        <div class="post-video">
-                            <img src="${tweet.extended_entities.media[0].media_url_https}"/>
-                            <a href="${tweet.extended_entities.media[0].expanded_url}" target="_blank">READ MORE</a>
-                        </div>`;
-          }
-          let tweetHTML = `
-                    <div class="ui-block">
-
-					<article class="hentry post video">
-
-						<div class="post__author author vcard inline-items">
-							<img src="${tweet.user.profile_image_url}" alt="author">
-
-							<div class="author-date">
-								<a class="h6 post__author-name fn" href="https://twitter.com/${tweet.user.screen_name}" target="_blank">${tweet.user.name}</a> ${tweet.user.location}
-								<div class="post__date">
-									<time class="published" datetime="2004-07-24T18:18">
-										${tweet.created_at}
-									</time>
-								</div>
-							</div>
-
-							<div class="more"><svg class="olymp-three-dots-icon">
-									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
-								</svg>
-								<ul class="more-dropdown">
-									<li>
-										<a href="#">Edit Post</a>
-									</li>
-									<li>
-										<a href="#">Delete Post</a>
-									</li>
-									<li>
-										<a href="#">Turn Off Notifications</a>
-									</li>
-									<li>
-										<a href="#">Select as Featured</a>
-									</li>
-								</ul>
-							</div>
-
-						</div>
-
-                        ${tweet.text}
-                        ${tweetMedia}
-
-
-						<div class="post-additional-info inline-items">
-
-							<a href="#" class="post-add-icon inline-items">
-								<svg class="olymp-heart-icon">
-									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
-								</svg>
-								<span>18</span>
-							</a>
-
-							<ul class="friends-harmonic">
-								<li>
-									<a href="#">
-										<img src="/public/img/friend-harmonic9.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="/public/img/friend-harmonic10.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="/public/img/friend-harmonic7.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="/public/img/friend-harmonic8.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="/public/img/friend-harmonic11.jpg" alt="friend">
-									</a>
-								</li>
-							</ul>
-
-							<div class="names-people-likes">
-								<a href="#">Jenny</a>, <a href="#">Robert</a> and
-								<br>18 more liked this
-							</div>
-
-							<div class="comments-shared">
-								<a href="#" class="post-add-icon inline-items">
-									<svg class="olymp-speech-balloon-icon">
-										<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
-										</use>
-									</svg>
-
-									<span>0</span>
-								</a>
-
-								<a href="#" class="post-add-icon inline-items">
-									<svg class="olymp-share-icon">
-										<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
-									</svg>
-
-									<span>16</span>
-								</a>
-							</div>
-						</div>
-
-						<div class="control-block-button post-control-button">
-
-							<a href="#" class="btn btn-control">
-								<svg class="olymp-like-post-icon">
-									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
-								</svg>
-							</a>
-
-							<a href="#" class="btn btn-control">
-								<svg class="olymp-comments-post-icon">
-									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon">
-									</use>
-								</svg>
-							</a>
-
-							<a href="#" class="btn btn-control">
-								<svg class="olymp-share-icon">
-									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
-								</svg>
-							</a>
-
-						</div>
-
-					</article>
-				</div>`;
-          $("#newsfeed-items-grid").append(tweetHTML);
+          let momentFormat = moment(tweet.created_at).format();
+          let timeStamps = moment(momentFormat).format("X");
+          timeStamps = parseInt(timeStamps);
+          let isTweet = true;
+          tweet = { ...tweet, timeStamps, isTweet };
+          allPosts.push(tweet);
         });
+        getMyPosts();
       }
       //   else {
       //     window.location.reload();
@@ -160,7 +27,300 @@ function gettweets() {
     },
     error: function (error) {
       console.log("Error:", error);
+      getMyPosts();
     },
+  });
+}
+
+function getMyPosts() {
+  $.ajax({
+    url: "/user/myPosts",
+    type: "GET",
+
+    success: function (data) {
+      if (data != "-1") {
+        data.forEach((d) => {
+          allPosts.push(d);
+        });
+        displayAllPosts();
+      } else {
+        displayAllPosts();
+      }
+    },
+    error: function (error) {
+      console.log("Error:", error);
+    },
+  });
+}
+
+function getTimeDifference(timeStamps) {
+  let current = moment();
+  let postTime = moment.unix(timeStamps);
+  //   console.log("Current Time: ", current);
+  //   console.log("Post Time: ", postTime);
+  let hours = current.diff(postTime, "hours", true);
+  let minutes = current.diff(postTime, "minutes", true);
+  //   console.log("Hours: ", hours);
+  //   console.log("Minutes: ", minutes);
+  let formattedTime = "";
+  if (hours < 23) {
+    if (hours > 1) {
+      let finalHour = Math.round(hours);
+      formattedTime = "" + finalHour + " hours ";
+    }
+    let finalMinutes = Math.round(minutes);
+    formattedTime = formattedTime + "" + finalMinutes + " minutes ago";
+  } else {
+    formattedTime = moment(postTime).format("ddd, Do, MMM-YYYY hh:mm A");
+  }
+  return formattedTime;
+}
+
+function displayAllPosts() {
+  allPosts.sort(function (x, y) {
+    return x.timeStamps - y.timeStamps;
+  });
+
+  allPosts.forEach((post) => {
+    let postHtml = "";
+    if (post.isTweet) {
+      let tweetMedia = "";
+      if (post.extended_entities) {
+        tweetMedia = `
+		<div class="post-video">
+			<img src="${post.extended_entities.media[0].media_url_https}"/>
+			<a href="${post.extended_entities.media[0].expanded_url}" target="_blank">READ MORE</a>
+		</div>`;
+      }
+      postHtml = `
+                <div class="ui-block">
+    			<article class="hentry post video">
+    				<div class="post__author author vcard inline-items">
+    					<img src="${post.user.profile_image_url}" alt="author">
+    					<div class="author-date">
+    						<a class="h6 post__author-name fn" href="https://twitter.com/${
+                  post.user.screen_name
+                }" target="_blank">${post.user.name}</a> ${post.user.location}
+    						<div class="post__date">
+    							<time class="published" datetime="2004-07-24T18:18">
+    								${getTimeDifference(post.timeStamps)}
+    							</time>
+    						</div>
+    					</div>
+    					<div class="more"><svg class="olymp-three-dots-icon">
+    							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+    						</svg>
+    						<ul class="more-dropdown">
+    							<li>
+    								<a href="#">Edit Post</a>
+    							</li>
+    							<li>
+    								<a href="#">Delete Post</a>
+    							</li>
+    							<li>
+    								<a href="#">Turn Off Notifications</a>
+    							</li>
+    							<li>
+    								<a href="#">Select as Featured</a>
+    							</li>
+    						</ul>
+    					</div>
+    				</div>
+                    ${post.text}
+                    ${tweetMedia}
+    				<div class="post-additional-info inline-items">
+    					<a href="#" class="post-add-icon inline-items">
+    						<svg class="olymp-heart-icon">
+    							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+    						</svg>
+    						<span>18</span>
+    					</a>
+    					<ul class="friends-harmonic">
+    						<li>
+    							<a href="#">
+    								<img src="/public/img/friend-harmonic9.jpg" alt="friend">
+    							</a>
+    						</li>
+    						<li>
+    							<a href="#">
+    								<img src="/public/img/friend-harmonic10.jpg" alt="friend">
+    							</a>
+    						</li>
+    						<li>
+    							<a href="#">
+    								<img src="/public/img/friend-harmonic7.jpg" alt="friend">
+    							</a>
+    						</li>
+    						<li>
+    							<a href="#">
+    								<img src="/public/img/friend-harmonic8.jpg" alt="friend">
+    							</a>
+    						</li>
+    						<li>
+    							<a href="#">
+    								<img src="/public/img/friend-harmonic11.jpg" alt="friend">
+    							</a>
+    						</li>
+    					</ul>
+    					<div class="names-people-likes">
+    						<a href="#">Jenny</a>, <a href="#">Robert</a> and
+    						<br>18 more liked this
+    					</div>
+    					<div class="comments-shared">
+    						<a href="#" class="post-add-icon inline-items">
+    							<svg class="olymp-speech-balloon-icon">
+    								<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
+    								</use>
+    							</svg>
+    							<span>0</span>
+    						</a>
+    						<a href="#" class="post-add-icon inline-items">
+    							<svg class="olymp-share-icon">
+    								<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+    							</svg>
+    							<span>16</span>
+    						</a>
+    					</div>
+    				</div>
+    				<div class="control-block-button post-control-button">
+    					<a href="#" class="btn btn-control">
+    						<svg class="olymp-like-post-icon">
+    							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
+    						</svg>
+    					</a>
+    					<a href="#" class="btn btn-control">
+    						<svg class="olymp-comments-post-icon">
+    							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon">
+    							</use>
+    						</svg>
+    					</a>
+    					<a href="#" class="btn btn-control">
+    						<svg class="olymp-share-icon">
+    							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+    						</svg>
+    					</a>
+    				</div>
+    			</article>
+			</div>`;
+    } else {
+      let tweetMedia = "";
+      if (post.url !== null && post.url !== undefined && post.url.length > 1) {
+        tweetMedia = `
+			<div class="post-video">
+				<img src="${post.url}"/>
+			</div>`;
+      }
+      postHtml = `
+	  <div class="ui-block">
+		<article class="hentry post video">
+			<div class="post__author author vcard inline-items">
+				<img src="https://firebasestorage.googleapis.com/v0/b/global-ct.appspot.com/o/Users%2FXo7UEJlL1FhkHXm9goGh3rwUyui2%2FPosts%2F1590927660507photo-1496062031456-07b8f162a322.jpg?alt=media&token=6fd22f38-dfc2-42f4-a6fc-5db3406a7551" alt="author">
+				<div class="author-date">
+					<a class="h6 post__author-name fn" href="#" target="_blank">UserName</a>
+					<div class="post__date">
+						<time class="published" datetime="2004-07-24T18:18">
+							${getTimeDifference(post.timeStamps)}
+						</time>
+					</div>
+				</div>
+				<div class="more"><svg class="olymp-three-dots-icon">
+						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+					</svg>
+					<ul class="more-dropdown">
+						<li>
+							<a href="#">Edit Post</a>
+						</li>
+						<li>
+							<a href="#">Delete Post</a>
+						</li>
+						<li>
+							<a href="#">Turn Off Notifications</a>
+						</li>
+						<li>
+							<a href="#">Select as Featured</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			${post.content}
+			${tweetMedia}
+			<div class="post-additional-info inline-items">
+				<a href="#" class="post-add-icon inline-items">
+					<svg class="olymp-heart-icon">
+						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+					</svg>
+					<span>18</span>
+				</a>
+				<ul class="friends-harmonic">
+					<li>
+						<a href="#">
+							<img src="/public/img/friend-harmonic9.jpg" alt="friend">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="/public/img/friend-harmonic10.jpg" alt="friend">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="/public/img/friend-harmonic7.jpg" alt="friend">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="/public/img/friend-harmonic8.jpg" alt="friend">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="/public/img/friend-harmonic11.jpg" alt="friend">
+						</a>
+					</li>
+				</ul>
+				<div class="names-people-likes">
+					<a href="#">Jenny</a>, <a href="#">Robert</a> and
+					<br>18 more liked this
+				</div>
+				<div class="comments-shared">
+					<a href="#" class="post-add-icon inline-items">
+						<svg class="olymp-speech-balloon-icon">
+							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
+							</use>
+						</svg>
+						<span>0</span>
+					</a>
+					<a href="#" class="post-add-icon inline-items">
+						<svg class="olymp-share-icon">
+							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+						</svg>
+						<span>16</span>
+					</a>
+				</div>
+			</div>
+			<div class="control-block-button post-control-button">
+				<a href="#" class="btn btn-control">
+					<svg class="olymp-like-post-icon">
+						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
+					</svg>
+				</a>
+				<a href="#" class="btn btn-control">
+					<svg class="olymp-comments-post-icon">
+						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon">
+						</use>
+					</svg>
+				</a>
+				<a href="#" class="btn btn-control">
+					<svg class="olymp-share-icon">
+						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+					</svg>
+				</a>
+			</div>
+		</article>
+	</div>
+		`;
+    }
+    $("#newsfeed-items-grid").prepend(postHtml);
   });
 }
 

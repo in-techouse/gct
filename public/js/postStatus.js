@@ -52,6 +52,9 @@ $(document).ready(function () {
     if (url !== null && url !== undefined && url.length > 1) {
       isImage = true;
     }
+    let date = new Date();
+    let timeStamps = date.getTime();
+    let formattedTime = moment().format("ddd, Do, MMM-YYYY hh:mm A");
 
     // Save Status to database
     let post = {
@@ -59,9 +62,11 @@ $(document).ready(function () {
       id: "",
       userId: userId,
       url: url,
-      isImage: isImage,
-      isFacebook: isFacebook,
-      isTwitter: isTwitter,
+      isImage,
+      isFacebook,
+      isTwitter,
+      timeStamps,
+      formattedTime,
     };
 
     post.id = firebase.database().ref().child("Posts").push().key;
