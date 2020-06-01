@@ -118,4 +118,28 @@ router.get("/tweets", function (req, res) {
   }
 });
 
+router.get("/allchats", function (req, res) {
+  if (req.session.isLoggedIn) {
+    let user = req.session;
+    res.render("pages/user/allchats", {
+      user: user,
+      action: "All Chats/Messages",
+    });
+  } else {
+    res.redirect("/");
+  }
+});
+
+router.get("/allnotifications", function (req, res) {
+  if (req.session.isLoggedIn) {
+    let user = req.session;
+    res.render("pages/user/allnotifications", {
+      user: user,
+      action: "All Notifications",
+    });
+  } else {
+    res.redirect("/");
+  }
+});
+
 module.exports = router;
