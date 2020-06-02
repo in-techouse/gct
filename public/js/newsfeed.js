@@ -239,8 +239,8 @@ function likePost(postId) {
     backgroundColor: "#ff5e3a",
     color: "#FFFFFF",
   });
-  $("#likeHeart" + postId).css({ color: "#ff5e3a" });
-  $("#likeHeart" + postId + " .olymp-heart-icon").css({ color: "#ff5e3a" });
+  $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
+  //   $("#likeHeart" + postId + " .olymp-heart-icon").css({ color: "#ff5e3a" });
 }
 
 $(document).ready(function () {
