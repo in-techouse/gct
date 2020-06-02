@@ -58,12 +58,8 @@ function getMyPosts() {
 function getTimeDifference(timeStamps) {
   let current = moment();
   let postTime = moment.unix(timeStamps);
-  console.log("Current Time: ", current);
-  console.log("Post Time: ", postTime);
   let hours = current.diff(postTime, "hours", true);
   let minutes = current.diff(postTime, "minutes", true);
-  console.log("Hours: ", hours);
-  console.log("Minutes: ", minutes);
   let formattedTime = "";
   if (hours < 23) {
     if (hours >= 1) {
@@ -88,6 +84,18 @@ function displayAllPosts() {
     let postHtml = "";
     if (post.isTweet) {
       let tweetMedia = "";
+      let link = "";
+      let postText = "";
+      if (post.text.includes("https://")) {
+        console.log("Tweeter Post Text: ", post.text.indexOf("https://"));
+        link = post.text.substring(post.text.indexOf("https://"));
+        console.log("Link: ", link);
+        postText =
+          post.text.substring(0, post.text.indexOf("https://")) +
+          `<a href="${link}" target="_blank">${link}</a>`;
+      } else {
+        postText = post.text;
+      }
       if (post.extended_entities) {
         tweetMedia = `
 		<div class="post-video">
@@ -112,99 +120,9 @@ function displayAllPosts() {
     							</time>
     						</div>
     					</div>
-    					<div class="more"><svg class="olymp-three-dots-icon">
-    							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
-    						</svg>
-    						<ul class="more-dropdown">
-    							<li>
-    								<a href="#">Edit Post</a>
-    							</li>
-    							<li>
-    								<a href="#">Delete Post</a>
-    							</li>
-    							<li>
-    								<a href="#">Turn Off Notifications</a>
-    							</li>
-    							<li>
-    								<a href="#">Select as Featured</a>
-    							</li>
-    						</ul>
-    					</div>
     				</div>
-                    <p>${post.text}</p>
-                    ${tweetMedia}
-    				<div class="post-additional-info inline-items">
-    					<a href="#" class="post-add-icon inline-items">
-    						<svg class="olymp-heart-icon">
-    							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
-    						</svg>
-    						<span>18</span>
-    					</a>
-    					<ul class="friends-harmonic">
-    						<li>
-    							<a href="#">
-    								<img src="/public/img/friend-harmonic9.jpg" alt="friend">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="/public/img/friend-harmonic10.jpg" alt="friend">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="/public/img/friend-harmonic7.jpg" alt="friend">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="/public/img/friend-harmonic8.jpg" alt="friend">
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#">
-    								<img src="/public/img/friend-harmonic11.jpg" alt="friend">
-    							</a>
-    						</li>
-    					</ul>
-    					<div class="names-people-likes">
-    						<a href="#">Jenny</a>, <a href="#">Robert</a> and
-    						<br>18 more liked this
-    					</div>
-    					<div class="comments-shared">
-    						<a href="#" class="post-add-icon inline-items">
-    							<svg class="olymp-speech-balloon-icon">
-    								<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
-    								</use>
-    							</svg>
-    							<span>0</span>
-    						</a>
-    						<a href="#" class="post-add-icon inline-items">
-    							<svg class="olymp-share-icon">
-    								<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
-    							</svg>
-    							<span>16</span>
-    						</a>
-    					</div>
-    				</div>
-    				<div class="control-block-button post-control-button">
-    					<a href="#" class="btn btn-control">
-    						<svg class="olymp-like-post-icon">
-    							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
-    						</svg>
-    					</a>
-    					<a href="#" class="btn btn-control">
-    						<svg class="olymp-comments-post-icon">
-    							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon">
-    							</use>
-    						</svg>
-    					</a>
-    					<a href="#" class="btn btn-control">
-    						<svg class="olymp-share-icon">
-    							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
-    						</svg>
-    					</a>
-    				</div>
+                    <p>${postText}</p>
+                    ${tweetMedia}    				
     			</article>
 			</div>`;
     } else {
@@ -239,12 +157,6 @@ function displayAllPosts() {
 						</li>
 						<li>
 							<a href="#">Delete Post</a>
-						</li>
-						<li>
-							<a href="#">Turn Off Notifications</a>
-						</li>
-						<li>
-							<a href="#">Select as Featured</a>
 						</li>
 					</ul>
 				</div>
@@ -297,12 +209,6 @@ function displayAllPosts() {
 						</svg>
 						<span>0</span>
 					</a>
-					<a href="#" class="post-add-icon inline-items">
-						<svg class="olymp-share-icon">
-							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
-						</svg>
-						<span>16</span>
-					</a>
 				</div>
 			</div>
 			<div class="control-block-button post-control-button">
@@ -317,11 +223,6 @@ function displayAllPosts() {
 						</use>
 					</svg>
 				</a>
-				<a href="#" class="btn btn-control">
-					<svg class="olymp-share-icon">
-						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
-					</svg>
-				</a>
 			</div>
 		</article>
 	</div>
@@ -333,6 +234,6 @@ function displayAllPosts() {
 
 $(document).ready(function () {
   console.log("Newsfeed document is ready");
-  getMyPosts();
-  //   gettweets();
+  //   getMyPosts();
+  gettweets();
 });
