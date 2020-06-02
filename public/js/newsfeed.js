@@ -3,9 +3,7 @@ function gettweets() {
   $.ajax({
     url: "/user/tweets",
     type: "GET",
-
     success: function (data) {
-      console.log("Success: ", data);
       if (data !== "-1") {
         if (data.r.statusCode !== 200) {
           return;
@@ -38,7 +36,6 @@ function getMyPosts() {
   $.ajax({
     url: "/user/myPosts",
     type: "GET",
-
     success: function (data) {
       if (data != "-1") {
         data.forEach((d) => {
@@ -87,9 +84,7 @@ function displayAllPosts() {
       let link = "";
       let postText = "";
       if (post.text.includes("https://")) {
-        console.log("Tweeter Post Text: ", post.text.indexOf("https://"));
         link = post.text.substring(post.text.indexOf("https://"));
-        console.log("Link: ", link);
         postText =
           post.text.substring(0, post.text.indexOf("https://")) +
           `<a href="${link}" target="_blank">${link}</a>`;
@@ -141,7 +136,9 @@ function displayAllPosts() {
 			<div class="post__author author vcard inline-items">
 				<img src="${post.userImg}" alt="author">
 				<div class="author-date">
-					<a class="h6 post__author-name fn" href="#" target="_blank">${post.userName}</a>
+					<a class="h6 post__author-name fn" href="javascript:;" target="_blank">${
+            post.userName
+          }</a>
 					<div class="post__date">
 						<time class="published" datetime="2004-07-24T18:18">
 							${getTimeDifference(post.timeStamps)}
@@ -153,10 +150,10 @@ function displayAllPosts() {
 					</svg>
 					<ul class="more-dropdown">
 						<li>
-							<a href="#">Edit Post</a>
+							<a href="javascript:;">Edit Post</a>
 						</li>
 						<li>
-							<a href="#">Delete Post</a>
+							<a href="javascript:;">Delete Post</a>
 						</li>
 					</ul>
 				</div>
@@ -164,7 +161,9 @@ function displayAllPosts() {
 			<p>${post.content}</p>
 			${tweetMedia}
 			<div class="post-additional-info inline-items">
-				<a href="#" class="post-add-icon inline-items">
+				<a href="javascript:;" class="post-add-icon inline-items" id="likeHeart${
+          post.id
+        }" onclick="likePost('${post.id}')">
 					<svg class="olymp-heart-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
 					</svg>
@@ -172,37 +171,37 @@ function displayAllPosts() {
 				</a>
 				<ul class="friends-harmonic">
 					<li>
-						<a href="#">
+						<a href="javascript:;">
 							<img src="/public/img/friend-harmonic9.jpg" alt="friend">
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="javascript:;">
 							<img src="/public/img/friend-harmonic10.jpg" alt="friend">
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="javascript:;">
 							<img src="/public/img/friend-harmonic7.jpg" alt="friend">
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="javascript:;">
 							<img src="/public/img/friend-harmonic8.jpg" alt="friend">
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="javascript:;">
 							<img src="/public/img/friend-harmonic11.jpg" alt="friend">
 						</a>
 					</li>
 				</ul>
 				<div class="names-people-likes">
-					<a href="#">Jenny</a>, <a href="#">Robert</a> and
+					<a href="javascript:;">Jenny</a>, <a href="javascript:;">Robert</a> and
 					<br>18 more liked this
 				</div>
 				<div class="comments-shared">
-					<a href="#" class="post-add-icon inline-items">
+					<a href="javascript:;" class="post-add-icon inline-items">
 						<svg class="olymp-speech-balloon-icon">
 							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
 							</use>
@@ -212,12 +211,14 @@ function displayAllPosts() {
 				</div>
 			</div>
 			<div class="control-block-button post-control-button">
-				<a href="#" class="btn btn-control">
+				<a href="javascript:;" class="btn btn-control" id="likeBtn${
+          post.id
+        }" onclick="likePost('${post.id}')">
 					<svg class="olymp-like-post-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
 					</svg>
 				</a>
-				<a href="#" class="btn btn-control">
+				<a href="javascript:;" class="btn btn-control">
 					<svg class="olymp-comments-post-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon">
 						</use>
@@ -232,8 +233,17 @@ function displayAllPosts() {
   });
 }
 
+function likePost(postId) {
+  console.log("Post id: ", postId);
+  $("#likeBtn" + postId).css({
+    backgroundColor: "#ff5e3a",
+    color: "#FFFFFF",
+  });
+  $("#likeHeart" + postId).css({ color: "#ff5e3a" });
+  $("#likeHeart" + postId + " .olymp-heart-icon").css({ color: "#ff5e3a" });
+}
+
 $(document).ready(function () {
   console.log("Newsfeed document is ready");
-  //   getMyPosts();
   gettweets();
 });
