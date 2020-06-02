@@ -14,7 +14,7 @@
     "express-ejs-extend": "0.0.1",
     "express-session": "^1.17.0",
     "fbgraph": "^1.4.4",
-    "firebase": "^7.6.1",
+    "firebase": "^7.14.4",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "twitter": "^1.7.1"
