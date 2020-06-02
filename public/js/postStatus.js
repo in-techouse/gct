@@ -52,15 +52,16 @@ $(document).ready(function () {
     if (url !== null && url !== undefined && url.length > 1) {
       isImage = true;
     }
-    let date = new Date();
-    let timeStamps = date.getTime();
+    let timeStamps = parseInt(moment().format("X"));
     let formattedTime = moment().format("ddd, Do, MMM-YYYY hh:mm A");
 
     // Save Status to database
     let post = {
       content: userContent,
       id: "",
-      userId: userId,
+      userId,
+      userName,
+      userImg,
       url: url,
       isImage,
       isFacebook,

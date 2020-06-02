@@ -9,16 +9,18 @@ function gettweets() {
       if (data !== "-1") {
         if (data.r.statusCode !== 200) {
           return;
+        } else {
+          let tweets = data.t;
+          console.log("Tweets: ", tweets);
+          tweets.forEach((tweet) => {
+            let momentFormat = moment(tweet.created_at).format();
+            let timeStamps = moment(momentFormat).format("X");
+            timeStamps = parseInt(timeStamps);
+            let isTweet = true;
+            tweet = { ...tweet, timeStamps, isTweet };
+            allPosts.push(tweet);
+          });
         }
-        let tweets = data.t;
-        tweets.forEach((tweet) => {
-          let momentFormat = moment(tweet.created_at).format();
-          let timeStamps = moment(momentFormat).format("X");
-          timeStamps = parseInt(timeStamps);
-          let isTweet = true;
-          tweet = { ...tweet, timeStamps, isTweet };
-          allPosts.push(tweet);
-        });
         getMyPosts();
       }
       //   else {
@@ -56,20 +58,21 @@ function getMyPosts() {
 function getTimeDifference(timeStamps) {
   let current = moment();
   let postTime = moment.unix(timeStamps);
-  //   console.log("Current Time: ", current);
-  //   console.log("Post Time: ", postTime);
+  console.log("Current Time: ", current);
+  console.log("Post Time: ", postTime);
   let hours = current.diff(postTime, "hours", true);
   let minutes = current.diff(postTime, "minutes", true);
-  //   console.log("Hours: ", hours);
-  //   console.log("Minutes: ", minutes);
+  console.log("Hours: ", hours);
+  console.log("Minutes: ", minutes);
   let formattedTime = "";
   if (hours < 23) {
-    if (hours > 1) {
+    if (hours >= 1) {
       let finalHour = Math.round(hours);
-      formattedTime = "" + finalHour + " hours ";
+      formattedTime = "" + finalHour + " hours ago";
+    } else {
+      let finalMinutes = Math.round(minutes);
+      formattedTime = finalMinutes + " minutes ago";
     }
-    let finalMinutes = Math.round(minutes);
-    formattedTime = formattedTime + "" + finalMinutes + " minutes ago";
   } else {
     formattedTime = moment(postTime).format("ddd, Do, MMM-YYYY hh:mm A");
   }
@@ -88,8 +91,10 @@ function displayAllPosts() {
       if (post.extended_entities) {
         tweetMedia = `
 		<div class="post-video">
-			<img src="${post.extended_entities.media[0].media_url_https}"/>
-			<a href="${post.extended_entities.media[0].expanded_url}" target="_blank">READ MORE</a>
+			<div class="video-thumb">
+				<img src="${post.extended_entities.media[0].media_url_https}"/>
+				<a href="${post.extended_entities.media[0].expanded_url}" target="_blank">READ MORE</a>
+			</div>
 		</div>`;
       }
       postHtml = `
@@ -126,7 +131,7 @@ function displayAllPosts() {
     						</ul>
     					</div>
     				</div>
-                    ${post.text}
+                    <p>${post.text}</p>
                     ${tweetMedia}
     				<div class="post-additional-info inline-items">
     					<a href="#" class="post-add-icon inline-items">
@@ -207,16 +212,18 @@ function displayAllPosts() {
       if (post.url !== null && post.url !== undefined && post.url.length > 1) {
         tweetMedia = `
 			<div class="post-video">
-				<img src="${post.url}"/>
+				<div class="video-thumb">
+					<img src="${post.url}"/>
+				</div>
 			</div>`;
       }
       postHtml = `
 	  <div class="ui-block">
 		<article class="hentry post video">
 			<div class="post__author author vcard inline-items">
-				<img src="https://firebasestorage.googleapis.com/v0/b/global-ct.appspot.com/o/Users%2FXo7UEJlL1FhkHXm9goGh3rwUyui2%2FPosts%2F1590927660507photo-1496062031456-07b8f162a322.jpg?alt=media&token=6fd22f38-dfc2-42f4-a6fc-5db3406a7551" alt="author">
+				<img src="${post.userImg}" alt="author">
 				<div class="author-date">
-					<a class="h6 post__author-name fn" href="#" target="_blank">UserName</a>
+					<a class="h6 post__author-name fn" href="#" target="_blank">${post.userName}</a>
 					<div class="post__date">
 						<time class="published" datetime="2004-07-24T18:18">
 							${getTimeDifference(post.timeStamps)}
@@ -242,7 +249,7 @@ function displayAllPosts() {
 					</ul>
 				</div>
 			</div>
-			${post.content}
+			<p>${post.content}</p>
 			${tweetMedia}
 			<div class="post-additional-info inline-items">
 				<a href="#" class="post-add-icon inline-items">
@@ -326,5 +333,6 @@ function displayAllPosts() {
 
 $(document).ready(function () {
   console.log("Newsfeed document is ready");
-  gettweets();
+  getMyPosts();
+  //   gettweets();
 });
