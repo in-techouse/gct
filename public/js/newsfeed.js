@@ -1,4 +1,5 @@
 const allPosts = [];
+let userImg = "";
 function gettweets() {
   $.ajax({
     url: "/user/tweets",
@@ -78,7 +79,6 @@ function displayAllPosts() {
   });
   console.log("My all post: ", allPosts);
 
-
   allPosts.forEach((post) => {
     let postHtml = "";
     if (post.isTweet) {
@@ -109,8 +109,8 @@ function displayAllPosts() {
     					<img src="${post.user.profile_image_url}" alt="author">
     					<div class="author-date">
     						<a class="h6 post__author-name fn" href="https://twitter.com/${
-        post.user.screen_name
-        }" target="_blank">${post.user.name}</a> ${post.user.location}
+                  post.user.screen_name
+                }" target="_blank">${post.user.name}</a> ${post.user.location}
     						<div class="post__date">
     							<time class="published" datetime="2004-07-24T18:18">
     								${getTimeDifference(post.timeStamps)}
@@ -139,8 +139,8 @@ function displayAllPosts() {
 				<img src="${post.userImg}" alt="author">
 				<div class="author-date">
 					<a class="h6 post__author-name fn" href="javascript:;" target="_blank">${
-        post.userName
-        }</a>
+            post.userName
+          }</a>
 					<div class="post__date">
 						<time class="published" datetime="2004-07-24T18:18">
 							${getTimeDifference(post.timeStamps)}
@@ -164,7 +164,7 @@ function displayAllPosts() {
 			${tweetMedia}
 			<div class="post-additional-info inline-items">
 				<a href="javascript:;" class="post-add-icon inline-items" id="likeHeart${
-        post.id
+          post.id
         }" onclick="likePost('${post.id}')">
 					<svg class="olymp-heart-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
@@ -176,7 +176,9 @@ function displayAllPosts() {
 				<div class="names-people-likes">
 				</div>
 				<div class="comments-shared">
-					<a href="javascript:;" class="post-add-icon inline-items">
+					<a href="javascript:;" class="post-add-icon inline-items" onclick="showPostMyComment('${
+            post.id
+          }')">
 						<svg class="olymp-speech-balloon-icon">
 							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
 							</use>
@@ -187,13 +189,15 @@ function displayAllPosts() {
 			</div>
 			<div class="control-block-button post-control-button">
 				<a href="javascript:;" class="btn btn-control" id="likeBtn${
-        post.id
+          post.id
         }" onclick="likePost('${post.id}')">
 					<svg class="olymp-like-post-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
 					</svg>
 				</a>
-				<a href="javascript:;" class="btn btn-control">
+				<a href="javascript:;" class="btn btn-control" onclick="showPostMyComment('${
+          post.id
+        }')">
 					<svg class="olymp-comments-post-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon">
 						</use>
@@ -201,7 +205,7 @@ function displayAllPosts() {
 				</a>
 			</div>
     </article>
-    <ul class="comments-list postComments">
+    <ul class="comments-list postComments${post.id}">
       <li class="comment-item">
         <div class="post__author author vcard inline-items">
           <img src="/public/img/author-page.jpg" alt="author">
@@ -267,8 +271,10 @@ function displayAllPosts() {
         <a href="javascript:;" class="reply">Reply</a>
       </li>
     </ul>
-    <a href="javascript:;" class="postMoreComments more-comments">View more comments <span>+</span></a>
-    <form class="comment-form inline-items postMyComment">
+    <a href="javascript:;" class="postMoreComments${
+      post.id
+    } more-comments">View more comments <span>+</span></a>
+    <form class="comment-form inline-items postMyComment${post.id}">
 
       <div class="post__author author vcard inline-items">
         <img src="/public/img/author-page.jpg" alt="author">
@@ -289,7 +295,7 @@ function displayAllPosts() {
 
       <button class="btn btn-md-2 btn-primary">Post Comment</button>
 
-      <button
+      <button onclick="showPostMyComment('${post.id}')"
         class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel</button>
 
     </form>
@@ -301,7 +307,7 @@ function displayAllPosts() {
 }
 
 function likePost(postId) {
-  console.log("Post id: ", postId);
+  console.log("Like Post id: ", postId);
   $("#likeBtn" + postId).css({
     backgroundColor: "#ff5e3a",
     color: "#FFFFFF",
@@ -309,8 +315,24 @@ function likePost(postId) {
   $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
 }
 
+function showPostMyComment(postId) {
+  console.log("Comment Post id: ", postId);
+  let display = $(".postComments" + postId).css("display");
+  console.log("Display: ", display);
+  if (display === "none") {
+    $(".postComments" + postId).show(300);
+    $(".postMoreComments" + postId).show(300);
+    $(".postMyComment" + postId).show(300);
+  } else {
+    $(".postComments" + postId).hide(300);
+    $(".postMoreComments" + postId).hide(300);
+    $(".postMyComment" + postId).hide(300);
+  }
+}
+
 $(document).ready(function () {
   console.log("Newsfeed document is ready");
+  userImg = $("#userImg").val();
   gettweets();
 
   $(".showPostMyComment").click(function () {
