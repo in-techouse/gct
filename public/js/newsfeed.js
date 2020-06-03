@@ -5,9 +5,7 @@ function gettweets() {
     type: "GET",
     success: function (data) {
       if (data !== "-1") {
-        if (data.r.statusCode !== 200) {
-          return;
-        } else {
+        if (data.r.statusCode === 200) {
           let tweets = data.t;
           console.log("Tweets: ", tweets);
           tweets.forEach((tweet) => {
@@ -19,8 +17,8 @@ function gettweets() {
             allPosts.push(tweet);
           });
         }
-        getMyPosts();
       }
+      getMyPosts();
       //   else {
       //     window.location.reload();
       //   }
@@ -33,10 +31,12 @@ function gettweets() {
 }
 
 function getMyPosts() {
+  console.log("Call on get my posts");
   $.ajax({
     url: "/user/myPosts",
     type: "GET",
     success: function (data) {
+      console.log("My post success: ", data);
       if (data != "-1") {
         data.forEach((d) => {
           allPosts.push(d);
@@ -76,6 +76,8 @@ function displayAllPosts() {
   allPosts.sort(function (x, y) {
     return x.timeStamps - y.timeStamps;
   });
+  console.log("My all post: ", allPosts);
+
 
   allPosts.forEach((post) => {
     let postHtml = "";
@@ -107,8 +109,8 @@ function displayAllPosts() {
     					<img src="${post.user.profile_image_url}" alt="author">
     					<div class="author-date">
     						<a class="h6 post__author-name fn" href="https://twitter.com/${
-                  post.user.screen_name
-                }" target="_blank">${post.user.name}</a> ${post.user.location}
+        post.user.screen_name
+        }" target="_blank">${post.user.name}</a> ${post.user.location}
     						<div class="post__date">
     							<time class="published" datetime="2004-07-24T18:18">
     								${getTimeDifference(post.timeStamps)}
@@ -137,8 +139,8 @@ function displayAllPosts() {
 				<img src="${post.userImg}" alt="author">
 				<div class="author-date">
 					<a class="h6 post__author-name fn" href="javascript:;" target="_blank">${
-            post.userName
-          }</a>
+        post.userName
+        }</a>
 					<div class="post__date">
 						<time class="published" datetime="2004-07-24T18:18">
 							${getTimeDifference(post.timeStamps)}
@@ -162,7 +164,7 @@ function displayAllPosts() {
 			${tweetMedia}
 			<div class="post-additional-info inline-items">
 				<a href="javascript:;" class="post-add-icon inline-items" id="likeHeart${
-          post.id
+        post.id
         }" onclick="likePost('${post.id}')">
 					<svg class="olymp-heart-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
@@ -185,7 +187,7 @@ function displayAllPosts() {
 			</div>
 			<div class="control-block-button post-control-button">
 				<a href="javascript:;" class="btn btn-control" id="likeBtn${
-          post.id
+        post.id
         }" onclick="likePost('${post.id}')">
 					<svg class="olymp-like-post-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
@@ -198,7 +200,99 @@ function displayAllPosts() {
 					</svg>
 				</a>
 			</div>
-		</article>
+    </article>
+    <ul class="comments-list postComments">
+      <li class="comment-item">
+        <div class="post__author author vcard inline-items">
+          <img src="/public/img/author-page.jpg" alt="author">
+
+          <div class="author-date">
+            <a class="h6 post__author-name fn" href="02-ProfilePage.html">James Spiegel</a>
+            <div class="post__date">
+              <time class="published" datetime="2004-07-24T18:18">
+                38 mins ago
+              </time>
+            </div>
+          </div>
+
+          <a href="javascript:;" class="more"><svg class="olymp-three-dots-icon">
+              <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon">
+              </use>
+            </svg></a>
+
+        </div>
+
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque
+          laudantium.</p>
+
+        <a href="javascript:;" class="post-add-icon inline-items">
+          <svg class="olymp-heart-icon">
+            <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+          </svg>
+          <span>3</span>
+        </a>
+        <a href="javascript:;" class="reply">Reply</a>
+      </li>
+      <li class="comment-item">
+        <div class="post__author author vcard inline-items">
+          <img src="/public/img/avatar1-sm.jpg" alt="author">
+
+          <div class="author-date">
+            <a class="h6 post__author-name fn" href="javascript:;">Mathilda Brinker</a>
+            <div class="post__date">
+              <time class="published" datetime="2004-07-24T18:18">
+                1 hour ago
+              </time>
+            </div>
+          </div>
+
+          <a href="javascript:;" class="more"><svg class="olymp-three-dots-icon">
+              <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon">
+              </use>
+            </svg></a>
+
+        </div>
+
+        <p>Ratione voluptatem sequi en lod nesciunt. Neque porro quisquam est, quinder dolorem ipsum
+          quia dolor sit amet, consectetur adipisci velit en lorem ipsum duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum.
+        </p>
+
+        <a href="javascript:;" class="post-add-icon inline-items">
+          <svg class="olymp-heart-icon">
+            <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+          </svg>
+          <span>8</span>
+        </a>
+        <a href="javascript:;" class="reply">Reply</a>
+      </li>
+    </ul>
+    <a href="javascript:;" class="postMoreComments more-comments">View more comments <span>+</span></a>
+    <form class="comment-form inline-items postMyComment">
+
+      <div class="post__author author vcard inline-items">
+        <img src="/public/img/author-page.jpg" alt="author">
+
+        <div class="form-group with-icon-right ">
+          <textarea class="form-control" placeholder=""></textarea>
+          <div class="add-options-message">
+            <a href="javascript:;" class="options-message" data-toggle="modal"
+              data-target="#update-header-photo">
+              <svg class="olymp-camera-icon">
+                <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
+                </use>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-md-2 btn-primary">Post Comment</button>
+
+      <button
+        class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel</button>
+
+    </form>
 	</div>
 		`;
     }
