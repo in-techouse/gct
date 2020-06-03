@@ -170,35 +170,8 @@ function displayAllPosts() {
 					<span>18</span>
 				</a>
 				<ul class="friends-harmonic">
-					<li>
-						<a href="javascript:;">
-							<img src="/public/img/friend-harmonic9.jpg" alt="friend">
-						</a>
-					</li>
-					<li>
-						<a href="javascript:;">
-							<img src="/public/img/friend-harmonic10.jpg" alt="friend">
-						</a>
-					</li>
-					<li>
-						<a href="javascript:;">
-							<img src="/public/img/friend-harmonic7.jpg" alt="friend">
-						</a>
-					</li>
-					<li>
-						<a href="javascript:;">
-							<img src="/public/img/friend-harmonic8.jpg" alt="friend">
-						</a>
-					</li>
-					<li>
-						<a href="javascript:;">
-							<img src="/public/img/friend-harmonic11.jpg" alt="friend">
-						</a>
-					</li>
 				</ul>
 				<div class="names-people-likes">
-					<a href="javascript:;">Jenny</a>, <a href="javascript:;">Robert</a> and
-					<br>18 more liked this
 				</div>
 				<div class="comments-shared">
 					<a href="javascript:;" class="post-add-icon inline-items">
@@ -240,10 +213,24 @@ function likePost(postId) {
     color: "#FFFFFF",
   });
   $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
-  //   $("#likeHeart" + postId + " .olymp-heart-icon").css({ color: "#ff5e3a" });
 }
 
 $(document).ready(function () {
   console.log("Newsfeed document is ready");
   gettweets();
+
+  $(".showPostMyComment").click(function () {
+    console.log("Clicked");
+    let display = $(".postComments").css("display");
+    console.log("Display: ", display);
+    if (display === "none") {
+      $(".postComments").show(300);
+      $(".postMoreComments").show(300);
+      $(".postMyComment").show(300);
+    } else {
+      $(".postComments").hide(300);
+      $(".postMoreComments").hide(300);
+      $(".postMyComment").hide(300);
+    }
+  });
 });
