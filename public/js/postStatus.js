@@ -68,6 +68,8 @@ $(document).ready(function () {
       isTwitter,
       timeStamps,
       formattedTime,
+      likes: 0,
+      comments: 0,
     };
 
     post.id = firebase.database().ref().child("Posts").push().key;

@@ -109,8 +109,8 @@ function displayAllPosts() {
     					<img src="${post.user.profile_image_url}" alt="author">
     					<div class="author-date">
     						<a class="h6 post__author-name fn" href="https://twitter.com/${
-                  post.user.screen_name
-                }" target="_blank">${post.user.name}</a> ${post.user.location}
+        post.user.screen_name
+        }" target="_blank">${post.user.name}</a> ${post.user.location}
     						<div class="post__date">
     							<time class="published" datetime="2004-07-24T18:18">
     								${getTimeDifference(post.timeStamps)}
@@ -139,8 +139,8 @@ function displayAllPosts() {
 				<img src="${post.userImg}" alt="author">
 				<div class="author-date">
 					<a class="h6 post__author-name fn" href="javascript:;" target="_blank">${
-            post.userName
-          }</a>
+        post.userName
+        }</a>
 					<div class="post__date">
 						<time class="published" datetime="2004-07-24T18:18">
 							${getTimeDifference(post.timeStamps)}
@@ -164,7 +164,7 @@ function displayAllPosts() {
 			${tweetMedia}
 			<div class="post-additional-info inline-items">
 				<a href="javascript:;" class="post-add-icon inline-items" id="likeHeart${
-          post.id
+        post.id
         }" onclick="likePost('${post.id}')">
 					<svg class="olymp-heart-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
@@ -177,8 +177,8 @@ function displayAllPosts() {
 				</div>
 				<div class="comments-shared">
 					<a href="javascript:;" class="post-add-icon inline-items" onclick="showPostMyComment('${
-            post.id
-          }')">
+        post.id
+        }')">
 						<svg class="olymp-speech-balloon-icon">
 							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
 							</use>
@@ -189,14 +189,14 @@ function displayAllPosts() {
 			</div>
 			<div class="control-block-button post-control-button">
 				<a href="javascript:;" class="btn btn-control" id="likeBtn${
-          post.id
+        post.id
         }" onclick="likePost('${post.id}')">
 					<svg class="olymp-like-post-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
 					</svg>
 				</a>
 				<a href="javascript:;" class="btn btn-control" onclick="showPostMyComment('${
-          post.id
+        post.id
         }')">
 					<svg class="olymp-comments-post-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon">
@@ -272,12 +272,12 @@ function displayAllPosts() {
       </li>
     </ul>
     <a href="javascript:;" class="postMoreComments${
-      post.id
-    } more-comments">View more comments <span>+</span></a>
+        post.id
+        } more-comments">View more comments <span>+</span></a>
     <form class="comment-form inline-items postMyComment${post.id}">
 
       <div class="post__author author vcard inline-items">
-        <img src="/public/img/author-page.jpg" alt="author">
+        <img src="${userImg}" alt="author">
 
         <div class="form-group with-icon-right ">
           <textarea class="form-control" placeholder=""></textarea>
@@ -313,6 +313,17 @@ function likePost(postId) {
     color: "#FFFFFF",
   });
   $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
+
+  firebase.database().ref().child("Posts").child(postId).once("value").then(r => {
+    let post = r.val();
+    console.log("Post: ", post);
+    let likes = post.likes;
+    if (likes === undefined || likes === null) {
+      likes = 0
+    }
+    likes++;
+    firebase.database().ref().child("Posts").child(postId).child("likes").set(likes);
+  })
 }
 
 function showPostMyComment(postId) {
