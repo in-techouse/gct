@@ -8,14 +8,13 @@ router.get("/newsfeed", function (req, res) {
   if (!req.session.isLoggedIn) {
     res.redirect("/");
   }
-  let user = req.session;
-  console.log("Facebook access token: ", req.session.facebookAccessToken);
+  let user = req.session.user;
   res.render("pages/user/dashboard", { user: user, action: "News feed" });
 });
 
 router.get("/profile", function (req, res) {
   if (req.session.isLoggedIn) {
-    let user = req.session;
+    let user = req.session.user;
     res.render("pages/user/profile", { user: user, action: "Profile" });
   } else {
     res.redirect("/");
@@ -24,7 +23,7 @@ router.get("/profile", function (req, res) {
 
 router.get("/profilesettings", function (req, res) {
   if (req.session.isLoggedIn) {
-    let user = req.session;
+    let user = req.session.user;
     res.render("pages/user/profilesettings", {
       user: user,
       action: "Profile Settings",
@@ -36,7 +35,7 @@ router.get("/profilesettings", function (req, res) {
 
 router.get("/profileabout", function (req, res) {
   if (req.session.isLoggedIn) {
-    let user = req.session;
+    let user = req.session.user;
     res.render("pages/user/profileabout", {
       user: user,
       action: "Profile About",
@@ -48,7 +47,7 @@ router.get("/profileabout", function (req, res) {
 
 router.get("/friends", function (req, res) {
   if (req.session.isLoggedIn) {
-    let user = req.session;
+    let user = req.session.user;
     res.render("pages/user/friends", { user: user, action: "Friends" });
   } else {
     res.redirect("/");
@@ -57,7 +56,7 @@ router.get("/friends", function (req, res) {
 
 router.get("/photos", function (req, res) {
   if (req.session.isLoggedIn) {
-    let user = req.session;
+    let user = req.session.user;
     res.render("pages/user/photos", { user: user, action: "Photos" });
   } else {
     res.redirect("/");
@@ -66,31 +65,31 @@ router.get("/photos", function (req, res) {
 
 router.get("/videos", function (req, res) {
   if (req.session.isLoggedIn) {
-    let user = req.session;
+    let user = req.session.user;
     res.render("pages/user/videos", { user: user, action: "Videos" });
   } else {
     res.redirect("/");
   }
 });
 
-router.get("/fbgraph", function (req, res) {
-  graph.setAccessToken(req.session.facebookAccessToken);
-  graph.batch(
-    [
-      // {
-      //   method: "GET",
-      //   relative_url: "me" // Get the current user's profile information
-      // },
-      {
-        method: "GET",
-        relative_url: "me/friends", // Get the first 50 friends of the current user
-      },
-    ],
-    function (err, result) {
-      res.json({ error: err, result: result });
-    }
-  );
-});
+// router.get("/fbgraph", function (req, res) {
+//   graph.setAccessToken(req.session.facebookAccessToken);
+//   graph.batch(
+//     [
+//       // {
+//       //   method: "GET",
+//       //   relative_url: "me" // Get the current user's profile information
+//       // },
+//       {
+//         method: "GET",
+//         relative_url: "me/friends", // Get the first 50 friends of the current user
+//       },
+//     ],
+//     function (err, result) {
+//       res.json({ error: err, result: result });
+//     }
+//   );
+// });
 
 router.get("/logout", function (req, res) {
   firebase.auth().signOut();
@@ -107,8 +106,8 @@ router.get("/tweets", function (req, res) {
     var client = new Twitter({
       consumer_key: process.env.TWITTER_CONSUMER_KEY,
       consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-      access_token_key: req.session.twitterAccessToken,
-      access_token_secret: req.session.twitterSecret,
+      access_token_key: req.session.user.twitter.accessToken,
+      access_token_secret: req.session.user.twitter.secret,
     });
     client.get("statuses/home_timeline", function (error, tweets, response) {
       res.json({ e: error, r: response, t: tweets });
@@ -127,7 +126,7 @@ router.get("/myPosts", function (req, res) {
       .ref()
       .child("Posts")
       .orderByChild("userId")
-      .equalTo(req.session.userId)
+      .equalTo(req.session.user.id)
       .once("value")
       .then((data) => {
         data.forEach((d) => {
@@ -147,7 +146,7 @@ router.get("/myPosts", function (req, res) {
 
 router.get("/allchats", function (req, res) {
   if (req.session.isLoggedIn) {
-    let user = req.session;
+    let user = req.session.user;
     res.render("pages/user/allchats", {
       user: user,
       action: "All Chats/Messages",
@@ -159,7 +158,7 @@ router.get("/allchats", function (req, res) {
 
 router.get("/allnotifications", function (req, res) {
   if (req.session.isLoggedIn) {
-    let user = req.session;
+    let user = req.session.user;
     res.render("pages/user/allnotifications", {
       user: user,
       action: "All Notifications",

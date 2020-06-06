@@ -48,33 +48,13 @@ router.get("/", function (req, res) {
   }
 });
 
-// router.post("/username", function (req, res) {
-//   let id = firebase.auth().currentUser.uid;
-//   let img = firebase.auth().currentUser.photoURL;
-//   let user = {
-//     firstName: req.body.firstname,
-//     lastName: req.body.lastname,
-//     image: img,
-//     id: id,
-//   };
-//   firebase
-//     .database()
-//     .ref()
-//     .child("Users")
-//     .child(user.id)
-//     .set(user)
-//     .then((r) => {
-//       req.session.firstName = user.firstName;
-//       req.session.lastName = user.lastName;
-//       req.session.img = user.img;
-//       req.session.userId = id;
-//       req.session.isLoggedIn = true;
-//       res.redirect("/user/newsfeed");
-//     })
-//     .catch((e) => {
-//       res.render("pages/index");
-//     });
-// });
+router.post("/userSession", function (req, res) {
+  let user = req.body.user;
+  user = JSON.parse(user);
+  req.session.user = user;
+  req.session.isLoggedIn = true;
+  res.json("1");
+});
 
 // router.post("/facebookLogin", function (req, res) {
 //   var credential = firebase.auth.FacebookAuthProvider.credential(

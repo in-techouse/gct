@@ -18,6 +18,39 @@ let user = {
   firstName: "",
   lastName: "",
 };
+
+// Save to Session
+function saveToSession(userData) {
+  $.ajax({
+    type: "POST",
+    url: "/userSession",
+    dataType: "json",
+    data: { user: JSON.stringify(userData) },
+    success: function (result) {
+      console.log("Session Success: ", result);
+      $("#loading").hide(300);
+      if (result === "1") {
+        window.location.reload();
+      } else {
+        $("#mainAuth").show(300);
+        $("#upperFacebook").show(300);
+        $("#upperTwitter").show(300);
+        $("#username").hide(300);
+        $("#mainError").show(300);
+      }
+    },
+    error: function (err) {
+      console.log("Session Error: ", err);
+      $("#loading").hide(300);
+      $("#mainAuth").show(300);
+      $("#upperFacebook").show(300);
+      $("#upperTwitter").show(300);
+      $("#username").hide(300);
+      $("#mainError").show(300);
+    },
+  });
+}
+
 function loginwithTwitter(r) {
   firebase
     .database()
@@ -93,9 +126,16 @@ function loginwithTwitter(r) {
         $("#mainError").hide(300);
         $("#loading").hide(300);
         $("#mainAuth").show(300);
+      } else {
+        saveToSession(userData);
       }
     })
-    .catch((e) => {});
+    .catch((e) => {
+      $("#upperTwitter").show(300);
+      $("#mainError").show(300);
+      $("#loading").hide(300);
+      $("#mainAuth").show(300);
+    });
 }
 
 function loginWithFacebook(d) {
@@ -146,6 +186,8 @@ function loginWithFacebook(d) {
         $("#upperFacebook").hide(300);
         $("#loading").hide(300);
         $("#mainAuth").show(300);
+      } else {
+        saveToSession(userData);
       }
     })
     .catch((e) => {
@@ -188,8 +230,7 @@ $(document).ready(function () {
       .set(user)
       .then((r) => {
         console.log("Database Save Success");
-        $("#loading").hide(300);
-        $("#username").show(300);
+        saveToSession(user);
       })
       .catch((e) => {
         console.log("Database Save Failed: ", e);

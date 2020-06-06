@@ -30,10 +30,10 @@
 						<div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
 							<form id="postStatus">
 								<div class="author-thumb">
-									<img src="<%= user.img %>" alt="author" style="margin-left: -10px;">
+									<img src="<%= user.image %>" alt="author" style="margin-left: -10px;">
 								</div>
 								<input type="hidden" name="userId" id="userId" value="<%= user.userId %>" />
-								<input type="hidden" name="userImg" id="userImg" value="<%= user.img %>" />
+								<input type="hidden" name="userImg" id="userImg" value="<%= user.image %>" />
 								<input type="hidden" name="userName" id="userName"
 									value="<%= user.firstName %> <%= user.lastName %>" />
 								<input type="hidden" name="url" id="url" />
@@ -1277,7 +1277,7 @@
 					<article class="hentry post">
 
 						<div class="post__author author vcard inline-items">
-							<img src="<%= user.img %>" alt="author">
+							<img src="<%= user.image %>" alt="author">
 
 							<div class="author-date">
 								<a class="h6 post__author-name fn" href="javascript:;"><%= user.firstName %>
