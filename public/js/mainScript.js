@@ -37,7 +37,7 @@ function loginWithFacebook(d) {
         let facebook = {
           accessToken: d.credential.accessToken,
           id: d.additionalUserInfo.profile.id,
-          email: d.additionalUserInfo.profile.email,
+          email: d.additionalUserInfo.profile.email === undefined ? "" : d.additionalUserInfo.profile.email,
           name: d.additionalUserInfo.profile.name,
         };
         user = {
@@ -117,6 +117,7 @@ $(document).ready(function () {
         .auth()
         .signInWithPopup(provider)
         .then((r) => {
+          console.log("Facebook Success: ", r);
           loginWithFacebook(r);
         })
         .catch((e) => {
