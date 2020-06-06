@@ -1,11 +1,19 @@
 $(document).ready(function () {
   console.log("Post Status Document is ready");
 
+  $("#removeImage").click(function () {
+    $("#imageUpper").hide(400);
+    $("#postImage").attr("src", null);
+    $("#previewImage").attr("src", null);
+    $("#url").val("");
+  });
+
   $("#photoUploadIcon").click(function () {
     $("#photoUpload").trigger("click");
   });
 
   $("#photoUpload").change(function () {
+    $("#update-header-photo").modal("toggle");
     readURL(this);
   });
 
@@ -83,6 +91,10 @@ $(document).ready(function () {
       .set(post)
       .then((r) => {
         console.log("Post Success");
+        $("#imageUpper").hide(400);
+        $("#postImage").attr("src", null);
+        $("#previewImage").attr("src", null);
+        $("#url").val("");
         $("#userContent").val("");
         $("#submitPost").prop("disabled", false);
         let tweetHTML = `
