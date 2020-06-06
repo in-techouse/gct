@@ -18,7 +18,85 @@ let user = {
   firstName: "",
   lastName: "",
 };
-function loginwithTwitter(d) {}
+function loginwithTwitter(r) {
+  firebase
+    .database()
+    .ref()
+    .child("Users")
+    .child(r.user.uid)
+    .once("value")
+    .then((data) => {
+      let userData = data.val();
+      if (userData === undefined || userData === null) {
+        let twitter = {
+          accessToken: r.credential.accessToken,
+          secret: r.credential.secret,
+          username: r.additionalUserInfo.username,
+          description:
+            r.additionalUserInfo.profile.description === undefined
+              ? ""
+              : r.additionalUserInfo.profile.description === null
+              ? ""
+              : r.additionalUserInfo.profile.description,
+          email:
+            r.additionalUserInfo.profile.email === undefined
+              ? ""
+              : r.additionalUserInfo.profile.email === null
+              ? ""
+              : r.additionalUserInfo.profile.email,
+          followersCount: r.additionalUserInfo.profile.followers_count,
+          friendsCount: r.additionalUserInfo.profile.friends_count,
+          id: r.additionalUserInfo.profile.id_str,
+          location:
+            r.additionalUserInfo.profile.location === undefined
+              ? ""
+              : r.additionalUserInfo.profile.location === null
+              ? ""
+              : r.additionalUserInfo.profile.location,
+          name: r.additionalUserInfo.profile.name,
+          profileBannerUrl:
+            r.additionalUserInfo.profile.profile_banner_url === undefined
+              ? ""
+              : r.additionalUserInfo.profile.profile_banner_url === null
+              ? ""
+              : r.additionalUserInfo.profile.profile_banner_url,
+          profileImageUrl:
+            r.additionalUserInfo.profile.profile_image_url === undefined
+              ? ""
+              : r.additionalUserInfo.profile.profile_image_url === null
+              ? ""
+              : r.additionalUserInfo.profile.profile_image_url,
+        };
+        user = {
+          ...user,
+          ...{
+            twitter,
+            email:
+              r.user.email === undefined
+                ? ""
+                : r.user.email === null
+                ? ""
+                : r.user.email,
+            phoneNumber:
+              r.user.phoneNumber === undefined
+                ? ""
+                : r.user.phoneNumber === null
+                ? ""
+                : r.user.phoneNumber,
+            id: r.user.uid,
+            image: r.user.photoURL,
+          },
+        };
+        console.log("GCT user: ", user);
+        isTwitter = true;
+        $("#upperTwitter").hide(300);
+        $("#mainError").hide(300);
+        $("#loading").hide(300);
+        $("#mainAuth").show(300);
+      }
+    })
+    .catch((e) => {});
+}
 
 function loginWithFacebook(d) {
   firebase
@@ -32,28 +110,43 @@ function loginWithFacebook(d) {
       console.log("Database User Data: ", userData);
       if (userData === undefined || userData === null) {
         console.log("New Registration Success");
-        isFacebook = true;
-        $("#upperFacebook").hide(300);
         let facebook = {
           accessToken: d.credential.accessToken,
           id: d.additionalUserInfo.profile.id,
-          email: d.additionalUserInfo.profile.email === undefined ? "" : d.additionalUserInfo.profile.email,
+          email:
+            d.additionalUserInfo.profile.email === undefined
+              ? ""
+              : d.additionalUserInfo.profile.email === null
+              ? ""
+              : d.additionalUserInfo.profile.email,
           name: d.additionalUserInfo.profile.name,
         };
         user = {
           ...user,
           ...{
             facebook,
-            email: d.user.email,
-            phoneNumber: d.user.phoneNumber,
+            email:
+              d.user.email === undefined
+                ? ""
+                : d.user.email === null
+                ? ""
+                : d.user.email,
+            phoneNumber:
+              d.user.phoneNumber === undefined
+                ? ""
+                : d.user.phoneNumber === null
+                ? ""
+                : d.user.phoneNumber,
             id: d.user.uid,
             image: d.user.photoURL,
           },
         };
         console.log("GCT user: ", user);
+        isFacebook = true;
+        $("#upperFacebook").hide(300);
+        $("#loading").hide(300);
+        $("#mainAuth").show(300);
       }
-      $("#loading").hide(300);
-      $("#mainAuth").show(300);
     })
     .catch((e) => {
       $("#upperFacebook").show(300);
@@ -110,14 +203,63 @@ $(document).ready(function () {
     $("#mainError").hide(300);
     $("#loading").show(300);
     $("#mainAuth").hide(300);
+    var provider = new firebase.auth.FacebookAuthProvider();
     if (isTwitter) {
+      firebase
+        .auth()
+        .currentUser.linkWithPopup(provider)
+        .then((d) => {
+          console.log("Facebook User: ", d);
+          let facebook = {
+            accessToken: d.credential.accessToken,
+            id: d.additionalUserInfo.profile.id,
+            email:
+              d.additionalUserInfo.profile.email === undefined
+                ? ""
+                : d.additionalUserInfo.profile.email === null
+                ? ""
+                : d.additionalUserInfo.profile.email,
+            name: d.additionalUserInfo.profile.name,
+          };
+          user = {
+            ...user,
+            ...{
+              facebook,
+              email:
+                d.user.email === undefined
+                  ? ""
+                  : d.user.email === null
+                  ? ""
+                  : d.user.email,
+              phoneNumber:
+                d.user.phoneNumber === undefined
+                  ? ""
+                  : d.user.phoneNumber === null
+                  ? ""
+                  : d.user.phoneNumber,
+              id: d.user.uid,
+              image: d.user.photoURL,
+            },
+          };
+          console.log("GCT user: ", user);
+          isFacebook = true;
+          $("#upperFacebook").show(300);
+          $("#mainError").hide(300);
+          $("#mainAuth").hide(300);
+          $("#loading").hide(300);
+          $("#username").show(300);
+        })
+        .catch((e) => {
+          $("#mainError").show(300);
+          $("#loading").hide(300);
+          $("#mainAuth").show(300);
+        });
     } else {
-      var provider = new firebase.auth.FacebookAuthProvider();
       firebase
         .auth()
         .signInWithPopup(provider)
         .then((r) => {
-          console.log("Facebook Success: ", r);
+          console.log("Facebook User: ", r);
           loginWithFacebook(r);
         })
         .catch((e) => {
@@ -145,23 +287,57 @@ $(document).ready(function () {
             accessToken: r.credential.accessToken,
             secret: r.credential.secret,
             username: r.additionalUserInfo.username,
-            description: r.additionalUserInfo.profile.description,
-            email: r.additionalUserInfo.profile.email,
+            description:
+              r.additionalUserInfo.profile.description === undefined
+                ? ""
+                : r.additionalUserInfo.profile.description === null
+                ? ""
+                : r.additionalUserInfo.profile.description,
+            email:
+              r.additionalUserInfo.profile.email === undefined
+                ? ""
+                : r.additionalUserInfo.profile.email === null
+                ? ""
+                : r.additionalUserInfo.profile.email,
             followersCount: r.additionalUserInfo.profile.followers_count,
             friendsCount: r.additionalUserInfo.profile.friends_count,
             id: r.additionalUserInfo.profile.id_str,
-            location: r.additionalUserInfo.profile.location,
+            location:
+              r.additionalUserInfo.profile.location === undefined
+                ? ""
+                : r.additionalUserInfo.profile.location === null
+                ? ""
+                : r.additionalUserInfo.profile.location,
             name: r.additionalUserInfo.profile.name,
-            profileBannerUrl: r.additionalUserInfo.profile.profile_banner_url,
-            profileImageUrl: r.additionalUserInfo.profile.profile_image_url,
+            profileBannerUrl:
+              r.additionalUserInfo.profile.profile_banner_url === undefined
+                ? ""
+                : r.additionalUserInfo.profile.profile_banner_url === null
+                ? ""
+                : r.additionalUserInfo.profile.profile_banner_url,
+            profileImageUrl:
+              r.additionalUserInfo.profile.profile_image_url === undefined
+                ? ""
+                : r.additionalUserInfo.profile.profile_image_url === null
+                ? ""
+                : r.additionalUserInfo.profile.profile_image_url,
           };
           user = {
             ...user,
             ...{
               twitter,
-              name: r.user.displayName,
-              email: r.user.email,
-              phoneNumber: r.user.phoneNumber,
+              email:
+                r.user.email === undefined
+                  ? ""
+                  : r.user.email === null
+                  ? ""
+                  : r.user.email,
+              phoneNumber:
+                r.user.phoneNumber === undefined
+                  ? ""
+                  : r.user.phoneNumber === null
+                  ? ""
+                  : r.user.phoneNumber,
               id: r.user.uid,
               image: r.user.photoURL,
             },
@@ -184,6 +360,7 @@ $(document).ready(function () {
         .signInWithPopup(provider)
         .then((r) => {
           console.log("Success: ", r);
+          loginwithTwitter(r);
         })
         .catch((e) => {
           console.log("Twitter Error: ", e);
