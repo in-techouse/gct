@@ -18,35 +18,7 @@ let user = {
   firstName: "",
   lastName: "",
 };
-function loginwithTwitter(d) {
-  // $.ajax({
-  //   url: "/twitterLogin",
-  //   type: "POST",
-  //   data: {
-  //     accessToken: d.credential.accessToken,
-  //     secret: d.credential.secret,
-  //   },
-  //   success: function (data) {
-  //     console.log("Success: ", data);
-  //     if (data == "-1") {
-  //       $("#upperTwitter").show(300);
-  //       $("#mainError").show(300);
-  //     } else if (data == "2") {
-  //       // window.location.reload();
-  //       $("#username").show(300);
-  //     } else if (data == "3") {
-  //       window.location.reload();
-  //     }
-  //     $("#loading").hide(300);
-  //     $("#mainAuth").show(300);
-  //   },
-  //   error: function (error) {
-  //     console.log("Error:", error);
-  //     $("#upperTwitter").show(300);
-  //     $("#mainError").show(300);
-  //   },
-  // });
-}
+function loginwithTwitter(d) {}
 
 function loginWithFacebook(d) {
   firebase
@@ -56,12 +28,12 @@ function loginWithFacebook(d) {
     .child(d.user.uid)
     .once("value")
     .then((data) => {
-      // console.log("Database User Data: ", data);
       let userData = data.val();
       console.log("Database User Data: ", userData);
       if (userData === undefined || userData === null) {
         console.log("New Registration Success");
         isFacebook = true;
+        $("#upperFacebook").hide(300);
         let facebook = {
           accessToken: d.credential.accessToken,
           id: d.additionalUserInfo.profile.id,
@@ -90,31 +62,6 @@ function loginWithFacebook(d) {
       $("#loading").hide(300);
       console.log("Database User Data Error: ", e);
     });
-  // $.ajax({
-  //   url: "/facebookLogin",
-  //   type: "POST",
-  //   data: {
-  //     accessToken: d.credential.accessToken,
-  //   },
-  //   success: function (data) {
-  //     console.log("Success: ", data);
-  //     if (data == "-1") {
-  //       $("#upperFacebook").show(300);
-  //       $("#mainError").show(300);
-  //     } else if (data == "2") {
-  //       window.location.reload();
-  //       $("#username").show(300);
-  //     } else if (data == "3") {
-  //       window.location.reload();
-  //     }
-  //     $("#loading").hide(300);
-  //     $("#mainAuth").show(300);
-  //   },
-  //   error: function (error) {
-  //     console.log("Error:", error);
-  //     $("#mainError").show(300);
-  //   },
-  // });
 }
 
 $(document).ready(function () {
@@ -163,10 +110,6 @@ $(document).ready(function () {
     $("#mainError").hide(300);
     $("#loading").show(300);
     $("#mainAuth").hide(300);
-    // let signIn = 1;
-    // if (firebase.auth().currentUser === null) {
-    //   signIn = 0;
-    // }
     if (isTwitter) {
     } else {
       var provider = new firebase.auth.FacebookAuthProvider();
@@ -174,39 +117,7 @@ $(document).ready(function () {
         .auth()
         .signInWithPopup(provider)
         .then((r) => {
-          // console.log("Success: ", r);
-          $("#upperFacebook").hide(300);
-          // $("#loading").hide(300);
-          // New Code
-          // console.log("Credential: ", r.credential);
-          // console.log("User: ", r.user);
-          // let facebook = {
-          //   accessToken: r.credential.accessToken,
-          //   id: r.additionalUserInfo.profile.id,
-          //   email: r.additionalUserInfo.profile.email,
-          //   name: r.additionalUserInfo.profile.name,
-          // };
-          // let user = {
-          //   facebook,
-          //   name: r.user.displayName,
-          //   email: r.user.email,
-          //   phoneNumber: r.user.phoneNumber,
-          //   id: r.user.uid,
-          //   image: r.user.photoURL,
-          // };
-          // console.log("GCT user: ", user);
-          // Old Code
-          // $("#upperFacebook").hide(300);
-          // if (signIn === 1) {
-          //   firebase
-          //     .auth()
-          //     .currentUser.delete()
-          //     .then((d) => {
-          //       loginWithFacebook(r);
-          //     });
-          // } else {
           loginWithFacebook(r);
-          // }
         })
         .catch((e) => {
           console.log("Error: ", e);
@@ -228,7 +139,7 @@ $(document).ready(function () {
         .auth()
         .currentUser.linkWithPopup(provider)
         .then((r) => {
-          // console.log("Twitter User: ", r);
+          console.log("Twitter User: ", r);
           let twitter = {
             accessToken: r.credential.accessToken,
             secret: r.credential.secret,
@@ -255,6 +166,8 @@ $(document).ready(function () {
             },
           };
           console.log("GCT user: ", user);
+          isTwitter = true;
+          $("#upperTwitter").hide(300);
           $("#mainError").hide(300);
           $("#loading").hide(300);
           $("#username").show(300);
@@ -265,28 +178,11 @@ $(document).ready(function () {
           $("#mainAuth").show(300);
         });
     } else {
-      // let signIn = 1;
-      // if (firebase.auth().currentUser === null) {
-      //   signIn = 0;
-      // }
       firebase
         .auth()
         .signInWithPopup(provider)
         .then((r) => {
           console.log("Success: ", r);
-
-          // Old Code
-          // $("#upperTwitter").hide(300);
-          // if (signIn === 1) {
-          //   firebase
-          //     .auth()
-          //     .currentUser.delete()
-          //     .then((d) => {
-          //       loginwithTwitter(r);
-          //     });
-          // } else {
-          //   loginwithTwitter(r);
-          // }
         })
         .catch((e) => {
           console.log("Twitter Error: ", e);
