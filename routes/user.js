@@ -12,6 +12,21 @@ router.get("/newsfeed", function (req, res) {
   res.render("pages/user/dashboard", { user: user, action: "News feed" });
 });
 
+router.post("/postOnSocialMedia", function (req, res) {
+  let post = req.body.post;
+  post = JSON.parse(post);
+  graph.setAccessToken(req.session.user.facebook.accessToken);
+  var wallPost = {
+    message: "I'm gonna come at you like a spider monkey, chip!",
+  };
+
+  graph.post("/feed", wallPost, function (err, fbRes) {
+    // returns the post id
+    console.log(fbRes); // { id: xxxxx}
+    res.json({ result: fbRes });
+  });
+});
+
 router.get("/profile", function (req, res) {
   if (req.session.isLoggedIn) {
     let user = req.session.user;

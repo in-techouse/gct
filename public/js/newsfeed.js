@@ -95,16 +95,14 @@ function displayAllPosts() {
       }
       if (post.extended_entities) {
         tweetMedia = `
-		<div class="post-video">
-			<div class="video-thumb">
-				<img src="${post.extended_entities.media[0].media_url_https}"/>
-				<a href="${post.extended_entities.media[0].expanded_url}" target="_blank">READ MORE</a>
-			</div>
+		<div class="post-thumb">
+      <img src="${post.extended_entities.media[0].media_url_https}"/>
+      <a href="${post.extended_entities.media[0].expanded_url}" target="_blank">READ MORE</a>
 		</div>`;
       }
       postHtml = `
                 <div class="ui-block">
-    			<article class="hentry post video">
+    			<article class="hentry post has-post-thumbnail shared-photo">
     				<div class="post__author author vcard inline-items">
     					<img src="${post.user.profile_image_url}" alt="author">
     					<div class="author-date">
@@ -126,15 +124,13 @@ function displayAllPosts() {
       let tweetMedia = "";
       if (post.url !== null && post.url !== undefined && post.url.length > 1) {
         tweetMedia = `
-			<div class="post-video">
-				<div class="video-thumb">
-					<img src="${post.url}"/>
-				</div>
+			<div class="post-thumb">
+        <img src="${post.url}"/>
 			</div>`;
       }
       postHtml = `
 	  <div class="ui-block">
-		<article class="hentry post video">
+		<article class="hentry post has-post-thumbnail shared-photo">
 			<div class="post__author author vcard inline-items">
 				<img src="${post.userImg}" alt="author">
 				<div class="author-date">

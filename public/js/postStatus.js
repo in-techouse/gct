@@ -100,7 +100,7 @@ $(document).ready(function () {
         let tweetHTML = `
                     <div class="ui-block">
 
-					<article class="hentry post video">
+					<article class="hentry post has-post-thumbnail shared-photo">
 
 						<div class="post__author author vcard inline-items">
 							<img src="${userImg}" alt="author">
@@ -227,6 +227,7 @@ $(document).ready(function () {
 					</article>
 				</div>`;
         $("#newsfeed-items-grid").prepend(tweetHTML);
+        postOnSocialMedia(post);
       })
       .catch((e) => {
         console.log("Post Failure: ", e);
@@ -234,6 +235,38 @@ $(document).ready(function () {
       });
   });
 });
+
+function postOnSocialMedia(post) {
+  console.log("Post on Social Media with post: ", post);
+  $.ajax({
+    type: "POST",
+    url: "/user/postOnSocialMedia",
+    dataType: "json",
+    data: { post: JSON.stringify(post) },
+    success: function (result) {
+      console.log("postOnSocialMedia Success: ", result);
+      // $("#loading").hide(300);
+      // if (result === "1") {
+      //   window.location.reload();
+      // } else {
+      //   $("#mainAuth").show(300);
+      //   $("#upperFacebook").show(300);
+      //   $("#upperTwitter").show(300);
+      //   $("#username").hide(300);
+      //   $("#mainError").show(300);
+      // }
+    },
+    error: function (err) {
+      console.log("postOnSocialMedia Error: ", err);
+      // $("#loading").hide(300);
+      // $("#mainAuth").show(300);
+      // $("#upperFacebook").show(300);
+      // $("#upperTwitter").show(300);
+      // $("#username").hide(300);
+      // $("#mainError").show(300);
+    },
+  });
+}
 
 function readURL(input) {
   if (input.files && input.files[0]) {
