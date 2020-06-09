@@ -15,16 +15,31 @@ router.get("/newsfeed", function (req, res) {
 router.post("/postOnSocialMedia", function (req, res) {
   let post = req.body.post;
   post = JSON.parse(post);
-  graph.setAccessToken(req.session.user.facebook.accessToken);
-  var wallPost = {
-    message: "I'm gonna come at you like a spider monkey, chip!",
-  };
+  if (post.isTwitter) {
+    var client = new Twitter({
+      consumer_key: process.env.TWITTER_CONSUMER_KEY,
+      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+      access_token_key: req.session.user.twitter.accessToken,
+      access_token_secret: req.session.user.twitter.secret,
+    });
+    client.post("statuses/update", { status: post.content }, function (
+      error,
+      tweet,
+      response
+    ) {
+      res.json({ e: error, r: response, t: tweet });
+    });
+  }
+  // graph.setAccessToken(req.session.user.facebook.accessToken);
+  // var wallPost = {
+  //   message: "I'm gonna come at you like a spider monkey, chip!",
+  // };
 
-  graph.post("/feed", wallPost, function (err, fbRes) {
-    // returns the post id
-    console.log(fbRes); // { id: xxxxx}
-    res.json({ result: fbRes });
-  });
+  // graph.post("/feed", wallPost, function (err, fbRes) {
+  //   // returns the post id
+  //   console.log(fbRes); // { id: xxxxx}
+  //   res.json({ result: fbRes });
+  // });
 });
 
 router.get("/profile", function (req, res) {
@@ -130,15 +145,22 @@ router.get("/twitterProfile", function (req, res) {
       access_token_key: req.session.user.twitter.accessToken,
       access_token_secret: req.session.user.twitter.secret,
     });
-    console.log("twitter id: ", req.session.user.twitter.id);
-    console.log("twitter screen name: ", req.session.user.twitter.screen_name);
+    client.post("statuses/update", { status: "I Love Twitter" }, function (
+      error,
+      tweet,
+      response
+    ) {
+      res.json({ e: error, r: response, t: tweet });
+    });
+    // console.log("twitter id: ", req.session.user.twitter.id);
+    // console.log("twitter screen name: ", req.session.user.twitter.screen_name);
 
-    client.get(
-      `users/show?user_id=${req.session.user.twitter.id}&&screen_name=${req.session.user.twitter.screen_name}`,
-      function (error, tweets, response) {
-        res.json({ e: error, r: response, t: tweets });
-      }
-    );
+    // client.get(
+    //   `users/show?user_id=${req.session.user.twitter.id}&screen_name=${req.session.user.twitter.screen_name}`,
+    //   function (error, tweets, response) {
+    //     res.json({ e: error, r: response, t: tweets });
+    //   }
+    // );
   } else {
     res.json("-1");
   }

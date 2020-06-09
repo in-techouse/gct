@@ -92,6 +92,13 @@ $(document).ready(function () {
       .then((r) => {
         console.log("Post Success");
         $("#imageUpper").hide(400);
+
+        $("#twitterPost").removeClass("btn-primary");
+        $("#twitterPost").addClass("btn-outline-primary");
+
+        $("#facebookPost").removeClass("btn-primary");
+        $("#facebookPost").addClass("btn-outline-primary");
+
         $("#postImage").attr("src", null);
         $("#previewImage").attr("src", null);
         $("#url").val("");
