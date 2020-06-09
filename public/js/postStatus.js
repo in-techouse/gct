@@ -105,13 +105,10 @@ $(document).ready(function () {
         $("#userContent").val("");
         $("#submitPost").prop("disabled", false);
         let tweetHTML = `
-                    <div class="ui-block">
-
+        <div class="ui-block">
 					<article class="hentry post has-post-thumbnail shared-photo">
-
 						<div class="post__author author vcard inline-items">
 							<img src="${userImg}" alt="author">
-
 							<div class="author-date">
 								<a class="h6 post__author-name fn" href="userImg" target="_blank">${userName}</a>
 								<div class="post__date">
@@ -120,118 +117,156 @@ $(document).ready(function () {
 									</time>
 								</div>
 							</div>
-
 							<div class="more"><svg class="olymp-three-dots-icon">
 									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
 								</svg>
 								<ul class="more-dropdown">
-									<li>
-										<a href="#">Edit Post</a>
-									</li>
-									<li>
-										<a href="#">Delete Post</a>
-									</li>
-									<li>
-										<a href="#">Turn Off Notifications</a>
-									</li>
-									<li>
-										<a href="#">Select as Featured</a>
-									</li>
+                  <li>
+                    <a href="javascript:;">Edit Post</a>
+                  </li>
+                  <li>
+                    <a href="javascript:;">Delete Post</a>
+                  </li>
 								</ul>
 							</div>
-
             </div>
-            <div class="row">            
-            ${post.content}
-            </div>
-            <div class="row">            
-            <img src="${post.url}" />
+            <p>${post.content}</p>
+            <div class="post-thumb">         
+              <img src="${post.url}" />
             </div>
 						<div class="post-additional-info inline-items">
-							<a href="#" class="post-add-icon inline-items">
+							<a href="javascript:;" class="post-add-icon inline-items" id="likeHeart${post.id}" onclick="likePost('${post.id}')">
 								<svg class="olymp-heart-icon">
 									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
 								</svg>
-								<span>18</span>
+								<span id="likesCount${post.id}">${post.likes}</span>
 							</a>
 
 							<ul class="friends-harmonic">
-								<li>
-									<a href="#">
-										<img src="/public/img/friend-harmonic9.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="/public/img/friend-harmonic10.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="/public/img/friend-harmonic7.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="/public/img/friend-harmonic8.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="/public/img/friend-harmonic11.jpg" alt="friend">
-									</a>
-								</li>
 							</ul>
 
 							<div class="names-people-likes">
-								<a href="#">Jenny</a>, <a href="#">Robert</a> and
-								<br>18 more liked this
 							</div>
 
 							<div class="comments-shared">
-								<a href="#" class="post-add-icon inline-items">
+								<a href="javascript:;" class="post-add-icon inline-items" onclick="showPostMyComment('${post.id}')">
 									<svg class="olymp-speech-balloon-icon">
 										<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
 										</use>
 									</svg>
-
 									<span>0</span>
-								</a>
-
-								<a href="#" class="post-add-icon inline-items">
-									<svg class="olymp-share-icon">
-										<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
-									</svg>
-
-									<span>16</span>
 								</a>
 							</div>
 						</div>
 
 						<div class="control-block-button post-control-button">
 
-							<a href="#" class="btn btn-control">
+							<a href="javascript:;" class="btn btn-control" id="likeBtn${post.id}" onclick="likePost('${post.id}')">
 								<svg class="olymp-like-post-icon">
 									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
 								</svg>
 							</a>
 
-							<a href="#" class="btn btn-control">
+							<a href="javascript:;" class="btn btn-control" onclick="showPostMyComment('${post.id}')">
 								<svg class="olymp-comments-post-icon">
 									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon">
 									</use>
 								</svg>
 							</a>
-
-							<a href="#" class="btn btn-control">
-								<svg class="olymp-share-icon">
-									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
-								</svg>
-							</a>
-
 						</div>
-
-					</article>
+          </article>
+          <ul class="comments-list postComments${post.id}" style="display: none;">
+          <li class="comment-item">
+            <div class="post__author author vcard inline-items">
+              <img src="/public/img/author-page.jpg" alt="author">
+    
+              <div class="author-date">
+                <a class="h6 post__author-name fn" href="02-ProfilePage.html">James Spiegel</a>
+                <div class="post__date">
+                  <time class="published" datetime="2004-07-24T18:18">
+                    38 mins ago
+                  </time>
+                </div>
+              </div>
+    
+              <a href="javascript:;" class="more"><svg class="olymp-three-dots-icon">
+                  <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon">
+                  </use>
+                </svg></a>
+    
+            </div>
+    
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque
+              laudantium.</p>
+    
+            <a href="javascript:;" class="post-add-icon inline-items">
+              <svg class="olymp-heart-icon">
+                <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+              </svg>
+              <span>3</span>
+            </a>
+            <a href="javascript:;" class="reply">Reply</a>
+          </li>
+          <li class="comment-item">
+            <div class="post__author author vcard inline-items">
+              <img src="/public/img/avatar1-sm.jpg" alt="author">
+    
+              <div class="author-date">
+                <a class="h6 post__author-name fn" href="javascript:;">Mathilda Brinker</a>
+                <div class="post__date">
+                  <time class="published" datetime="2004-07-24T18:18">
+                    1 hour ago
+                  </time>
+                </div>
+              </div>
+    
+              <a href="javascript:;" class="more"><svg class="olymp-three-dots-icon">
+                  <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon">
+                  </use>
+                </svg></a>
+    
+            </div>
+    
+            <p>Ratione voluptatem sequi en lod nesciunt. Neque porro quisquam est, quinder dolorem ipsum
+              quia dolor sit amet, consectetur adipisci velit en lorem ipsum duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum.
+            </p>
+    
+            <a href="javascript:;" class="post-add-icon inline-items">
+              <svg class="olymp-heart-icon">
+                <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+              </svg>
+              <span>8</span>
+            </a>
+            <a href="javascript:;" class="reply">Reply</a>
+          </li>
+        </ul>
+        <a href="javascript:;" class="postMoreComments${post.id} more-comments" style="display: none;">View more comments <span>+</span></a>
+        <form class="comment-form inline-items postMyComment${post.id}" style="display: none;">
+    
+          <div class="post__author author vcard inline-items">
+            <img src="${userImg}" alt="author">
+    
+            <div class="form-group with-icon-right ">
+              <textarea class="form-control" placeholder=""></textarea>
+              <div class="add-options-message">
+                <a href="javascript:;" class="options-message" data-toggle="modal"
+                  data-target="#update-header-photo">
+                  <svg class="olymp-camera-icon">
+                    <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
+                    </use>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+    
+          <button class="btn btn-md-2 btn-primary">Post Comment</button>
+    
+          <button onclick="showPostMyComment('${post.id}')"
+            class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel</button>
+    
+        </form>
 				</div>`;
         $("#newsfeed-items-grid").prepend(tweetHTML);
         postOnSocialMedia(post);
