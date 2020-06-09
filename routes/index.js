@@ -15,30 +15,6 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// router.get("/user", function(req, res) {
-//   firebase
-//     .database()
-//     .ref()
-//     .child("Users")
-//     .child("PEIMndySWkdAuPD6IRbP1MIIpJ02")
-//     .once("value")
-//     .then(r => {
-//       if (r.val() == null || r.val() == undefined) {
-//         res.json("-1");
-//       } else {
-//         res.json("1");
-//       }
-//     })
-//     .catch(e => {
-//       res.json(e);
-//     });
-//   // if (req.session.isLoggedIn == true) {
-//   //   res.redirect("/user/newsfeed");
-//   // } else {
-//   //   res.render("pages/index");
-//   // }
-// });
-
 /* GET home page. */
 router.get("/", function (req, res) {
   if (req.session.isLoggedIn == true) {
@@ -56,113 +32,15 @@ router.post("/userSession", function (req, res) {
   res.json("1");
 });
 
-// router.post("/facebookLogin", function (req, res) {
-//   var credential = firebase.auth.FacebookAuthProvider.credential(
-//     req.body.accessToken
-//   );
-//   req.session.facebookAccessToken = req.body.accessToken;
-//   if (req.session.twitter == true) {
-//     firebase
-//       .auth()
-//       .currentUser.linkWithCredential(credential)
-//       .then((result) => {
-//         req.session.facebook = true;
-//         req.session.isLoggedIn = true;
-//         res.json("2");
-//       })
-//       .catch((e) => {
-//         res.json(e.message);
-//       });
-//   } else {
-//     firebase
-//       .auth()
-//       .signInWithCredential(credential)
-//       .then((result) => {
-//         // Check user record in database
-//         firebase
-//           .database()
-//           .ref()
-//           .child("Users")
-//           .child(firebase.auth().currentUser.uid)
-//           .once("value")
-//           .then((r) => {
-//             if (r.val() == null || r.val() == undefined) {
-//               req.session.facebook = true;
-//               res.json("1");
-//             } else {
-//               req.session.isLoggedIn = true;
-//               req.session.firstName = r.val().firstName;
-//               req.session.lastName = r.val().lastName;
-//               req.session.img = r.val().image;
-//               req.session.userId = r.val().id;
-//               res.json("3");
-//             }
-//           })
-//           .catch((e) => {
-//             req.session.facebook = true;
-//             res.json("1");
-//           });
-//       })
-//       .catch((e) => {
-//         res.json(e.message);
-//       });
-//   }
-// });
-
-// router.post("/twitterLogin", function (req, res) {
-//   var credential = firebase.auth.TwitterAuthProvider.credential(
-//     req.body.accessToken,
-//     req.body.secret
-//   );
-//   req.session.twitterAccessToken = req.body.accessToken;
-//   req.session.twitterSecret = req.body.secret;
-//   if (req.session.facebook == true) {
-//     firebase
-//       .auth()
-//       .currentUser.linkWithCredential(credential)
-//       .then((result) => {
-//         req.session.twitter = true;
-//         req.session.isLoggedIn = true;
-//         res.json("2");
-//       })
-//       .catch((e) => {
-//         res.json(e.message);
-//       });
-//   } else {
-//     firebase
-//       .auth()
-//       .signInWithCredential(credential)
-//       .then((result) => {
-//         // Check user record in database
-//         firebase
-//           .database()
-//           .ref()
-//           .child("Users")
-//           .child(firebase.auth().currentUser.uid)
-//           .once("value")
-//           .then((r) => {
-//             if (r.val() == null || r.val() == undefined) {
-//               req.session.twitter = true;
-//               res.json("1");
-//             } else {
-//               req.session.isLoggedIn = true;
-//               req.session.firstName = r.val().firstName;
-//               req.session.lastName = r.val().lastName;
-//               req.session.img = r.val().image;
-//               req.session.userId = r.val().id;
-//               res.json("3");
-//             }
-//           })
-//           .catch((e) => {
-//             req.session.twitter = true;
-//             res.json("1");
-//           });
-//       })
-//       .catch((e) => {
-//         res.json(e.message);
-//       });
-//   }
-// });
+router.get("/logout", function (req, res) {
+  firebase.auth().signOut();
+  req.session.destroy(function (err) {
+    if (err) {
+      res.negotiate(err);
+    }
+    res.redirect("/");
+  });
+});
 
 router.get("/privacy", function (req, res) {
   res.render("pages/policy");

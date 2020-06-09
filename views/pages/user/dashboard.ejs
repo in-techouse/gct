@@ -1302,3 +1302,37 @@
 
 <script src="/public/js/newsfeed.js"></script>
 <script src="/public/js/postStatus.js"></script>
+
+<script>
+	$(document).ready(function () {
+		console.log("Dashboard page is ready");
+		$.ajax({
+			type: "GET",
+			url: "/user/twitterProfile",
+			// dataType: "json",
+			// data: { user: JSON.stringify(userData) },
+			success: function (result) {
+				console.log("Dashboard Success: ", result);
+				// $("#loading").hide(300);
+				// if (result === "1") {
+				// 	window.location.reload();
+				// } else {
+				// 	$("#mainAuth").show(300);
+				// 	$("#upperFacebook").show(300);
+				// 	$("#upperTwitter").show(300);
+				// 	$("#username").hide(300);
+				// 	$("#mainError").show(300);
+				// }
+			},
+			error: function (err) {
+				console.log("Dashboard Error: ", err);
+				// $("#loading").hide(300);
+				// $("#mainAuth").show(300);
+				// $("#upperFacebook").show(300);
+				// $("#upperTwitter").show(300);
+				// $("#username").hide(300);
+				// $("#mainError").show(300);
+			},
+		});
+	});
+</script>

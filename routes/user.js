@@ -106,16 +106,6 @@ router.get("/videos", function (req, res) {
 //   );
 // });
 
-router.get("/logout", function (req, res) {
-  firebase.auth().signOut();
-  req.session.destroy(function (err) {
-    if (err) {
-      res.negotiate(err);
-    }
-    res.redirect("/");
-  });
-});
-
 router.get("/tweets", function (req, res) {
   if (req.session.isLoggedIn) {
     var client = new Twitter({
@@ -127,6 +117,28 @@ router.get("/tweets", function (req, res) {
     client.get("statuses/home_timeline", function (error, tweets, response) {
       res.json({ e: error, r: response, t: tweets });
     });
+  } else {
+    res.json("-1");
+  }
+});
+
+router.get("/twitterProfile", function (req, res) {
+  if (req.session.isLoggedIn) {
+    var client = new Twitter({
+      consumer_key: process.env.TWITTER_CONSUMER_KEY,
+      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+      access_token_key: req.session.user.twitter.accessToken,
+      access_token_secret: req.session.user.twitter.secret,
+    });
+    console.log("twitter id: ", req.session.user.twitter.id);
+    console.log("twitter screen name: ", req.session.user.twitter.screen_name);
+
+    client.get(
+      `users/show?user_id=${req.session.user.twitter.id}&&screen_name=${req.session.user.twitter.screen_name}`,
+      function (error, tweets, response) {
+        res.json({ e: error, r: response, t: tweets });
+      }
+    );
   } else {
     res.json("-1");
   }

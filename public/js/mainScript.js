@@ -60,46 +60,47 @@ function loginwithTwitter(r) {
     .once("value")
     .then((data) => {
       let userData = data.val();
+      let twitter = {
+        accessToken: r.credential.accessToken,
+        secret: r.credential.secret,
+        username: r.additionalUserInfo.username,
+        description:
+          r.additionalUserInfo.profile.description === undefined
+            ? ""
+            : r.additionalUserInfo.profile.description === null
+            ? ""
+            : r.additionalUserInfo.profile.description,
+        email:
+          r.additionalUserInfo.profile.email === undefined
+            ? ""
+            : r.additionalUserInfo.profile.email === null
+            ? ""
+            : r.additionalUserInfo.profile.email,
+        followersCount: r.additionalUserInfo.profile.followers_count,
+        friendsCount: r.additionalUserInfo.profile.friends_count,
+        id: r.additionalUserInfo.profile.id_str,
+        location:
+          r.additionalUserInfo.profile.location === undefined
+            ? ""
+            : r.additionalUserInfo.profile.location === null
+            ? ""
+            : r.additionalUserInfo.profile.location,
+        name: r.additionalUserInfo.profile.name,
+        profileBannerUrl:
+          r.additionalUserInfo.profile.profile_banner_url === undefined
+            ? ""
+            : r.additionalUserInfo.profile.profile_banner_url === null
+            ? ""
+            : r.additionalUserInfo.profile.profile_banner_url,
+        profileImageUrl:
+          r.additionalUserInfo.profile.profile_image_url === undefined
+            ? ""
+            : r.additionalUserInfo.profile.profile_image_url === null
+            ? ""
+            : r.additionalUserInfo.profile.profile_image_url,
+        screen_name: r.additionalUserInfo.profile.screen_name,
+      };
       if (userData === undefined || userData === null) {
-        let twitter = {
-          accessToken: r.credential.accessToken,
-          secret: r.credential.secret,
-          username: r.additionalUserInfo.username,
-          description:
-            r.additionalUserInfo.profile.description === undefined
-              ? ""
-              : r.additionalUserInfo.profile.description === null
-              ? ""
-              : r.additionalUserInfo.profile.description,
-          email:
-            r.additionalUserInfo.profile.email === undefined
-              ? ""
-              : r.additionalUserInfo.profile.email === null
-              ? ""
-              : r.additionalUserInfo.profile.email,
-          followersCount: r.additionalUserInfo.profile.followers_count,
-          friendsCount: r.additionalUserInfo.profile.friends_count,
-          id: r.additionalUserInfo.profile.id_str,
-          location:
-            r.additionalUserInfo.profile.location === undefined
-              ? ""
-              : r.additionalUserInfo.profile.location === null
-              ? ""
-              : r.additionalUserInfo.profile.location,
-          name: r.additionalUserInfo.profile.name,
-          profileBannerUrl:
-            r.additionalUserInfo.profile.profile_banner_url === undefined
-              ? ""
-              : r.additionalUserInfo.profile.profile_banner_url === null
-              ? ""
-              : r.additionalUserInfo.profile.profile_banner_url,
-          profileImageUrl:
-            r.additionalUserInfo.profile.profile_image_url === undefined
-              ? ""
-              : r.additionalUserInfo.profile.profile_image_url === null
-              ? ""
-              : r.additionalUserInfo.profile.profile_image_url,
-        };
         user = {
           ...user,
           ...{
@@ -127,7 +128,29 @@ function loginwithTwitter(r) {
         $("#loading").hide(300);
         $("#mainAuth").show(300);
       } else {
-        saveToSession(userData);
+        userData = {
+          ...userData,
+          ...{
+            twitter,
+          },
+        };
+        firebase
+          .database()
+          .ref()
+          .child("Users")
+          .child(userData.id)
+          .set(userData)
+          .then((r) => {
+            console.log("Database Save Success");
+            saveToSession(userData);
+          })
+          .catch((e) => {
+            console.log("Database Save Failed: ", e);
+            $("#loading").hide(300);
+            $("#mainAuth").show(300);
+            $("#upperTwitter").show(300);
+            $("#upperFacebook").show(300);
+          });
       }
     })
     .catch((e) => {
@@ -147,20 +170,20 @@ function loginWithFacebook(d) {
     .once("value")
     .then((data) => {
       let userData = data.val();
+      let facebook = {
+        accessToken: d.credential.accessToken,
+        id: d.additionalUserInfo.profile.id,
+        email:
+          d.additionalUserInfo.profile.email === undefined
+            ? ""
+            : d.additionalUserInfo.profile.email === null
+            ? ""
+            : d.additionalUserInfo.profile.email,
+        name: d.additionalUserInfo.profile.name,
+      };
       console.log("Database User Data: ", userData);
       if (userData === undefined || userData === null) {
         console.log("New Registration Success");
-        let facebook = {
-          accessToken: d.credential.accessToken,
-          id: d.additionalUserInfo.profile.id,
-          email:
-            d.additionalUserInfo.profile.email === undefined
-              ? ""
-              : d.additionalUserInfo.profile.email === null
-              ? ""
-              : d.additionalUserInfo.profile.email,
-          name: d.additionalUserInfo.profile.name,
-        };
         user = {
           ...user,
           ...{
@@ -187,7 +210,29 @@ function loginWithFacebook(d) {
         $("#loading").hide(300);
         $("#mainAuth").show(300);
       } else {
-        saveToSession(userData);
+        userData = {
+          ...userData,
+          ...{
+            facebook,
+          },
+        };
+        firebase
+          .database()
+          .ref()
+          .child("Users")
+          .child(userData.id)
+          .set(userData)
+          .then((r) => {
+            console.log("Database Save Success");
+            saveToSession(userData);
+          })
+          .catch((e) => {
+            console.log("Database Save Failed: ", e);
+            $("#loading").hide(300);
+            $("#mainAuth").show(300);
+            $("#upperTwitter").show(300);
+            $("#upperFacebook").show(300);
+          });
       }
     })
     .catch((e) => {
