@@ -179,7 +179,7 @@ function displayAllPosts() {
 							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
 							</use>
 						</svg>
-						<span>0</span>
+						<span>${post.comments}</span>
 					</a>
 				</div>
 			</div>

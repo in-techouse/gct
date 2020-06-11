@@ -13,8 +13,10 @@ router.get("/newsfeed", function (req, res) {
 });
 
 router.post("/postOnSocialMedia", function (req, res) {
-  let post = req.body.post;
-  post = JSON.parse(post);
+  let post = JSON.parse(req.body.post);
+  let socialImageBase64 = req.body.socialImageBase64
+    .toString()
+    .replace(/\r?\n|\r/g, "");
   if (post.isTwitter) {
     var client = new Twitter({
       consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -22,13 +24,46 @@ router.post("/postOnSocialMedia", function (req, res) {
       access_token_key: req.session.user.twitter.accessToken,
       access_token_secret: req.session.user.twitter.secret,
     });
-    client.post("statuses/update", { status: post.content }, function (
+    client.post("media/upload", { media_data: socialImageBase64 }, function (
       error,
-      tweet,
+      media,
       response
     ) {
-      res.json({ e: error, r: response, t: tweet });
+      if (!error) {
+        const mediaId = media.media_id_string;
+        var status = {
+          status: post.content,
+          media_ids: media.media_id_string,
+        };
+        client.post("statuses/update", status, function (
+          statusError,
+          statusTweet,
+          statusResponse
+        ) {
+          if (!error) {
+            res.json({
+              success: true,
+              message: "Status updated on Twitter",
+              tweet: statusTweet,
+            });
+          } else {
+            res.json({
+              success: false,
+              message: "Staus not updated on twitter",
+              error: statusError,
+            });
+          }
+        });
+      } else {
+        res.json({
+          success: false,
+          message: "Twitter Upoad Image Error Occur",
+          error: error,
+        });
+      }
     });
+  } else {
+    res.json("-1");
   }
   // graph.setAccessToken(req.session.user.facebook.accessToken);
   // var wallPost = {
@@ -137,34 +172,34 @@ router.get("/tweets", function (req, res) {
   }
 });
 
-router.get("/twitterProfile", function (req, res) {
-  if (req.session.isLoggedIn) {
-    var client = new Twitter({
-      consumer_key: process.env.TWITTER_CONSUMER_KEY,
-      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-      access_token_key: req.session.user.twitter.accessToken,
-      access_token_secret: req.session.user.twitter.secret,
-    });
-    client.post("statuses/update", { status: "I Love Twitter" }, function (
-      error,
-      tweet,
-      response
-    ) {
-      res.json({ e: error, r: response, t: tweet });
-    });
-    // console.log("twitter id: ", req.session.user.twitter.id);
-    // console.log("twitter screen name: ", req.session.user.twitter.screen_name);
+// router.get("/twitterProfile", function (req, res) {
+//   if (req.session.isLoggedIn) {
+//     var client = new Twitter({
+//       consumer_key: process.env.TWITTER_CONSUMER_KEY,
+//       consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+//       access_token_key: req.session.user.twitter.accessToken,
+//       access_token_secret: req.session.user.twitter.secret,
+//     });
+//     client.post("statuses/update", { status: "I Love Twitter" }, function (
+//       error,
+//       tweet,
+//       response
+//     ) {
+//       res.json({ e: error, r: response, t: tweet });
+//     });
+//     // console.log("twitter id: ", req.session.user.twitter.id);
+//     // console.log("twitter screen name: ", req.session.user.twitter.screen_name);
 
-    // client.get(
-    //   `users/show?user_id=${req.session.user.twitter.id}&screen_name=${req.session.user.twitter.screen_name}`,
-    //   function (error, tweets, response) {
-    //     res.json({ e: error, r: response, t: tweets });
-    //   }
-    // );
-  } else {
-    res.json("-1");
-  }
-});
+//     // client.get(
+//     //   `users/show?user_id=${req.session.user.twitter.id}&screen_name=${req.session.user.twitter.screen_name}`,
+//     //   function (error, tweets, response) {
+//     //     res.json({ e: error, r: response, t: tweets });
+//     //   }
+//     // );
+//   } else {
+//     res.json("-1");
+//   }
+// });
 
 router.get("/myPosts", function (req, res) {
   if (req.session.isLoggedIn) {

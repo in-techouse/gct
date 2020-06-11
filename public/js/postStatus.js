@@ -1,3 +1,5 @@
+let socialImageBase64 = null;
+
 $(document).ready(function () {
   console.log("Post Status Document is ready");
 
@@ -154,7 +156,7 @@ $(document).ready(function () {
 										<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
 										</use>
 									</svg>
-									<span>0</span>
+									<span>${post.comments}</span>
 								</a>
 							</div>
 						</div>
@@ -284,28 +286,32 @@ function postOnSocialMedia(post) {
     type: "POST",
     url: "/user/postOnSocialMedia",
     dataType: "json",
-    data: { post: JSON.stringify(post) },
+    data: {
+      post: JSON.stringify(post),
+      socialImageBase64: socialImageBase64,
+    },
     success: function (result) {
       console.log("postOnSocialMedia Success: ", result);
-      // $("#loading").hide(300);
-      // if (result === "1") {
-      //   window.location.reload();
-      // } else {
-      //   $("#mainAuth").show(300);
-      //   $("#upperFacebook").show(300);
-      //   $("#upperTwitter").show(300);
-      //   $("#username").hide(300);
-      //   $("#mainError").show(300);
-      // }
+      if (result !== "-1") {
+        if (result.success) {
+          $("#statusSuccessAlert").show(300);
+          $("#statusSuccessAlert").text(result.message);
+          setTimeout(function () {
+            $("#statusSuccessAlert").hide(300);
+            $("#statusSuccessAlert").text("");
+          }, 5000);
+        } else {
+          $("#statusFailAlert").show(300);
+          $("#statusFailAlert").text(result.message);
+          setTimeout(function () {
+            $("#statusFailAlert").hide(300);
+            $("#statusFailAlert").text("");
+          }, 5000);
+        }
+      }
     },
     error: function (err) {
       console.log("postOnSocialMedia Error: ", err);
-      // $("#loading").hide(300);
-      // $("#mainAuth").show(300);
-      // $("#upperFacebook").show(300);
-      // $("#upperTwitter").show(300);
-      // $("#username").hide(300);
-      // $("#mainError").show(300);
     },
   });
 }
@@ -315,9 +321,26 @@ function readURL(input) {
     var reader = new FileReader();
 
     reader.onload = function (e) {
-      $("#postImage").attr("src", e.target.result);
-      $("#previewImage").attr("src", e.target.result);
+      socialImageBase64 = e.target.result;
+      $("#postImage").attr("src", socialImageBase64);
+      $("#previewImage").attr("src", socialImageBase64);
       $("#imageUpper").show(400);
+      socialImageBase64 = socialImageBase64.replace(
+        /^data:image\/png;base64,/,
+        ""
+      );
+      socialImageBase64 = socialImageBase64.replace(
+        /^data:image\/jpeg;base64,/,
+        ""
+      );
+      socialImageBase64 = socialImageBase64.replace(
+        /^data:image\/gif;base64,/,
+        ""
+      );
+      socialImageBase64 = socialImageBase64.replace(
+        /^data:image\/jpg;base64,/,
+        ""
+      );
       uploadFile();
     };
 

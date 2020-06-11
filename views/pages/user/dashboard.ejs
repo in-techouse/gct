@@ -75,9 +75,27 @@
 										data-toggle="modal" data-target="#preview-post">PREVIEW POST</a>
 
 								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div id="statusSuccessAlert" style="display: none;"
+											class="alert alert-success alert-dismissible fade show" role="alert">
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+
+										<div id="statusFailAlert" style="display: none;"
+											class="alert alert-danger alert-dismissible fade show" role="alert">
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+									</div>
+								</div>
 
 							</form>
 						</div>
+
 					</div>
 				</div>
 
@@ -1302,37 +1320,3 @@
 
 <script src="/public/js/newsfeed.js"></script>
 <script src="/public/js/postStatus.js"></script>
-
-<script>
-	$(document).ready(function () {
-		console.log("Dashboard page is ready");
-		$.ajax({
-			type: "GET",
-			url: "/user/twitterProfile",
-			// dataType: "json",
-			// data: { user: JSON.stringify(userData) },
-			success: function (result) {
-				console.log("Dashboard Success: ", result);
-				// $("#loading").hide(300);
-				// if (result === "1") {
-				// 	window.location.reload();
-				// } else {
-				// 	$("#mainAuth").show(300);
-				// 	$("#upperFacebook").show(300);
-				// 	$("#upperTwitter").show(300);
-				// 	$("#username").hide(300);
-				// 	$("#mainError").show(300);
-				// }
-			},
-			error: function (err) {
-				console.log("Dashboard Error: ", err);
-				// $("#loading").hide(300);
-				// $("#mainAuth").show(300);
-				// $("#upperFacebook").show(300);
-				// $("#upperTwitter").show(300);
-				// $("#username").hide(300);
-				// $("#mainError").show(300);
-			},
-		});
-	});
-</script>
