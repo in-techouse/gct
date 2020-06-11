@@ -24,44 +24,69 @@ router.post("/postOnSocialMedia", function (req, res) {
       access_token_key: req.session.user.twitter.accessToken,
       access_token_secret: req.session.user.twitter.secret,
     });
-    client.post("media/upload", { media_data: socialImageBase64 }, function (
-      error,
-      media,
-      response
-    ) {
-      if (!error) {
-        const mediaId = media.media_id_string;
-        var status = {
-          status: post.content,
-          media_ids: media.media_id_string,
-        };
-        client.post("statuses/update", status, function (
-          statusError,
-          statusTweet,
-          statusResponse
-        ) {
-          if (!error) {
-            res.json({
-              success: true,
-              message: "Status updated on Twitter",
-              tweet: statusTweet,
-            });
-          } else {
-            res.json({
-              success: false,
-              message: "Staus not updated on twitter",
-              error: statusError,
-            });
-          }
-        });
-      } else {
-        res.json({
-          success: false,
-          message: "Twitter Upoad Image Error Occur",
-          error: error,
-        });
-      }
-    });
+    if (post.isImage) {
+      client.post("media/upload", { media_data: socialImageBase64 }, function (
+        error,
+        media,
+        response
+      ) {
+        if (!error) {
+          const mediaId = media.media_id_string;
+          var status = {
+            status: post.content,
+            media_ids: media.media_id_string,
+          };
+          client.post("statuses/update", status, function (
+            statusError,
+            statusTweet,
+            statusResponse
+          ) {
+            if (!error) {
+              res.json({
+                success: true,
+                message: "Status updated on Twitter",
+                tweet: statusTweet,
+              });
+            } else {
+              res.json({
+                success: false,
+                message: "Staus not updated on twitter",
+                error: statusError,
+              });
+            }
+          });
+        } else {
+          res.json({
+            success: false,
+            message: "Twitter Upoad Image Error Occur",
+            error: error,
+          });
+        }
+      });
+    } else {
+      var status = {
+        status: post.content,
+      };
+      client.post("statuses/update", status, function (
+        statusError,
+        statusTweet,
+        statusResponse
+      ) {
+        if (!error) {
+          res.json({
+            success: true,
+            message: "Status updated on Twitter",
+            tweet: statusTweet,
+          });
+        } else {
+          res.json({
+            success: false,
+            message: "Staus not updated on twitter",
+            error: statusError,
+          });
+        }
+      });
+    }
   } else {
     res.json("-1");
   }
