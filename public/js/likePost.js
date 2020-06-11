@@ -1,3 +1,18 @@
+function getLikesForPost(postId) {
+  firebase
+    .database()
+    .ref()
+    .child("Likes")
+    .orderByChild("postId")
+    .equalTo(postId)
+    .once("value")
+    .then((data) => {
+      data.forEach((d) => {
+        appendLikeOnPost(postId, d.val());
+      });
+    });
+}
+
 function likePost(postId) {
   console.log("Like Post id: ", postId);
   $("#likeBtn" + postId).css({
@@ -49,16 +64,25 @@ function appendLike(postId) {
     formattedTime,
   };
   firebase.database().ref().child("Likes").child(like.id).set(like);
+  appendLikeOnPost(postId, like);
+}
+
+function appendLikeOnPost(postId, like) {
   let likeContent = `
-    <li>
-        <a href="javascript:;">
-            <img src="${like.userImg}" alt="friend">
-        </a>
-    </li>
-  `;
+      <li>
+          <a href="javascript:;">
+              <img src="${like.userImg}" alt="friend">
+          </a>
+      </li>
+    `;
   let likeNameContent = `
-    <a href="javascript:;">You</a>
-  `;
+      <a href="javascript:;">You</a>
+    `;
   $("#friends-harmonic" + postId).append(likeContent);
   $("#names-people-likes" + postId).append(likeNameContent);
+  $("#likeBtn" + postId).css({
+    backgroundColor: "#ff5e3a",
+    color: "#FFFFFF",
+  });
+  $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
 }

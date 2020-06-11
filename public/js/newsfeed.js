@@ -298,6 +298,7 @@ function displayAllPosts() {
 		`;
     }
     $("#newsfeed-items-grid").prepend(postHtml);
+    getLikesForPost(post.id);
   });
 }
 
