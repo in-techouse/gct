@@ -20,9 +20,6 @@ function gettweets() {
         }
       }
       getMyPosts();
-      //   else {
-      //     window.location.reload();
-      //   }
     },
     error: function (error) {
       console.log("Error:", error);
@@ -167,9 +164,9 @@ function displayAllPosts() {
 					</svg>
 					<span id="likesCount${post.id}">${post.likes}</span>
 				</a>
-				<ul class="friends-harmonic">
+				<ul class="friends-harmonic" id="friends-harmonic${post.id}">
 				</ul>
-				<div class="names-people-likes">
+				<div class="names-people-likes" id="names-people-likes${post.id}">
 				</div>
 				<div class="comments-shared">
 					<a href="javascript:;" class="post-add-icon inline-items" onclick="showPostMyComment('${
@@ -302,53 +299,6 @@ function displayAllPosts() {
     }
     $("#newsfeed-items-grid").prepend(postHtml);
   });
-}
-
-function likePost(postId) {
-  console.log("Like Post id: ", postId);
-  $("#likeBtn" + postId).css({
-    backgroundColor: "#ff5e3a",
-    color: "#FFFFFF",
-  });
-  $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
-  firebase
-    .database()
-    .ref()
-    .child("Posts")
-    .child(postId)
-    .once("value")
-    .then((r) => {
-      let post = r.val();
-      console.log("Post: ", post);
-      let likes = post.likes;
-      if (likes === undefined || likes === null) {
-        likes = 0;
-      }
-      likes++;
-      $("#likesCount" + postId).text(likes);
-      firebase
-        .database()
-        .ref()
-        .child("Posts")
-        .child(postId)
-        .child("likes")
-        .set(likes);
-    });
-}
-
-function showPostMyComment(postId) {
-  console.log("Comment Post id: ", postId);
-  let display = $(".postComments" + postId).css("display");
-  console.log("Display: ", display);
-  if (display === "none") {
-    $(".postComments" + postId).show(300);
-    $(".postMoreComments" + postId).show(300);
-    $(".postMyComment" + postId).show(300);
-  } else {
-    $(".postComments" + postId).hide(300);
-    $(".postMoreComments" + postId).hide(300);
-    $(".postMyComment" + postId).hide(300);
-  }
 }
 
 $(document).ready(function () {

@@ -30,6 +30,7 @@ function saveToSession(userData) {
       console.log("Session Success: ", result);
       $("#loading").hide(300);
       if (result === "1") {
+        localStorage.setItem("user", JSON.stringify(userData));
         window.location.reload();
       } else {
         $("#mainAuth").show(300);

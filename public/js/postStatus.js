@@ -144,10 +144,10 @@ $(document).ready(function () {
 								<span id="likesCount${post.id}">${post.likes}</span>
 							</a>
 
-							<ul class="friends-harmonic">
+							<ul class="friends-harmonic" id="friends-harmonic${post.id}">
 							</ul>
 
-							<div class="names-people-likes">
+							<div class="names-people-likes" id="names-people-likes${post.id}">
 							</div>
 
 							<div class="comments-shared">
