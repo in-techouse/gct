@@ -282,38 +282,90 @@ $(document).ready(function () {
 
 function postOnSocialMedia(post) {
   console.log("Post on Social Media with post: ", post);
-  $.ajax({
-    type: "POST",
-    url: "/user/postOnSocialMedia",
-    dataType: "json",
-    data: {
-      post: JSON.stringify(post),
-      socialImageBase64: socialImageBase64,
-    },
-    success: function (result) {
-      console.log("postOnSocialMedia Success: ", result);
-      if (result !== "-1") {
-        if (result.success) {
-          $("#statusSuccessAlert").show(300);
-          $("#statusSuccessAlert").text(result.message);
-          setTimeout(function () {
-            $("#statusSuccessAlert").hide(300);
-            $("#statusSuccessAlert").text("");
-          }, 5000);
-        } else {
-          $("#statusFailAlert").show(300);
-          $("#statusFailAlert").text(result.message);
-          setTimeout(function () {
-            $("#statusFailAlert").hide(300);
-            $("#statusFailAlert").text("");
-          }, 5000);
+  if (post.isTwitter) {
+    $.ajax({
+      type: "POST",
+      url: "/user/postOnTwitter",
+      dataType: "json",
+      data: {
+        post: JSON.stringify(post),
+        socialImageBase64: socialImageBase64,
+      },
+      success: function (result) {
+        console.log("postOnTwitter Success: ", result);
+        if (result !== "-1") {
+          if (result.success) {
+            $("#statusSuccessAlert").show(300);
+            $("#statusSuccessAlert").text(result.message);
+            setTimeout(function () {
+              $("#statusSuccessAlert").hide(300);
+              $("#statusSuccessAlert").text("");
+            }, 5000);
+          } else {
+            $("#statusFailAlert").show(300);
+            $("#statusFailAlert").text(result.message);
+            setTimeout(function () {
+              $("#statusFailAlert").hide(300);
+              $("#statusFailAlert").text("");
+            }, 5000);
+          }
         }
-      }
-    },
-    error: function (err) {
-      console.log("postOnSocialMedia Error: ", err);
-    },
-  });
+      },
+      error: function (err) {
+        console.log("postOnTwitter Error: ", err);
+        $("#statusFailAlert").show(300);
+        $("#statusFailAlert").text(
+          "Something went wrong. Please try again later."
+        );
+        setTimeout(function () {
+          $("#statusFailAlert").hide(300);
+          $("#statusFailAlert").text("");
+        }, 5000);
+      },
+    });
+  }
+
+  if (post.isFacebook) {
+    $.ajax({
+      type: "POST",
+      url: "/user/postOnFacebook",
+      dataType: "json",
+      data: {
+        post: JSON.stringify(post),
+        socialImageBase64: socialImageBase64,
+      },
+      success: function (result) {
+        console.log("postOnFacebook Success: ", result);
+        if (result !== "-1") {
+          if (result.success) {
+            $("#statusSuccessAlert").show(300);
+            $("#statusSuccessAlert").text(result.message);
+            setTimeout(function () {
+              $("#statusSuccessAlert").hide(300);
+              $("#statusSuccessAlert").text("");
+            }, 5000);
+          } else {
+            $("#statusFailAlert").show(300);
+            $("#statusFailAlert").text(result.message);
+            setTimeout(function () {
+              $("#statusFailAlert").hide(300);
+              $("#statusFailAlert").text("");
+            }, 5000);
+          }
+        }
+      },
+      error: function (err) {
+        $("#statusFailAlert").show(300);
+        $("#statusFailAlert").text(
+          "Something went wrong. Please try again later."
+        );
+        setTimeout(function () {
+          $("#statusFailAlert").hide(300);
+          $("#statusFailAlert").text("");
+        }, 5000);
+      },
+    });
+  }
 }
 
 function readURL(input) {
