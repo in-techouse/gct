@@ -11,4 +11,9 @@ function showPostMyComment(postId) {
     $(".postMoreComments" + postId).hide(300);
     $(".postMyComment" + postId).hide(300);
   }
+
+  $("#postMyComment" + postId).submit(function (e) {
+    e.preventDefault();
+    console.log("Post Comment Form is stopped");
+  });
 }
