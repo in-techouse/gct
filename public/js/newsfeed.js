@@ -290,8 +290,10 @@ function displayAllPosts() {
 
       <button class="btn btn-md-2 btn-primary">Post Comment</button>
 
-      <button onclick="showPostMyComment('${post.id}')"
-        class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel</button>
+      <button onclick="showPostMyComment('${
+        post.id
+      }')" class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel
+      </button>
 
     </form>
 	</div>
