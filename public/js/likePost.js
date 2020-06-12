@@ -15,6 +15,28 @@ function getLikesForPost(postId) {
     });
 }
 
+function deleteLikeFromDatabase(postId) {
+  firebase
+    .database()
+    .ref()
+    .child("Likes")
+    .orderByChild("postId")
+    .equalTo(postId)
+    .once("value")
+    .then((likes) => {
+      likes.forEach((like) => {
+        if (like.val().userId === likeUser.id) {
+          firebase
+            .database()
+            .ref()
+            .child("Likes")
+            .child(like.val().id)
+            .remove();
+        }
+      });
+    });
+}
+
 function likePost(postId) {
   const likeFieldValue = $(`#likeField-${postId}-${likeUser.id}`).val();
   console.log("Like Field Value is: ", likeFieldValue);
@@ -50,6 +72,7 @@ function likePost(postId) {
         $(`#likeContent-${postId}-${likeUser.id}`).remove();
         $(`#likeNameContent-${postId}-${likeUser.id}`).remove();
         $(`#likeField-${postId}-${likeUser.id}`).remove();
+        deleteLikeFromDatabase(postId);
       });
   } else {
     console.log("Like the post");
