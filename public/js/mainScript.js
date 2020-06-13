@@ -539,7 +539,7 @@ function appendPostToUserTimeline(post) {
               <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
               </use>
             </svg>
-            <span>${post.comments}</span>
+            <span id="commentsCount${post.id}">${post.comments}</span>
           </a>
         </div>
       </div>

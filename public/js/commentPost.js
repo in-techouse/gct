@@ -46,7 +46,31 @@ function showPostMyComment(postId) {
         .child("Comments")
         .child(comment.id)
         .set(comment);
+      $("#postCommentContent" + postId).val("");
       appendComment(comment, postId);
+      firebase
+        .database()
+        .ref()
+        .child("Posts")
+        .child(postId)
+        .once("value")
+        .then((r) => {
+          let post = r.val();
+          console.log("Post: ", post);
+          let comments = post.comments;
+          if (comments === undefined || comments === null) {
+            comments = 0;
+          }
+          comments++;
+          $("#commentsCount" + postId).text(comments);
+          firebase
+            .database()
+            .ref()
+            .child("Posts")
+            .child(postId)
+            .child("comments")
+            .set(comments);
+        });
     }
   });
 }

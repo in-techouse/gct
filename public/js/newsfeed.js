@@ -55,6 +55,7 @@ function displayAllPosts() {
     return x.timeStamps - y.timeStamps;
   });
   console.log("My all post: ", allPosts);
+  $("#loadingPosts").hide(300);
 
   allPosts.forEach((post) => {
     let postHtml = "";
