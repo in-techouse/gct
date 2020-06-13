@@ -22,17 +22,24 @@
                     <% notifications.forEach(notification=>{%>
                     <li>
                         <div class="author-thumb">
-                            <img src="<%= notification.val().userImg %>" alt="author">
+                            <img src="<%= notification.val().userImg %>" alt="author"
+                                onload="loadNotificationTime('<%= notification.val().id %>', '<%= notification.val().timeStamps %>')">
                         </div>
                         <div class="notification-event">
-                            <div><a href="/user/userProfile?id=<%= notification.val().userId%>"
-                                    class="h6 notification-friend"><%= notification.val().userName %></a>
+                            <div>
+                                <a href="/user/userProfile?id=<%= notification.val().userId%>"
+                                    class="h6 notification-friend"><%= notification.val().userName %>
+                                </a>
                                 <%= notification.val().notificatonText %>
                                 <a href="/user/postDetail?postId=<%= notification.val().postId%>"
-                                    class="notification-link">profile status</a>.</div>
-                            <span class="notification-date"><time class="entry-date updated"
-                                    datetime="2004-07-24T18:18">
-                                    4 hours ago</time></span>
+                                    class="notification-link">profile status
+                                </a>.
+                            </div>
+                            <span class="notification-date">
+                                <time class="entry-date updated" datetime="<%= notification.val().timeStamps %>"
+                                    id="notificationTime<%= notification.val().id %>">
+                                </time>
+                            </span>
                         </div>
                         <span class="notification-icon">
                             <svg class="olymp-comments-post-icon">
@@ -62,3 +69,25 @@
 
     </div>
 </div>
+
+<script>
+    function loadNotificationTime(id, time) {
+        let current = moment();
+        let postTime = moment.unix(time);
+        let hours = current.diff(postTime, "hours", true);
+        let minutes = current.diff(postTime, "minutes", true);
+        let formattedTime = "";
+        if (hours < 23) {
+            if (hours >= 1) {
+                let finalHour = Math.round(hours);
+                formattedTime = "" + finalHour + " hours ago";
+            } else {
+                let finalMinutes = Math.round(minutes);
+                formattedTime = finalMinutes + " minutes ago";
+            }
+        } else {
+            formattedTime = moment(postTime).format("ddd, Do, MMM-YYYY hh:mm A");
+        }
+        $("#notificationTime" + id).text(formattedTime);
+    }
+</script>
