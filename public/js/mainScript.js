@@ -640,7 +640,9 @@ function appendPostToUserTimeline(post) {
         <img src="${userImg}" alt="author">
 
         <div class="form-group with-icon-right ">
-          <textarea class="form-control" placeholder=""></textarea>
+          <textarea class="form-control" placeholder="" id="postCommentContent${
+            post.id
+          }"></textarea>
           <div class="add-options-message">
             <a href="javascript:;" class="options-message" data-toggle="modal"
               data-target="#update-header-photo">

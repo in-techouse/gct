@@ -47,7 +47,7 @@ $(document).ready(function () {
     event.preventDefault();
     $("#submitPost").prop("disabled", true);
     console.log("Form is stopped.");
-    let userContent = $("#userContent").val();
+    let userContent = $.trim($("#userContent").val());
     console.log("Content: ", userContent);
     let userId = $("#userId").val();
     let userImg = $("#userImg").val();
