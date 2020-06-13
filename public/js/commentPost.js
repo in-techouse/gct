@@ -5,9 +5,6 @@ function showPostMyComment(postId) {
   let display = $(".postComments" + postId).css("display");
   console.log("Display: ", display);
   if (display === "none") {
-    // $(".postComments" + postId).show(300);
-    // $(".postMoreComments" + postId).show(300);
-    // $(".postMyComment" + postId).show(300);
     $("#loadingComments" + postId).show(300);
     loadComments(postId);
   } else {
@@ -72,6 +69,7 @@ function showPostMyComment(postId) {
             .child(postId)
             .child("comments")
             .set(comments);
+          sendCommentNotification(post);
         });
     }
   });
@@ -140,4 +138,30 @@ function loadComments(postId) {
       $(".postMyComment" + postId).show(300);
       $("#loadingComments" + postId).hide(300);
     });
+}
+
+function sendCommentNotification(post) {
+  let notificationId = firebase.database().ref().child("Notifications").push()
+    .key;
+  let timeStamps = parseInt(moment().format("X"));
+  let formattedTime = moment().format("ddd, Do, MMM-YYYY hh:mm A");
+  const notificatonText = " commented on your ";
+  let notification = {
+    id: notificationId,
+    postId: post.id,
+    userName: postCommentUser.firstName + " " + postCommentUser.lastName,
+    userId: postCommentUser.id,
+    userImg: postCommentUser.image,
+    timeStamps,
+    formattedTime,
+    notificatonText,
+    read: false,
+    ownerId: post.userId,
+  };
+  firebase
+    .database()
+    .ref()
+    .child("Notifications")
+    .child(notification.id)
+    .set(notification);
 }

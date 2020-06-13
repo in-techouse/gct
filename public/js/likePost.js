@@ -104,13 +104,12 @@ function likePost(postId) {
           .child("likes")
           .set(likes);
         appendLike(postId);
+        sendLikeNotification(post);
       });
   }
 }
 
 function appendLike(postId) {
-  const user = JSON.parse(localStorage.getItem("user"));
-  console.log("User is: ", user);
   console.log("Post Id is: ", postId);
   let likeId = firebase.database().ref().child("Likes").push().key;
   let timeStamps = parseInt(moment().format("X"));
@@ -118,9 +117,9 @@ function appendLike(postId) {
   let like = {
     id: likeId,
     postId,
-    userName: user.firstName + " " + user.lastName,
-    userId: user.id,
-    userImg: user.image,
+    userName: likeUser.firstName + " " + likeUser.lastName,
+    userId: likeUser.id,
+    userImg: likeUser.image,
     timeStamps,
     formattedTime,
   };
@@ -149,4 +148,30 @@ function appendLikeOnPost(postId, like) {
     color: "#FFFFFF",
   });
   $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
+}
+
+function sendLikeNotification(post) {
+  let notificationId = firebase.database().ref().child("Notifications").push()
+    .key;
+  let timeStamps = parseInt(moment().format("X"));
+  let formattedTime = moment().format("ddd, Do, MMM-YYYY hh:mm A");
+  const notificatonText = " like your ";
+  let notification = {
+    id: notificationId,
+    postId: post.id,
+    userName: likeUser.firstName + " " + likeUser.lastName,
+    userId: likeUser.id,
+    userImg: likeUser.image,
+    timeStamps,
+    formattedTime,
+    notificatonText,
+    read: false,
+    ownerId: post.userId,
+  };
+  firebase
+    .database()
+    .ref()
+    .child("Notifications")
+    .child(notification.id)
+    .set(notification);
 }

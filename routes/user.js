@@ -139,6 +139,35 @@ router.post("/postOnTwitter", function (req, res) {
   }
 });
 
+router.get("/allnotifications", function (req, res) {
+  if (req.session.isLoggedIn) {
+    let user = req.session.user;
+    firebase
+      .database()
+      .ref()
+      .child("Notifications")
+      .orderByChild("ownerId")
+      .equalTo(user.id)
+      .once("value")
+      .then((notifications) => {
+        res.render("pages/user/allnotifications", {
+          user: user,
+          action: "All Notifications",
+          notifications: notifications,
+        });
+      })
+      .catch((err) => {
+        res.render("pages/user/allnotifications", {
+          user: user,
+          action: "All Notifications",
+          notifications: [],
+        });
+      });
+  } else {
+    res.redirect("/");
+  }
+});
+
 router.post("/postOnFacebook", function (req, res) {
   graph.setAccessToken(req.session.user.facebook.accessToken);
   graph.batch(
@@ -268,18 +297,6 @@ router.get("/allchats", function (req, res) {
     res.render("pages/user/allchats", {
       user: user,
       action: "All Chats/Messages",
-    });
-  } else {
-    res.redirect("/");
-  }
-});
-
-router.get("/allnotifications", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session.user;
-    res.render("pages/user/allnotifications", {
-      user: user,
-      action: "All Notifications",
     });
   } else {
     res.redirect("/");

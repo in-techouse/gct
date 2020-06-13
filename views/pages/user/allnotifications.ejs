@@ -1,1 +1,64 @@
 <% extend ('../../mainLayout')%>
+
+<div class="container">
+    <div class="row">
+
+        <!-- Left Sidebar -->
+        <main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+        </main>
+
+
+        <!-- Main Content -->
+        <main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+
+            <div class="mCustomScrollbar" data-mcs-theme="dark">
+                <div class="ui-block-title ui-block-title-small">
+                    <h6 class="title">Notifications</h6>
+                    <a href="#">Mark all as read</a>
+                    <a href="#">Settings</a>
+                </div>
+
+                <ul class="notification-list">
+                    <% notifications.forEach(notification=>{%>
+                    <li>
+                        <div class="author-thumb">
+                            <img src="<%= notification.val().userImg %>" alt="author">
+                        </div>
+                        <div class="notification-event">
+                            <div><a href="/user/userProfile?id=<%= notification.val().userId%>"
+                                    class="h6 notification-friend"><%= notification.val().userName %></a>
+                                <%= notification.val().notificatonText %>
+                                <a href="/user/postDetail?postId=<%= notification.val().postId%>"
+                                    class="notification-link">profile status</a>.</div>
+                            <span class="notification-date"><time class="entry-date updated"
+                                    datetime="2004-07-24T18:18">
+                                    4 hours ago</time></span>
+                        </div>
+                        <span class="notification-icon">
+                            <svg class="olymp-comments-post-icon">
+                                <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use>
+                            </svg>
+                        </span>
+
+                        <div class="more">
+                            <svg class="olymp-three-dots-icon">
+                                <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                            </svg>
+                            <svg class="olymp-little-delete">
+                                <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-little-delete"></use>
+                            </svg>
+                        </div>
+                    </li>
+                    <%});%>
+                </ul>
+
+            </div>
+        </main>
+
+
+        <!-- Right Sidebar -->
+        <main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+        </main>
+
+    </div>
+</div>
