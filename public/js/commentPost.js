@@ -5,9 +5,11 @@ function showPostMyComment(postId) {
   let display = $(".postComments" + postId).css("display");
   console.log("Display: ", display);
   if (display === "none") {
-    $(".postComments" + postId).show(300);
-    $(".postMoreComments" + postId).show(300);
-    $(".postMyComment" + postId).show(300);
+    // $(".postComments" + postId).show(300);
+    // $(".postMoreComments" + postId).show(300);
+    // $(".postMyComment" + postId).show(300);
+    $("#loadingComments" + postId).show(300);
+    loadComments(postId);
   } else {
     $(".postComments" + postId).hide(300);
     $(".postMoreComments" + postId).hide(300);
@@ -111,4 +113,31 @@ function appendComment(comment, postId) {
   `;
   $(".postComments" + postId).append(commentHtml);
   console.log("Comment Appended");
+}
+
+function loadComments(postId) {
+  firebase
+    .database()
+    .ref()
+    .child("Comments")
+    .orderByChild("postId")
+    .equalTo(postId)
+    .once("value")
+    .then((comments) => {
+      $(".postComments" + postId).empty();
+      comments.forEach((comment) => {
+        console.log("Comment: ", comment.val());
+        appendComment(comment.val(), postId);
+      });
+      $(".postComments" + postId).show(300);
+      $(".postMoreComments" + postId).show(300);
+      $(".postMyComment" + postId).show(300);
+      $("#loadingComments" + postId).hide(300);
+    })
+    .catch((e) => {
+      $(".postComments" + postId).show(300);
+      $(".postMoreComments" + postId).show(300);
+      $(".postMyComment" + postId).show(300);
+      $("#loadingComments" + postId).hide(300);
+    });
 }
