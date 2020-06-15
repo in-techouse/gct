@@ -127,7 +127,7 @@ function showOnFriendPage(userFriends) {
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-pagination"></div>
+                        <div class="swiper-pagination pagination-swiper-unique-id-0 swiper-pagination-clickable swiper-pagination-bullets"><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span></div>
                     </div>
                 </div>
             </div>
