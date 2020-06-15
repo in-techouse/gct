@@ -303,4 +303,27 @@ router.get("/allchats", function (req, res) {
   }
 });
 
+router.get("/getTwitterFriends", function (req, res) {
+  if (req.session.isLoggedIn) {
+    var client = new Twitter({
+      consumer_key: process.env.TWITTER_CONSUMER_KEY,
+      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+      access_token_key: req.session.user.twitter.accessToken,
+      access_token_secret: req.session.user.twitter.secret,
+    });
+    client.get("friends/list", { count: 200 }, function (
+      error,
+      tweets,
+      response
+    ) {
+      if (error) {
+        res.json("-1");
+      }
+      res.json({ friends: tweets.users });
+    });
+  } else {
+    res.redirect("/");
+  }
+});
+
 module.exports = router;

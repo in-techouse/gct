@@ -1330,47 +1330,50 @@
 
 <script src="/public/js/newsfeed.js"></script>
 <script src="/public/js/postStatus.js"></script>
+<script src="/public/js/friendlist.js"></script>
+
 
 <script>
 	$(document).ready(function () {
-		$.ajax({
-			type: "POST",
-			url: "/user/postOnFacebook",
-			dataType: "json",
-			data: {
-				// post: JSON.stringify(post),
-				// socialImageBase64: socialImageBase64,
-			},
-			success: function (result) {
-				console.log("postOnFacebook Success: ", result);
-				// if (result !== "-1") {
-				// 	if (result.success) {
-				// 		$("#statusSuccessAlert").show(300);
-				// 		$("#statusSuccessAlert").text(result.message);
-				// 		setTimeout(function () {
-				// 			$("#statusSuccessAlert").hide(300);
-				// 			$("#statusSuccessAlert").text("");
-				// 		}, 5000);
-				// 	} else {
-				// 		$("#statusFailAlert").show(300);
-				// 		$("#statusFailAlert").text(result.message);
-				// 		setTimeout(function () {
-				// 			$("#statusFailAlert").hide(300);
-				// 			$("#statusFailAlert").text("");
-				// 		}, 5000);
-				// 	}
-				// }
-			},
-			error: function (err) {
-				$("#statusFailAlert").show(300);
-				$("#statusFailAlert").text(
-					"Something went wrong. Please try again later."
-				);
-				setTimeout(function () {
-					$("#statusFailAlert").hide(300);
-					$("#statusFailAlert").text("");
-				}, 5000);
-			},
-		});
+		// $.ajax({
+		// 	type: "GET",
+		// 	url: "/user/getTwitterFriends",
+		// 	// dataType: "json",
+		// 	// data: {
+		// 	// 	// post: JSON.stringify(post),
+		// 	// 	// socialImageBase64: socialImageBase64,
+		// 	// },
+		// 	success: function (result) {
+		// 		console.log("Twitter Friends Success: ", result);
+		// 		// if (result !== "-1") {
+		// 		// 	if (result.success) {
+		// 		// 		$("#statusSuccessAlert").show(300);
+		// 		// 		$("#statusSuccessAlert").text(result.message);
+		// 		// 		setTimeout(function () {
+		// 		// 			$("#statusSuccessAlert").hide(300);
+		// 		// 			$("#statusSuccessAlert").text("");
+		// 		// 		}, 5000);
+		// 		// 	} else {
+		// 		// 		$("#statusFailAlert").show(300);
+		// 		// 		$("#statusFailAlert").text(result.message);
+		// 		// 		setTimeout(function () {
+		// 		// 			$("#statusFailAlert").hide(300);
+		// 		// 			$("#statusFailAlert").text("");
+		// 		// 		}, 5000);
+		// 		// 	}
+		// 		// }
+		// 	},
+		// 	error: function (err) {
+		// 		console.log("Twitter Friends Failure: ", err);
+		// 		// $("#statusFailAlert").show(300);
+		// 		// $("#statusFailAlert").text(
+		// 		// 	"Something went wrong. Please try again later."
+		// 		// );
+		// 		// setTimeout(function () {
+		// 		// 	$("#statusFailAlert").hide(300);
+		// 		// 	$("#statusFailAlert").text("");
+		// 		// }, 5000);
+		// 	},
+		// });
 	});
 </script>
