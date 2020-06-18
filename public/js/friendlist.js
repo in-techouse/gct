@@ -1,7 +1,7 @@
 const friendUser = JSON.parse(localStorage.getItem("user"));
 $(document).ready(function () {
   console.log("Friend List document is ready");
-  //   getTwitterFriendList();
+  getTwitterFriendList();
 });
 
 function getTwitterFriendList() {
@@ -34,9 +34,33 @@ function saveFriendToDatabase(userFriends) {
     .child("Friends")
     .child(friendUser.id)
     .set(userFriends);
+  let usersList = [];
+  firebase
+    .database()
+    .ref()
+    .child("Users")
+    .once("value")
+    .then((users) => {
+      users.forEach((user) => {
+        usersList.push(user.val());
+      });
+      saveFriendsId(usersList, userFriends);
+    })
+    .catch((e) => {
+      console.log("Get Users error: ", e.message);
+    });
+}
+
+function saveFriendsId(usersList, userFriends) {
+  //   console.log("Users list is: ", usersList);
   let friendsId = [];
   userFriends.forEach((friend) => {
-    friendsId.push(friend.id);
+    usersList.forEach((user) => {
+      if (user.twitter.id === friend.id_str) {
+        // console.log("Friend is: ", friend.id);
+        friendsId.push(user.id);
+      }
+    });
   });
   firebase
     .database()

@@ -21,13 +21,9 @@ function gettweets() {
           });
         }
       }
-      // getFriends();
-      // getMyPosts();
     },
     error: function (error) {
       console.log("Error:", error);
-      // getFriends();
-      // getMyPosts();
     },
   });
 }
@@ -43,11 +39,7 @@ function getMyPosts() {
         data.forEach((d) => {
           allPosts.push(d);
         });
-        // displayAllPosts();
       }
-      // else {
-      //   // displayAllPosts();
-      // }
     },
     error: function (error) {
       console.log("Error:", error);
@@ -66,7 +58,7 @@ function getFriends() {
       friends.forEach((friend) => {
         newsFeedFriends.push(friend.val());
       });
-      // console.log("News Feed friends are: ", newsFeedFriends);
+      console.log("News Feed friends are: ", newsFeedFriends);
       loadFriendsPost(0);
     })
     .catch((e) => {
@@ -76,19 +68,16 @@ function getFriends() {
 }
 
 function loadFriendsPost(index) {
-  if (newsFeedFriends.length === index) {
-    console.log("All Posts are: ", allPosts);
+  if (newsFeedFriends.length <= index) {
     displayAllPosts();
     return;
   }
-  // console.log("Friend id: ", newsFeedFriends[index]);
-  // newsFeedFriends.forEach((friend) => {
-  //   console.log("Friend Id: ", friend);
+  console.log("Friend id: ", newsFeedFriends[index]);
   firebase
     .database()
     .ref()
     .child("Posts")
-    .orderByChild("twitterId")
+    .orderByChild("userId")
     .equalTo(newsFeedFriends[index])
     .once("value")
     .then((posts) => {
@@ -102,8 +91,6 @@ function loadFriendsPost(index) {
     .catch((e) => {
       loadFriendsPost(index + 1);
     });
-  // });
-  // console.log("All Posts are: ", allPosts);
 }
 
 function displayAllPosts() {
@@ -162,7 +149,6 @@ function displayAllPosts() {
 }
 
 $(document).ready(function () {
-  // console.log("Newsfeed document is ready with user: ", newFeedUser);
   userImg = $("#userImg").val();
   gettweets();
   getMyPosts();
