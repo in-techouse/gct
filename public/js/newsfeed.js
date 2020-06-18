@@ -1,4 +1,6 @@
 const allPosts = [];
+const newsFeedFriends = [];
+const newFeedUser = JSON.parse(localStorage.getItem("user"));
 let userImg = "";
 function gettweets() {
   $.ajax({
@@ -19,11 +21,13 @@ function gettweets() {
           });
         }
       }
-      getMyPosts();
+      // getFriends();
+      // getMyPosts();
     },
     error: function (error) {
       console.log("Error:", error);
-      getMyPosts();
+      // getFriends();
+      // getMyPosts();
     },
   });
 }
@@ -39,15 +43,67 @@ function getMyPosts() {
         data.forEach((d) => {
           allPosts.push(d);
         });
-        displayAllPosts();
-      } else {
-        displayAllPosts();
+        // displayAllPosts();
       }
+      // else {
+      //   // displayAllPosts();
+      // }
     },
     error: function (error) {
       console.log("Error:", error);
     },
   });
+}
+
+function getFriends() {
+  firebase
+    .database()
+    .ref()
+    .child("FriendsIds")
+    .child(newFeedUser.id)
+    .once("value")
+    .then((friends) => {
+      friends.forEach((friend) => {
+        newsFeedFriends.push(friend.val());
+      });
+      // console.log("News Feed friends are: ", newsFeedFriends);
+      loadFriendsPost(0);
+    })
+    .catch((e) => {
+      console.log("Friend from database Error: ", e.message);
+      loadFriendsPost(0);
+    });
+}
+
+function loadFriendsPost(index) {
+  if (newsFeedFriends.length === index) {
+    console.log("All Posts are: ", allPosts);
+    displayAllPosts();
+    return;
+  }
+  // console.log("Friend id: ", newsFeedFriends[index]);
+  // newsFeedFriends.forEach((friend) => {
+  //   console.log("Friend Id: ", friend);
+  firebase
+    .database()
+    .ref()
+    .child("Posts")
+    .orderByChild("twitterId")
+    .equalTo(newsFeedFriends[index])
+    .once("value")
+    .then((posts) => {
+      if (posts.exists) {
+        posts.forEach((post) => {
+          allPosts.push(post.val());
+        });
+      }
+      loadFriendsPost(index + 1);
+    })
+    .catch((e) => {
+      loadFriendsPost(index + 1);
+    });
+  // });
+  // console.log("All Posts are: ", allPosts);
 }
 
 function displayAllPosts() {
@@ -106,9 +162,11 @@ function displayAllPosts() {
 }
 
 $(document).ready(function () {
-  console.log("Newsfeed document is ready");
+  // console.log("Newsfeed document is ready with user: ", newFeedUser);
   userImg = $("#userImg").val();
   gettweets();
+  getMyPosts();
+  getFriends();
 
   $(".showPostMyComment").click(function () {
     console.log("Clicked");

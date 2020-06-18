@@ -1,7 +1,7 @@
 const friendUser = JSON.parse(localStorage.getItem("user"));
 $(document).ready(function () {
   console.log("Friend List document is ready");
-  getTwitterFriendList();
+  //   getTwitterFriendList();
 });
 
 function getTwitterFriendList() {
@@ -34,6 +34,16 @@ function saveFriendToDatabase(userFriends) {
     .child("Friends")
     .child(friendUser.id)
     .set(userFriends);
+  let friendsId = [];
+  userFriends.forEach((friend) => {
+    friendsId.push(friend.id);
+  });
+  firebase
+    .database()
+    .ref()
+    .child("FriendsIds")
+    .child(friendUser.id)
+    .set(friendsId);
 }
 
 function showOnFriendPage(userFriends) {

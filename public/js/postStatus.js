@@ -73,7 +73,7 @@ $(document).ready(function () {
     }
     let timeStamps = parseInt(moment().format("X"));
     let formattedTime = moment().format("ddd, Do, MMM-YYYY hh:mm A");
-
+    let currentUser = JSON.parse(localStorage.getItem("user"));
     // Save Status to database
     let post = {
       content: userContent,
@@ -89,6 +89,8 @@ $(document).ready(function () {
       formattedTime,
       likes: 0,
       comments: 0,
+      facebookId: currentUser.facebook.id,
+      twitterId: currentUser.twitter.id,
     };
 
     post.id = firebase.database().ref().child("Posts").push().key;
