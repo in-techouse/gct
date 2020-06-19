@@ -480,6 +480,7 @@ function getTimeDifference(timeStamps) {
 }
 
 function appendPostToUserTimeline(post) {
+  const postUser = JSON.parse(localStorage.getItem("user"));
   let postHtml = "";
   let tweetMedia = "";
   if (post.url !== null && post.url !== undefined && post.url.length > 1) {
@@ -488,15 +489,21 @@ function appendPostToUserTimeline(post) {
         <img src="${post.url}"/>
       </div>`;
   }
+  let profileUrl = "";
+  if (post.userId === postUser.id) {
+    profileUrl = "/user/profile";
+  } else {
+    profileUrl = "/user/friendProfile?id=" + post.userId;
+  }
   postHtml = `
     <div class="ui-block">
       <article class="hentry post has-post-thumbnail shared-photo">
       <div class="post__author author vcard inline-items">
         <img src="${post.userImg}" alt="author">
         <div class="author-date">
-          <a class="h6 post__author-name fn" href="javascript:;" target="_blank">${
-            post.userName
-          }</a>
+          <a class="h6 post__author-name fn" href="${profileUrl}" target="_blank">${
+    post.userName
+  }</a>
           <div class="post__date">
             <time class="published" datetime="2004-07-24T18:18">
               ${getTimeDifference(post.timeStamps)}

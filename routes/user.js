@@ -326,4 +326,8 @@ router.get("/getTwitterFriends", function (req, res) {
   }
 });
 
+router.get("/friendProfile", function (req, res) {
+  res.json(req.query.id);
+});
+
 module.exports = router;
