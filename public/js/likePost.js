@@ -130,19 +130,19 @@ function appendLike(postId) {
 }
 
 function appendLikeOnPost(postId, like, count) {
-  let likeContent = `
-      <li id="likeContent-${postId}-${like.userId}">
-          <a href="javascript:;">
-              <img src="${like.userImg}" alt="friend">
-          </a>
-      </li>
-    `;
   if (count > 1) {
     $(`#andMorePeople${postId}`).text(`and ${count - 1} more like this.`);
     return;
   }
   if (like.userId === likeUser.id) {
-    let likeNameContent = `<a href="javascript:;" id="likeNameContent-${postId}-${like.userId}">You, </a>`;
+    let likeContent = `
+    <li id="likeContent-${postId}-${like.userId}">
+        <a href="/user/profile">
+            <img src="${like.userImg}" alt="friend">
+        </a>
+    </li>
+  `;
+    let likeNameContent = `<a href="/user/profile" id="likeNameContent-${postId}-${like.userId}">You, </a>`;
 
     let likeField = `<input class="form-control" type="hidden" value="true" id="likeField-${postId}-${like.userId}"/>`;
     $("#friends-harmonic" + postId).prepend(likeContent);
@@ -154,7 +154,14 @@ function appendLikeOnPost(postId, like, count) {
     });
     $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
   } else {
-    let likeNameContent = `<a href="javascript:;" id="likeNameContent-${postId}-${like.userId}">${like.userName}, </a>`;
+    let likeContent = `
+    <li id="likeContent-${postId}-${like.userId}">
+        <a href="/user/friendProfile?id=${like.userId}">
+            <img src="${like.userImg}" alt="friend">
+        </a>
+    </li>
+  `;
+    let likeNameContent = `<a href="/user/friendProfile?id=${like.userId}" id="likeNameContent-${postId}-${like.userId}">${like.userName}, </a>`;
     $("#friends-harmonic" + postId).prepend(likeContent);
     $("#names-people-likes" + postId).prepend(likeNameContent);
   }

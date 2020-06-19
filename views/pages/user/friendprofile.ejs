@@ -1,6 +1,6 @@
 <% extend ('../../mainLayout')%>
 
-<%- include('../../shared/_user_profile')%>
+<%- include('../../shared/_friend_profile')%>
 <div class="container">
 	<div class="row">
 
@@ -46,7 +46,7 @@
 					<ul class="widget w-personal-info item-block">
 						<li>
 							<span class="title">About Me:</span>
-							<span class="text"><%= user.twitter.description %></span>
+							<span class="text"><%= friend.twitter.description %></span>
 						</li>
 						<li>
 							<span class="title">Favourite TV Shows:</span>

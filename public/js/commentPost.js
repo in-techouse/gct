@@ -76,15 +76,21 @@ function showPostMyComment(postId) {
 }
 
 function appendComment(comment, postId) {
+  let profileUrl = "";
+  if (comment.userId === postCommentUser.id) {
+    profileUrl = "/user/profile";
+  } else {
+    profileUrl = "/user/friendProfile?id=" + comment.userId;
+  }
   let commentHtml = `
     <li class="comment-item">
       <div class="post__author author vcard inline-items">
         <img src="${comment.userImg}" alt="author">
 
         <div class="author-date">
-          <a class="h6 post__author-name fn" href="02-ProfilePage.html">${
-            comment.userName
-          }</a>
+          <a class="h6 post__author-name fn" href="${profileUrl}">
+          ${comment.userName}
+          </a>
           <div class="post__date">
             <time class="published" datetime="2004-07-24T18:18">
               ${getTimeDifference(comment.timeStamps)}
@@ -92,11 +98,12 @@ function appendComment(comment, postId) {
           </div>
         </div>
 
-        <a href="javascript:;" class="more"><svg class="olymp-three-dots-icon">
+        <a href="javascript:;" class="more">
+          <svg class="olymp-three-dots-icon">
             <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon">
             </use>
-          </svg></a>
-
+          </svg>
+        </a>
       </div>
 
       <p>${comment.comment}</p>

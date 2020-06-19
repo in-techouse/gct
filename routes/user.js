@@ -326,14 +326,44 @@ router.get("/getTwitterFriends", function (req, res) {
   }
 });
 
-<<<<<<< HEAD
-router.get("/friendprofile", function (req, res) {
-    res.render("pages/user/friendprofile", { user: user, action: "Friend Profile" });
-  
-=======
+// Starting Actions related to Friend Profile
 router.get("/friendProfile", function (req, res) {
-  res.json(req.query.id);
->>>>>>> d2ea383afaf9b203c2484589265ac397c78376d3
+  firebase
+    .database()
+    .ref()
+    .child("Users")
+    .child(req.query.id)
+    .once("value")
+    .then((friend) => {
+      res.render("pages/user/friendProfile", {
+        user: req.session.user,
+        friend: friend.val(),
+        action: "friendProfile",
+      });
+    })
+    .catch((e) => {
+      res.redirect("/");
+    });
+});
+
+router.get("/friendsOfFriend", function (req, res) {
+  firebase
+    .database()
+    .ref()
+    .child("Users")
+    .child(req.query.id)
+    .once("value")
+    .then((friend) => {
+      res.render("pages/user/friendProfile", {
+        // Change the Render file
+        user: req.session.user,
+        friend: friend.val(),
+        action: "friendsOfFriend",
+      });
+    })
+    .catch((e) => {
+      res.redirect("/");
+    });
 });
 
 module.exports = router;
