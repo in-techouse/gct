@@ -130,10 +130,6 @@ function appendLike(postId) {
 }
 
 function appendLikeOnPost(postId, like, count) {
-  console.log("Like Post, Post Id: ", postId);
-  console.log("Like Post, Like: ", like);
-  console.log("Like Post, Count: ", count);
-
   let likeContent = `
       <li id="likeContent-${postId}-${like.userId}">
           <a href="javascript:;">
