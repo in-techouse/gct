@@ -9,8 +9,10 @@ function getLikesForPost(postId) {
     .equalTo(postId)
     .once("value")
     .then((data) => {
+      let count = 0;
       data.forEach((d) => {
-        appendLikeOnPost(postId, d.val());
+        appendLikeOnPost(postId, d.val(), count);
+        count++;
       });
     });
 }
@@ -127,7 +129,11 @@ function appendLike(postId) {
   appendLikeOnPost(postId, like);
 }
 
-function appendLikeOnPost(postId, like) {
+function appendLikeOnPost(postId, like, count) {
+  console.log("Like Post, Post Id: ", postId);
+  console.log("Like Post, Like: ", like);
+  console.log("Like Post, Count: ", count);
+
   let likeContent = `
       <li id="likeContent-${postId}-${like.userId}">
           <a href="javascript:;">
@@ -135,19 +141,27 @@ function appendLikeOnPost(postId, like) {
           </a>
       </li>
     `;
-  let likeNameContent = `
-      <a href="javascript:;" id="likeNameContent-${postId}-${like.userId}">You</a>
-    `;
+  if (count > 1) {
+    $(`#andMorePeople${postId}`).text(`and ${count - 1} more like this.`);
+    return;
+  }
+  if (like.userId === likeUser.id) {
+    let likeNameContent = `<a href="javascript:;" id="likeNameContent-${postId}-${like.userId}">You, </a>`;
 
-  let likeField = `<input class="form-control" type="hidden" value="true" id="likeField-${postId}-${like.userId}"/>`;
-  $("#friends-harmonic" + postId).append(likeContent);
-  $("#names-people-likes" + postId).append(likeNameContent);
-  $("#names-people-likes" + postId).append(likeField);
-  $("#likeBtn" + postId).css({
-    backgroundColor: "#ff5e3a",
-    color: "#FFFFFF",
-  });
-  $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
+    let likeField = `<input class="form-control" type="hidden" value="true" id="likeField-${postId}-${like.userId}"/>`;
+    $("#friends-harmonic" + postId).prepend(likeContent);
+    $("#names-people-likes" + postId).prepend(likeNameContent);
+    $("#names-people-likes" + postId).prepend(likeField);
+    $("#likeBtn" + postId).css({
+      backgroundColor: "#ff5e3a",
+      color: "#FFFFFF",
+    });
+    $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
+  } else {
+    let likeNameContent = `<a href="javascript:;" id="likeNameContent-${postId}-${like.userId}">${like.userName}, </a>`;
+    $("#friends-harmonic" + postId).prepend(likeContent);
+    $("#names-people-likes" + postId).prepend(likeNameContent);
+  }
 }
 
 function sendLikeNotification(post) {

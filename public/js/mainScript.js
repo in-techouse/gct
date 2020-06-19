@@ -530,6 +530,7 @@ function appendPostToUserTimeline(post) {
         <ul class="friends-harmonic" id="friends-harmonic${post.id}">
         </ul>
         <div class="names-people-likes" id="names-people-likes${post.id}">
+          <p id="andMorePeople${post.id}"></p>
         </div>
         <div class="comments-shared">
           <a href="javascript:;" class="post-add-icon inline-items" onclick="showPostMyComment('${
