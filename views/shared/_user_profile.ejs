@@ -11,23 +11,28 @@
 							<div class="col col-lg-5 col-md-5 col-sm-12 col-12">
 								<ul class="profile-menu">
 									<li>
-										<a href="/user/profile" class="active">Timeline</a>
+										<a href="/user/profile"
+											class="<%= action === "Profile" ? "active" : "" %>">Timeline</a>
 									</li>
 									<li>
-										<a href="/user/profileabout">About</a>
+										<a href="/user/profileabout"
+											class="<%= action === "ProfileAbout" ? "active" : "" %>">About</a>
 									</li>
 									<li>
-										<a href="/user/friends">Friends</a>
+										<a href="/user/friends"
+											class="<%= action === "Friends" ? "active" : "" %>">Friends</a>
 									</li>
 								</ul>
 							</div>
 							<div class="col col-lg-5 ml-auto col-md-5 col-sm-12 col-12">
 								<ul class="profile-menu">
 									<li>
-										<a href="/user/photos">Photos</a>
+										<a href="/user/photos"
+											class="<%= action === "Photos" ? "active" : "" %>">Photos</a>
 									</li>
 									<li>
-										<a href="/user/videos">Videos</a>
+										<a href="/user/videos"
+											class="<%= action === "Videos" ? "active" : "" %>">Videos</a>
 									</li>
 									<li>
 										<div class="more">

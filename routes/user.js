@@ -212,22 +212,22 @@ router.post("/postOnFacebook", function (req, res) {
   // });
 });
 
-router.get("/profile", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session.user;
-    res.render("pages/user/profile", { user: user, action: "Profile" });
-  } else {
-    res.redirect("/");
-  }
-});
-
 router.get("/profilesettings", function (req, res) {
   if (req.session.isLoggedIn) {
     let user = req.session.user;
     res.render("pages/user/profilesettings", {
       user: user,
-      action: "Profile Settings",
+      action: "ProfileSettings",
     });
+  } else {
+    res.redirect("/");
+  }
+});
+
+router.get("/profile", function (req, res) {
+  if (req.session.isLoggedIn) {
+    let user = req.session.user;
+    res.render("pages/user/profile", { user: user, action: "Profile" });
   } else {
     res.redirect("/");
   }
@@ -238,7 +238,7 @@ router.get("/profileabout", function (req, res) {
     let user = req.session.user;
     res.render("pages/user/profileabout", {
       user: user,
-      action: "Profile About",
+      action: "ProfileAbout",
     });
   } else {
     res.redirect("/");
