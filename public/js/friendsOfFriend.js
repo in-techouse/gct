@@ -1,6 +1,5 @@
 $(document).ready(function () {
   const friendId = $("#friendId").val();
-  console.log("Friend Id: ", friendId);
   getFriendFriends(friendId);
 });
 
@@ -25,7 +24,6 @@ function getFriendFriends(friendId) {
 
 function displayFriendList(friends) {
   const friendName = $("#friendName").val();
-  console.log("Friend Name: ", friendName);
   $("#loadingFriends").hide(300);
   $("#friendsOfFriendCount").text(
     friendName + "'s Friends (" + friends.length + ")"
@@ -90,8 +88,8 @@ function displayFriendList(friends) {
                     </div>
 
                     <div class="swiper-container" data-slide="fade">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
+                        <div class="swiper-wrapper" id="swiperWrapper${friend.id}">
+                            <div class="swiper-slide" id="leftSlide${friend.id}" data-swiper-slide-index="0" style="width: 368px;">
                                 <div class="friend-count" data-swiper-parallax="-500">
                                     <a href="#" class="friend-count-item">
                                         <div class="h6">${friend.friends_count}</div>
@@ -126,9 +124,9 @@ function displayFriendList(friends) {
                                 </div>
                             </div>
 
-                            <div class="swiper-slide">
+                            <div class="swiper-slide" id="rightSlide${friend.id}" data-swiper-slide-index="1" style="width: 368px;">
                                 <p class="friend-about" data-swiper-parallax="-500">
-                                ${friend.description}
+                                  ${friend.description}
                                 </p>
 
                                 <div class="friend-since" data-swiper-parallax="-100">
@@ -137,7 +135,10 @@ function displayFriendList(friends) {
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-pagination pagination-swiper-unique-id-0 swiper-pagination-clickable swiper-pagination-bullets"><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span></div>
+                        <div class="swiper-pagination pagination-swiper-unique-id-0 swiper-pagination-clickable swiper-pagination-bullets">
+                            <span onclick="showLeftSlide('${friend.id}')" id="leftSwiper${friend.id}" class="swiper-pagination-bullet swiper-pagination-bullet-active"></span>
+                            <span onclick="showRightSlide('${friend.id}')" id="rightSwiper${friend.id}" class="swiper-pagination-bullet"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -146,4 +147,29 @@ function displayFriendList(friends) {
     `;
     $("#userFriendList").append(userFriendContent);
   });
+}
+
+function showLeftSlide(id) {
+  console.log("Id is: ", id);
+  $("#rightSlide" + id).removeClass("swiper-slide-active");
+  $("#rightSwiper" + id).removeClass("swiper-pagination-bullet-active");
+  $("#leftSlide" + id).addClass("swiper-slide-active");
+  $("#leftSwiper" + id).addClass("swiper-pagination-bullet-active");
+  $("#swiperWrapper" + id).css("width", "736px");
+  $("#swiperWrapper" + id).css("transform", "translate3d(368px, 0px, 0px);");
+  $("#swiperWrapper" + id).css("transform", "transition-duration: 0ms");
+  // width: 1472px; transform: translate3d(-368px, 0px, 0px); transition-duration: 0ms;
+}
+
+function showRightSlide(id) {
+  console.log("Id is: ", id);
+  $("#leftSlide" + id).removeClass("swiper-slide-active");
+  $("#leftSwiper" + id).removeClass("swiper-pagination-bullet-active");
+  $("#rightSlide" + id).addClass("swiper-slide-active");
+  $("#rightSwiper" + id).addClass("swiper-pagination-bullet-active");
+  $("#swiperWrapper" + id).css("width", "736px");
+  $("#swiperWrapper" + id).css("transform", "translate3d(0px, 0px, 0px)");
+  $("#swiperWrapper" + id).css("transform", "transition-duration: 0ms");
+
+  // width: 1472px; transform: translate3d(-736px, 0px, 0px); transition-duration: 0ms;
 }

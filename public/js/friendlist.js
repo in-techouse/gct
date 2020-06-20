@@ -135,7 +135,7 @@ function showOnFriendPage(userFriends) {
 
                     <div class="swiper-container" data-slide="fade">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
+                          <div class="swiper-slide" id="leftSlide${friend.id}" data-swiper-slide-index="0" style="width: 368px;">
                                 <div class="friend-count" data-swiper-parallax="-500">
                                     <a href="#" class="friend-count-item">
                                         <div class="h6">${friend.friends_count}</div>
@@ -170,7 +170,7 @@ function showOnFriendPage(userFriends) {
                                 </div>
                             </div>
 
-                            <div class="swiper-slide">
+                            <div class="swiper-slide" id="rightSlide${friend.id}" data-swiper-slide-index="1" style="width: 368px;">
                                 <p class="friend-about" data-swiper-parallax="-500">
                                 ${friend.description}
                                 </p>
@@ -181,7 +181,10 @@ function showOnFriendPage(userFriends) {
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-pagination pagination-swiper-unique-id-0 swiper-pagination-clickable swiper-pagination-bullets"><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span></div>
+                        <div class="swiper-pagination pagination-swiper-unique-id-0 swiper-pagination-clickable swiper-pagination-bullets">
+                          <span onclick="showLeftSlide('${friend.id}')" id="leftSwiper${friend.id}" class="swiper-pagination-bullet swiper-pagination-bullet-active"></span>
+                          <span onclick="showRightSlide('${friend.id}')" id="rightSwiper${friend.id}" class="swiper-pagination-bullet"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -190,4 +193,20 @@ function showOnFriendPage(userFriends) {
     `;
     $("#userFriendList").append(userFriendContent);
   });
+}
+
+function showLeftSlide(id) {
+  console.log("Id is: ", id);
+  $("#rightSlide" + id).removeClass("swiper-slide-active");
+  $("#rightSwiper" + id).removeClass("swiper-pagination-bullet-active");
+  $("#leftSlide" + id).addClass("swiper-slide-active");
+  $("#leftSwiper" + id).addClass("swiper-pagination-bullet-active");
+}
+
+function showRightSlide(id) {
+  console.log("Id is: ", id);
+  $("#leftSlide" + id).removeClass("swiper-slide-active");
+  $("#leftSwiper" + id).removeClass("swiper-pagination-bullet-active");
+  $("#rightSlide" + id).addClass("swiper-slide-active");
+  $("#rightSwiper" + id).addClass("swiper-pagination-bullet-active");
 }
