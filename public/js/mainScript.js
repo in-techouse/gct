@@ -592,7 +592,7 @@ function appendPostToUserTimeline(post) {
   }" style="display: none;">
 
       <div class="post__author author vcard inline-items">
-        <img src="${userImg}" alt="author">
+        <img src="${postUser.image}" alt="author">
 
         <div class="form-group with-icon-right ">
           <textarea class="form-control" placeholder="" id="postCommentContent${

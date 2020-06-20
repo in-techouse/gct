@@ -11,23 +11,28 @@
                             <div class="col col-lg-5 col-md-5 col-sm-12 col-12">
                                 <ul class="profile-menu">
                                     <li>
-                                        <a href="/user/profile" class="active">Timeline</a>
+                                        <a href="/user/friendProfile?id=<%= friend.id %>"
+                                            class="<%= action === "friendProfile" ? "active" : "" %>">Timeline</a>
                                     </li>
                                     <li>
-                                        <a href="/user/profileabout">About</a>
+                                        <a href="/user/friendProfileAbout?id=<%= friend.id %>"
+                                            class="<%= action === "friendProfileAbout" ? "active" : "" %>">About</a>
                                     </li>
                                     <li>
-                                        <a href="/user/friends">Friends</a>
+                                        <a href="/user/friendsOfFriend?id=<%= friend.id %>"
+                                            class="<%= action === "friendsOfFriend" ? "active" : "" %>">Friends</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="col col-lg-5 ml-auto col-md-5 col-sm-12 col-12">
                                 <ul class="profile-menu">
                                     <li>
-                                        <a href="/user/photos">Photos</a>
+                                        <a href="/user/friendPhotos?id=<%= friend.id %>"
+                                            class="<%= action === "friendPhotos" ? "active" : "" %>">Photos</a>
                                     </li>
                                     <li>
-                                        <a href="/user/videos">Videos</a>
+                                        <a href="/user/friendVideos?id=<%= friend.id %>"
+                                            class="<%= action === "friendPVideos" ? "active" : "" %>">Videos</a>
                                     </li>
                                     <li>
                                         <div class="more">
@@ -64,25 +69,7 @@
                                 </svg>
                             </a>
 
-                            <div class="btn btn-control bg-primary more">
-                                <svg class="olymp-settings-icon">
-                                    <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-settings-icon"></use>
-                                </svg>
 
-                                <ul class="more-dropdown more-with-triangle triangle-bottom-right">
-                                    <li>
-                                        <a href="#" data-toggle="modal" data-target="#update-header-photo">Update
-                                            Profile Photo</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" data-toggle="modal" data-target="#update-header-photo">Update Header
-                                            Photo</a>
-                                    </li>
-                                    <li>
-                                        <a href="/user/profilesettings">Account Settings</a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                     <div class="top-header-author">
