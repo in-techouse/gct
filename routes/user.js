@@ -354,11 +354,67 @@ router.get("/friendsOfFriend", function (req, res) {
     .child(req.query.id)
     .once("value")
     .then((friend) => {
-      res.render("pages/user/friendProfile", {
-        // Change the Render file
+      res.render("pages/user/friendsOfFriends", {
         user: req.session.user,
         friend: friend.val(),
         action: "friendsOfFriend",
+      });
+    })
+    .catch((e) => {
+      res.redirect("/");
+    });
+});
+
+router.get("/friendProfileAbout", function (req, res) {
+  firebase
+    .database()
+    .ref()
+    .child("Users")
+    .child(req.query.id)
+    .once("value")
+    .then((friend) => {
+      res.render("pages/user/friendProfileAbout", {
+        user: req.session.user,
+        friend: friend.val(),
+        action: "friendProfileAbout",
+      });
+    })
+    .catch((e) => {
+      res.redirect("/");
+    });
+});
+
+router.get("/friendVideos", function (req, res) {
+  firebase
+    .database()
+    .ref()
+    .child("Users")
+    .child(req.query.id)
+    .once("value")
+    .then((friend) => {
+      res.render("pages/user/friendVideos", {
+        user: req.session.user,
+        friend: friend.val(),
+        action: "friendPVideos",
+      });
+    })
+    .catch((e) => {
+      res.redirect("/");
+    });
+});
+
+router.get("/friendPhotos", function (req, res) {
+  firebase
+    .database()
+    .ref()
+    .child("Users")
+    .child(req.query.id)
+    .once("value")
+    .then((friend) => {
+      res.render("pages/user/friendPhotos", {
+        user: req.session.user,
+        friend: friend.val(),
+        action: "friendPhotos",
       });
     })
     .catch((e) => {
