@@ -1,81 +1,37 @@
-const friendUser = JSON.parse(localStorage.getItem("user"));
 $(document).ready(function () {
-  console.log("Friend List document is ready");
-  getTwitterFriendList();
+  const friendId = $("#friendId").val();
+  console.log("Friend Id: ", friendId);
+  getFriendFriends(friendId);
 });
 
-function getTwitterFriendList() {
-  $.ajax({
-    type: "GET",
-    url: "/user/getTwitterFriends",
-    success: function (result) {
-      console.log("Twitter Friends Success: ", result);
-      if (result !== "-1") {
-        let userFriends = [];
-        const friends = result.friends;
-        friends.forEach((friend) => {
-          friend = { ...friend, ...{ userId: friendUser.id } };
-          userFriends.push(friend);
-        });
-        saveFriendToDatabase(userFriends);
-        showOnFriendPage(userFriends);
-      }
-    },
-    error: function (err) {
-      console.log("Twitter Friends Failure: ", err);
-    },
-  });
-}
-
-function saveFriendToDatabase(userFriends) {
+function getFriendFriends(friendId) {
+  let friends = [];
   firebase
     .database()
     .ref()
     .child("Friends")
-    .child(friendUser.id)
-    .set(userFriends);
-  let usersList = [];
-  firebase
-    .database()
-    .ref()
-    .child("Users")
+    .child(friendId)
     .once("value")
-    .then((users) => {
-      users.forEach((user) => {
-        usersList.push(user.val());
+    .then((data) => {
+      data.forEach((friend) => {
+        friends.push(friend.val());
       });
-      saveFriendsId(usersList, userFriends);
+      displayFriendList(friends);
     })
     .catch((e) => {
-      console.log("Get Users error: ", e.message);
+      displayFriendList(friends);
     });
 }
 
-function saveFriendsId(usersList, userFriends) {
-  //   console.log("Users list is: ", usersList);
-  let friendsId = [];
-  userFriends.forEach((friend) => {
-    usersList.forEach((user) => {
-      if (user.twitter.id === friend.id_str) {
-        // console.log("Friend is: ", friend.id);
-        friendsId.push(user.id);
-      }
-    });
-  });
-  firebase
-    .database()
-    .ref()
-    .child("FriendsIds")
-    .child(friendUser.id)
-    .set(friendsId);
-}
-
-function showOnFriendPage(userFriends) {
-  $("#userFriendCount").text(
-    friendUser.firstName + "'s Friends (" + userFriends.length + ")"
-  );
+function displayFriendList(friends) {
+  const friendName = $("#friendName").val();
+  console.log("Friend Name: ", friendName);
   $("#loadingFriends").hide(300);
-  userFriends.forEach((friend) => {
+  $("#friendsOfFriendCount").text(
+    friendName + "'s Friends (" + friends.length + ")"
+  );
+
+  friends.forEach((friend) => {
     let bgImage = "";
     if (
       friend.profile_banner_url !== null &&

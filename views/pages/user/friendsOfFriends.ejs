@@ -3,10 +3,13 @@
 
 <div class="container">
 	<div class="row">
+		<input type="hidden" class="form-control" id="friendId" value="<%= friend.id %>">
+		<input type="hidden" class="form-control" id="friendName" value="<%= friend.firstName %>">
+
 		<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="ui-block responsive-flex">
 				<div class="ui-block-title">
-					<div class="h6 title" id="userFriendCount"></div>
+					<div class="h6 title" id="friendsOfFriendCount"></div>
 					<form class="w-search">
 						<div class="form-group with-button">
 							<input class="form-control" type="text" placeholder="Search Friends...">
@@ -18,9 +21,11 @@
 							</button>
 						</div>
 					</form>
-					<a href="#" class="more"><svg class="olymp-three-dots-icon">
+					<a href="#" class="more">
+						<svg class="olymp-three-dots-icon">
 							<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
-						</svg></a>
+						</svg>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -139,3 +144,4 @@
 </div>
 
 <!-- ... end Friends -->
+<script src="/public/js/friendsOfFriend.js"></script>
