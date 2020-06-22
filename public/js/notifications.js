@@ -10,6 +10,7 @@ $(document).ready(function () {
     .equalTo(notificationUser.id);
   starCountRef.on("value", function (snapshot) {
     let count = 0;
+    let play = false;
     $("#notificationCount").text("");
     $("#notificationCount").fadeOut(500);
     $("#notificationList").empty();
@@ -18,6 +19,9 @@ $(document).ready(function () {
       if (!notification.read) {
         count++;
       }
+      if (!notification.play) {
+        play = true;
+      }
       if (count > 0) {
         $("#notificationCount").text(count);
         $("#notificationCount").fadeIn(500);
@@ -25,6 +29,10 @@ $(document).ready(function () {
       notifications.push(notification);
       insertNotificationToDisplay(notification);
     });
+    if (play) {
+      $("#sound_tag")[0].play();
+    }
+    markedAsPlay();
   });
 });
 
@@ -46,9 +54,9 @@ function insertNotificationToDisplay(notification) {
         </div>
         <div class="notification-event">
             <div>
-                <a href="${profileUrl}" class="h6 notification-friend">${
-    notification.userName
-  }</a> 
+                <a href="${profileUrl}" class="h6 notification-friend">
+                    ${notification.userName}
+                </a> 
                 ${notification.notificatonText} 
                 <a href="/user/showPost?id=${
                   notification.postId
@@ -67,7 +75,6 @@ function insertNotificationToDisplay(notification) {
 }
 
 function markedAsRead() {
-  console.log("Mark all notification read for user: ", notificationUser);
   notifications.forEach((noti) => {
     firebase
       .database()
@@ -75,6 +82,18 @@ function markedAsRead() {
       .child("Notifications")
       .child(noti.id)
       .child("read")
+      .set(true);
+  });
+}
+
+function markedAsPlay() {
+  notifications.forEach((noti) => {
+    firebase
+      .database()
+      .ref()
+      .child("Notifications")
+      .child(noti.id)
+      .child("play")
       .set(true);
   });
 }

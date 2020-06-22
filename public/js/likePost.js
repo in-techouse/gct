@@ -183,6 +183,7 @@ function sendLikeNotification(post) {
     formattedTime,
     notificatonText,
     read: false,
+    play: false,
     ownerId: post.userId,
   };
   firebase
