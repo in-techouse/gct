@@ -140,34 +140,6 @@ router.post("/postOnTwitter", function (req, res) {
   }
 });
 
-router.get("/allnotifications", function (req, res) {
-  if (!req.session.isLoggedIn) {
-    res.redirect("/");
-  }
-  let user = req.session.user;
-  firebase
-    .database()
-    .ref()
-    .child("Notifications")
-    .orderByChild("ownerId")
-    .equalTo(user.id)
-    .once("value")
-    .then((notifications) => {
-      res.render("pages/user/allnotifications", {
-        user: user,
-        action: "All Notifications",
-        notifications: notifications,
-      });
-    })
-    .catch((err) => {
-      res.render("pages/user/allnotifications", {
-        user: user,
-        action: "All Notifications",
-        notifications: [],
-      });
-    });
-});
-
 router.post("/postOnFacebook", function (req, res) {
   graph.setAccessToken(req.session.user.facebook.accessToken);
   graph.batch(
@@ -231,6 +203,34 @@ router.post("/postOnFacebook", function (req, res) {
 //   );
 // });
 
+router.get("/allnotifications", function (req, res) {
+  if (!req.session.isLoggedIn) {
+    res.redirect("/");
+  }
+  let user = req.session.user;
+  firebase
+    .database()
+    .ref()
+    .child("Notifications")
+    .orderByChild("ownerId")
+    .equalTo(user.id)
+    .once("value")
+    .then((notifications) => {
+      res.render("pages/user/allnotifications", {
+        user: user,
+        action: "All Notifications",
+        notifications: notifications,
+      });
+    })
+    .catch((err) => {
+      res.render("pages/user/allnotifications", {
+        user: user,
+        action: "All Notifications",
+        notifications: [],
+      });
+    });
+});
+
 router.get("/allchats", function (req, res) {
   if (!req.session.isLoggedIn) {
     res.redirect("/");
@@ -240,6 +240,50 @@ router.get("/allchats", function (req, res) {
     user: user,
     action: "All Chats/Messages",
   });
+});
+
+router.get("/showPost", function (req, res) {
+  if (!req.session.isLoggedIn) {
+    res.redirect("/");
+  }
+  firebase
+    .database()
+    .ref()
+    .child("Posts")
+    .child(req.query.id)
+    .once("value")
+    .then((post) => {
+      res.render("pages/user/showPost", {
+        user: req.session.user,
+        post: post.val(),
+        action: "ShowPost",
+      });
+    })
+    .catch((e) => {
+      res.redirect("/user/newsfeed");
+    });
+});
+
+router.get("/editPost", function (req, res) {
+  if (!req.session.isLoggedIn) {
+    res.redirect("/");
+  }
+  firebase
+    .database()
+    .ref()
+    .child("Posts")
+    .child(req.query.id)
+    .once("value")
+    .then((post) => {
+      res.render("pages/user/editPost", {
+        user: req.session.user,
+        post: post.val(),
+        action: "EditPost",
+      });
+    })
+    .catch((e) => {
+      res.redirect("/user/newsfeed");
+    });
 });
 
 router.get("/getTwitterFriends", function (req, res) {
