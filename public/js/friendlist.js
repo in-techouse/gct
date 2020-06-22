@@ -102,27 +102,10 @@ function showOnFriendPage(userFriends) {
 
             <div class="friend-item">
                 <div class="friend-header-thumb">
-                    <img src="${bgImage}" alt="friend" style="width: 100%; height: 118px;">
+                    <img src="${bgImage}" alt="friend" style="width: 100%; height: 160px;">
                 </div>
 
                 <div class="friend-item-content">
-
-                    <div class="more">
-                        <svg class="olymp-three-dots-icon">
-                            <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
-                        </svg>
-                        <ul class="more-dropdown">
-                            <li>
-                                <a href="#">Report Profile</a>
-                            </li>
-                            <li>
-                                <a href="#">Block Profile</a>
-                            </li>
-                            <li>
-                                <a href="#">Turn Off Notifications</a>
-                            </li>
-                        </ul>
-                    </div>
                     <div class="friend-avatar">
                         <div class="author-thumb">
                             <img src="${friend.profile_image_url_https}" alt="author" style="widht: 98px; height: 98px;">
@@ -134,8 +117,8 @@ function showOnFriendPage(userFriends) {
                     </div>
 
                     <div class="swiper-container" data-slide="fade">
-                        <div class="swiper-wrapper">
-                          <div class="swiper-slide" id="leftSlide${friend.id}" data-swiper-slide-index="0" style="width: 368px;">
+                        <div class="swiper-wrapper" id="swiperWrapper${friend.id}" style="width: 536px; transition-duration: 500ms; transform: translate3d(0px, 0px, 0px);">
+                            <div class="swiper-slide" id="leftSlide${friend.id}" data-swiper-slide-index="0" style="width: 268px;">
                                 <div class="friend-count" data-swiper-parallax="-500">
                                     <a href="#" class="friend-count-item">
                                         <div class="h6">${friend.friends_count}</div>
@@ -170,9 +153,9 @@ function showOnFriendPage(userFriends) {
                                 </div>
                             </div>
 
-                            <div class="swiper-slide" id="rightSlide${friend.id}" data-swiper-slide-index="1" style="width: 368px;">
+                            <div class="swiper-slide" id="rightSlide${friend.id}" data-swiper-slide-index="1" style="width: 268px;">
                                 <p class="friend-about" data-swiper-parallax="-500">
-                                ${friend.description}
+                                  ${friend.description}
                                 </p>
 
                                 <div class="friend-since" data-swiper-parallax="-100">
@@ -182,8 +165,8 @@ function showOnFriendPage(userFriends) {
                             </div>
                         </div>
                         <div class="swiper-pagination pagination-swiper-unique-id-0 swiper-pagination-clickable swiper-pagination-bullets">
-                          <span onclick="showLeftSlide('${friend.id}')" id="leftSwiper${friend.id}" class="swiper-pagination-bullet swiper-pagination-bullet-active"></span>
-                          <span onclick="showRightSlide('${friend.id}')" id="rightSwiper${friend.id}" class="swiper-pagination-bullet"></span>
+                            <span onclick="showLeftSlide('${friend.id}')" id="leftSwiper${friend.id}" class="swiper-pagination-bullet swiper-pagination-bullet-active"></span>
+                            <span onclick="showRightSlide('${friend.id}')" id="rightSwiper${friend.id}" class="swiper-pagination-bullet"></span>
                         </div>
                     </div>
                 </div>
@@ -196,17 +179,19 @@ function showOnFriendPage(userFriends) {
 }
 
 function showLeftSlide(id) {
-  console.log("Id is: ", id);
+  $("#swiperWrapper" + id).css("transform", "");
   $("#rightSlide" + id).removeClass("swiper-slide-active");
   $("#rightSwiper" + id).removeClass("swiper-pagination-bullet-active");
   $("#leftSlide" + id).addClass("swiper-slide-active");
   $("#leftSwiper" + id).addClass("swiper-pagination-bullet-active");
+  $("#swiperWrapper" + id).css("transform", "translate3d(0px, 0px, 0px);");
 }
 
 function showRightSlide(id) {
-  console.log("Id is: ", id);
+  $("#swiperWrapper" + id).css("transform", "");
   $("#leftSlide" + id).removeClass("swiper-slide-active");
   $("#leftSwiper" + id).removeClass("swiper-pagination-bullet-active");
   $("#rightSlide" + id).addClass("swiper-slide-active");
   $("#rightSwiper" + id).addClass("swiper-pagination-bullet-active");
+  $("#swiperWrapper" + id).css("transform", "translate3d(-368px, 0px, 0px)");
 }

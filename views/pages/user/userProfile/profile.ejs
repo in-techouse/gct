@@ -1,13 +1,12 @@
-<% extend ('../../mainLayout')%>
+<% extend ('../../../mainLayout')%>
+<%- include('../../../shared/_user_profile')%>
 
-<%- include('../../shared/_friend_profile')%>
 <div class="container">
 	<div class="row">
 
 		<!-- Main Content -->
 
 		<div class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-			<input type="hidden" class="form-control" id="friendId" value="<%= friend.id %>">
 			<div class="row" id="loadingPosts">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
@@ -47,7 +46,7 @@
 					<ul class="widget w-personal-info item-block">
 						<li>
 							<span class="title">About Me:</span>
-							<span class="text"><%= friend.twitter.description %></span>
+							<span class="text"><%= user.twitter.description %></span>
 						</li>
 						<li>
 							<span class="title">Favourite TV Shows:</span>
@@ -1094,4 +1093,4 @@
 </div>
 
 
-<script src="/public/js/myFriendTimeLine.js"></script>
+<script src="/public/js/myTimeLine.js"></script>

@@ -78,9 +78,9 @@ function showPostMyComment(postId) {
 function appendComment(comment, postId) {
   let profileUrl = "";
   if (comment.userId === postCommentUser.id) {
-    profileUrl = "/user/profile";
+    profileUrl = "/userProfile/profile";
   } else {
-    profileUrl = "/user/friendProfile?id=" + comment.userId;
+    profileUrl = "/userFriend/friendProfile?id=" + comment.userId;
   }
   let commentHtml = `
     <li class="comment-item">

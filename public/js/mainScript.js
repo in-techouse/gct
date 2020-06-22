@@ -491,9 +491,9 @@ function appendPostToUserTimeline(post) {
   }
   let profileUrl = "";
   if (post.userId === postUser.id) {
-    profileUrl = "/user/profile";
+    profileUrl = "/userProfile/profile";
   } else {
-    profileUrl = "/user/friendProfile?id=" + post.userId;
+    profileUrl = "/userFriend/friendProfile?id=" + post.userId;
   }
   postHtml = `
     <div class="ui-block">

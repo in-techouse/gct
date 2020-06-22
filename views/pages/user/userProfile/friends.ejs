@@ -1,0 +1,52 @@
+<% extend ('../../../mainLayout')%>
+<%- include('../../../shared/_user_profile')%>
+<script src="/public/js/friendlist.js"></script>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block responsive-flex">
+                <div class="ui-block-title">
+                    <div class="h6 title" id="userFriendCount"></div>
+                    <form class="w-search">
+                        <div class="form-group with-button">
+                            <input class="form-control" type="text" placeholder="Search Friends...">
+                            <button>
+                                <svg class="olymp-magnifying-glass-icon">
+                                    <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon">
+                                    </use>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                    <a href="#" class="more">
+                        <svg class="olymp-three-dots-icon">
+                            <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Friends -->
+
+<div class="container">
+    <div class="row" id="userFriendList">
+        <div class="col-md-12" id="loadingFriends">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <center>
+                        <img src="/public/img/loadingg.gif" style="width: 70px" />
+                    </center>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ... end Friends -->

@@ -137,12 +137,12 @@ function appendLikeOnPost(postId, like, count) {
   if (like.userId === likeUser.id) {
     let likeContent = `
     <li id="likeContent-${postId}-${like.userId}">
-        <a href="/user/profile">
+        <a href="/userProfile/profile">
             <img src="${like.userImg}" alt="friend">
         </a>
     </li>
   `;
-    let likeNameContent = `<a href="/user/profile" id="likeNameContent-${postId}-${like.userId}">You, </a>`;
+    let likeNameContent = `<a href="/userProfile/profile" id="likeNameContent-${postId}-${like.userId}">You, </a>`;
 
     let likeField = `<input class="form-control" type="hidden" value="true" id="likeField-${postId}-${like.userId}"/>`;
     $("#friends-harmonic" + postId).prepend(likeContent);
@@ -155,13 +155,13 @@ function appendLikeOnPost(postId, like, count) {
     $("#likeHeart" + postId).css({ color: "#ff5e3a", fill: "#ff5e3a" });
   } else {
     let likeContent = `
-    <li id="likeContent-${postId}-${like.userId}">
-        <a href="/user/friendProfile?id=${like.userId}">
+    <li id="likeContent-${postId}-${like.userId}" target="_blank">
+        <a href="/userFriend/friendProfile?id=${like.userId}">
             <img src="${like.userImg}" alt="friend">
         </a>
     </li>
   `;
-    let likeNameContent = `<a href="/user/friendProfile?id=${like.userId}" id="likeNameContent-${postId}-${like.userId}">${like.userName}, </a>`;
+    let likeNameContent = `<a href="/userFriend/friendProfile?id=${like.userId}" id="likeNameContent-${postId}-${like.userId}" target="_blank">${like.userName}, </a>`;
     $("#friends-harmonic" + postId).prepend(likeContent);
     $("#names-people-likes" + postId).prepend(likeNameContent);
   }

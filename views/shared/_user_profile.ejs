@@ -11,15 +11,15 @@
 							<div class="col col-lg-5 col-md-5 col-sm-12 col-12">
 								<ul class="profile-menu">
 									<li>
-										<a href="/user/profile"
+										<a href="/userProfile/profile"
 											class="<%= action === "Profile" ? "active" : "" %>">Timeline</a>
 									</li>
 									<li>
-										<a href="/user/profileabout"
+										<a href="/userProfile/profileabout"
 											class="<%= action === "ProfileAbout" ? "active" : "" %>">About</a>
 									</li>
 									<li>
-										<a href="/user/friends"
+										<a href="/userProfile/friends"
 											class="<%= action === "Friends" ? "active" : "" %>">Friends</a>
 									</li>
 								</ul>
@@ -27,42 +27,25 @@
 							<div class="col col-lg-5 ml-auto col-md-5 col-sm-12 col-12">
 								<ul class="profile-menu">
 									<li>
-										<a href="/user/photos"
+										<a href="/userProfile/photos"
 											class="<%= action === "Photos" ? "active" : "" %>">Photos</a>
 									</li>
 									<li>
-										<a href="/user/videos"
+										<a href="/userProfile/videos"
 											class="<%= action === "Videos" ? "active" : "" %>">Videos</a>
-									</li>
-									<li>
-										<div class="more">
-											<svg class="olymp-three-dots-icon">
-												<use
-													xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon">
-												</use>
-											</svg>
-											<ul class="more-dropdown more-with-triangle">
-												<li>
-													<a href="#">Report Profile</a>
-												</li>
-												<li>
-													<a href="#">Block Profile</a>
-												</li>
-											</ul>
-										</div>
 									</li>
 								</ul>
 							</div>
 						</div>
 
 						<div class="control-block-button">
-							<a href="35-YourAccount-FriendsRequests.html" class="btn btn-control bg-blue">
+							<a href="javascript:;" class="btn btn-control bg-blue">
 								<svg class="olymp-happy-face-icon">
 									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
 								</svg>
 							</a>
 
-							<a href="#" class="btn btn-control bg-purple">
+							<a href="javascript:;" class="btn btn-control bg-purple">
 								<svg class="olymp-chat---messages-icon">
 									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-chat---messages-icon">
 									</use>
@@ -84,19 +67,19 @@
 											Photo</a>
 									</li>
 									<li>
-										<a href="/user/profilesettings">Account Settings</a>
+										<a href="/userProfile/profilesettings">Account Settings</a>
 									</li>
 								</ul>
 							</div>
 						</div>
 					</div>
 					<div class="top-header-author">
-						<a href="/user/profile" class="author-thumb">
+						<a href="/userProfile/profile" class="author-thumb">
 							<img src="<%= user.image %>" alt="author" style="width: 100%;">
 							<input type="hidden" value="<%= user.image%>" id="userImage" />
 						</a>
 						<div class="author-content">
-							<a href="/user/profile" class="h4 author-name"><%= user.firstName %>
+							<a href="/userProfile/profile" class="h4 author-name"><%= user.firstName %>
 								<%= user.lastName %></a>
 							<div class="country"><%= user.twitter.location%></div>
 						</div>

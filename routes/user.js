@@ -15,51 +15,52 @@ router.get("/newsfeed", function (req, res) {
 
 // Get all tweets from user timeline
 router.get("/tweets", function (req, res) {
-  if (req.session.isLoggedIn) {
-    var client = new Twitter({
-      consumer_key: process.env.TWITTER_CONSUMER_KEY,
-      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-      access_token_key: req.session.user.twitter.accessToken,
-      access_token_secret: req.session.user.twitter.secret,
-    });
-    client.get("statuses/home_timeline", function (error, tweets, response) {
-      res.json({ e: error, r: response, t: tweets });
-    });
-  } else {
+  if (!req.session.isLoggedIn) {
     res.json("-1");
   }
+  var client = new Twitter({
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token_key: req.session.user.twitter.accessToken,
+    access_token_secret: req.session.user.twitter.secret,
+  });
+  client.get("statuses/home_timeline", function (error, tweets, response) {
+    res.json({ e: error, r: response, t: tweets });
+  });
 });
 
 // Get all users post
 router.get("/myPosts", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let posts = [];
-    let isTweet = false;
-    firebase
-      .database()
-      .ref()
-      .child("Posts")
-      .orderByChild("userId")
-      .equalTo(req.session.user.id)
-      .once("value")
-      .then((data) => {
-        data.forEach((d) => {
-          let post = d.val();
-          post = { ...post, isTweet };
-          posts.push(post);
-        });
-        res.json(posts);
-      })
-      .catch((err) => {
-        res.json(posts);
-      });
-  } else {
+  if (!req.session.isLoggedIn) {
     res.json("-1");
   }
+  let posts = [];
+  let isTweet = false;
+  firebase
+    .database()
+    .ref()
+    .child("Posts")
+    .orderByChild("userId")
+    .equalTo(req.session.user.id)
+    .once("value")
+    .then((data) => {
+      data.forEach((d) => {
+        let post = d.val();
+        post = { ...post, isTweet };
+        posts.push(post);
+      });
+      res.json(posts);
+    })
+    .catch((err) => {
+      res.json(posts);
+    });
 });
 
 // Post status on twitter
 router.post("/postOnTwitter", function (req, res) {
+  if (!req.session.isLoggedIn) {
+    res.json("-1");
+  }
   let post = JSON.parse(req.body.post);
   let socialImageBase64 = req.body.socialImageBase64
     .toString()
@@ -140,32 +141,31 @@ router.post("/postOnTwitter", function (req, res) {
 });
 
 router.get("/allnotifications", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session.user;
-    firebase
-      .database()
-      .ref()
-      .child("Notifications")
-      .orderByChild("ownerId")
-      .equalTo(user.id)
-      .once("value")
-      .then((notifications) => {
-        res.render("pages/user/allnotifications", {
-          user: user,
-          action: "All Notifications",
-          notifications: notifications,
-        });
-      })
-      .catch((err) => {
-        res.render("pages/user/allnotifications", {
-          user: user,
-          action: "All Notifications",
-          notifications: [],
-        });
-      });
-  } else {
+  if (!req.session.isLoggedIn) {
     res.redirect("/");
   }
+  let user = req.session.user;
+  firebase
+    .database()
+    .ref()
+    .child("Notifications")
+    .orderByChild("ownerId")
+    .equalTo(user.id)
+    .once("value")
+    .then((notifications) => {
+      res.render("pages/user/allnotifications", {
+        user: user,
+        action: "All Notifications",
+        notifications: notifications,
+      });
+    })
+    .catch((err) => {
+      res.render("pages/user/allnotifications", {
+        user: user,
+        action: "All Notifications",
+        notifications: [],
+      });
+    });
 });
 
 router.post("/postOnFacebook", function (req, res) {
@@ -212,66 +212,6 @@ router.post("/postOnFacebook", function (req, res) {
   // });
 });
 
-router.get("/profilesettings", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session.user;
-    res.render("pages/user/profilesettings", {
-      user: user,
-      action: "ProfileSettings",
-    });
-  } else {
-    res.redirect("/");
-  }
-});
-
-router.get("/profile", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session.user;
-    res.render("pages/user/profile", { user: user, action: "Profile" });
-  } else {
-    res.redirect("/");
-  }
-});
-
-router.get("/profileabout", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session.user;
-    res.render("pages/user/profileabout", {
-      user: user,
-      action: "ProfileAbout",
-    });
-  } else {
-    res.redirect("/");
-  }
-});
-
-router.get("/friends", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session.user;
-    res.render("pages/user/friends", { user: user, action: "Friends" });
-  } else {
-    res.redirect("/");
-  }
-});
-
-router.get("/photos", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session.user;
-    res.render("pages/user/photos", { user: user, action: "Photos" });
-  } else {
-    res.redirect("/");
-  }
-});
-
-router.get("/videos", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session.user;
-    res.render("pages/user/videos", { user: user, action: "Videos" });
-  } else {
-    res.redirect("/");
-  }
-});
-
 // router.get("/fbgraph", function (req, res) {
 //   graph.setAccessToken(req.session.facebookAccessToken);
 //   graph.batch(
@@ -292,134 +232,36 @@ router.get("/videos", function (req, res) {
 // });
 
 router.get("/allchats", function (req, res) {
-  if (req.session.isLoggedIn) {
-    let user = req.session.user;
-    res.render("pages/user/allchats", {
-      user: user,
-      action: "All Chats/Messages",
-    });
-  } else {
+  if (!req.session.isLoggedIn) {
     res.redirect("/");
   }
+  let user = req.session.user;
+  res.render("pages/user/allchats", {
+    user: user,
+    action: "All Chats/Messages",
+  });
 });
 
 router.get("/getTwitterFriends", function (req, res) {
-  if (req.session.isLoggedIn) {
-    var client = new Twitter({
-      consumer_key: process.env.TWITTER_CONSUMER_KEY,
-      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-      access_token_key: req.session.user.twitter.accessToken,
-      access_token_secret: req.session.user.twitter.secret,
-    });
-    client.get("friends/list", { count: 200 }, function (
-      error,
-      tweets,
-      response
-    ) {
-      if (error) {
-        res.json("-1");
-      }
-      res.json({ friends: tweets.users });
-    });
-  } else {
-    res.redirect("/");
+  if (!req.session.isLoggedIn) {
+    res.json("-1");
   }
-});
-
-// Starting Actions related to Friend Profile
-router.get("/friendProfile", function (req, res) {
-  firebase
-    .database()
-    .ref()
-    .child("Users")
-    .child(req.query.id)
-    .once("value")
-    .then((friend) => {
-      res.render("pages/user/friendProfile", {
-        user: req.session.user,
-        friend: friend.val(),
-        action: "friendProfile",
-      });
-    })
-    .catch((e) => {
-      res.redirect("/");
-    });
-});
-
-router.get("/friendsOfFriend", function (req, res) {
-  firebase
-    .database()
-    .ref()
-    .child("Users")
-    .child(req.query.id)
-    .once("value")
-    .then((friend) => {
-      res.render("pages/user/friendsOfFriends", {
-        user: req.session.user,
-        friend: friend.val(),
-        action: "friendsOfFriend",
-      });
-    })
-    .catch((e) => {
-      res.redirect("/");
-    });
-});
-
-router.get("/friendProfileAbout", function (req, res) {
-  firebase
-    .database()
-    .ref()
-    .child("Users")
-    .child(req.query.id)
-    .once("value")
-    .then((friend) => {
-      res.render("pages/user/friendProfileAbout", {
-        user: req.session.user,
-        friend: friend.val(),
-        action: "friendProfileAbout",
-      });
-    })
-    .catch((e) => {
-      res.redirect("/");
-    });
-});
-
-router.get("/friendVideos", function (req, res) {
-  firebase
-    .database()
-    .ref()
-    .child("Users")
-    .child(req.query.id)
-    .once("value")
-    .then((friend) => {
-      res.render("pages/user/friendVideos", {
-        user: req.session.user,
-        friend: friend.val(),
-        action: "friendPVideos",
-      });
-    })
-    .catch((e) => {
-      res.redirect("/");
-    });
-});
-
-router.get("/friendPhotos", function (req, res) {
-  firebase
-    .database()
-    .ref()
-    .child("Users")
-    .child(req.query.id)
-    .once("value")
-    .then((friend) => {
-      res.render("pages/user/friendPhotos", {
-        user: req.session.user,
-        friend: friend.val(),
-        action: "friendPhotos",
-      });
-    })
-    .catch((e) => {
-      res.redirect("/");
-    });
+  var client = new Twitter({
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token_key: req.session.user.twitter.accessToken,
+    access_token_secret: req.session.user.twitter.secret,
+  });
+  client.get("friends/list", { count: 200 }, function (
+    error,
+    tweets,
+    response
+  ) {
+    if (error) {
+      res.json("-1");
+    }
+    res.json({ friends: tweets.users });
+  });
 });
 
 module.exports = router;
