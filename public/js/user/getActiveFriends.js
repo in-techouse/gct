@@ -5,6 +5,11 @@ const friends = [];
 $(document).ready(function () {
   console.log("Get Active Friends document is ready");
   getFriendsIds();
+
+  $(".js-chat-open").click(function () {
+    console.log("JS Chat Open Clicked");
+    $(".popup-chat-responsive").removeClass("open-chat");
+  });
 });
 
 function getFriendsIds() {
@@ -36,7 +41,9 @@ function getFriendProfile(index) {
     .then((friend) => {
       friends.push(friend.val());
       $("#chatUsers").append(`
-        <li class="inline-items js-chat-open" id="friendChat${friend.val().id}">
+        <li class="inline-items js-chat-open" id="friendChat${
+          friend.val().id
+        }" onclick="openChatBox('${friend.val().id}')">
             <div class="author-thumb">
                 <img alt="author" src="${
                   friend.val().image
@@ -50,4 +57,9 @@ function getFriendProfile(index) {
     .catch((e) => {
       getFriendProfile(index + 1);
     });
+}
+
+function openChatBox(id) {
+  console.log("Friend id is: ", id);
+  $(".popup-chat-responsive").toggleClass("open-chat");
 }
