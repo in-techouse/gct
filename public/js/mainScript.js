@@ -490,8 +490,22 @@ function appendPostToUserTimeline(post) {
       </div>`;
   }
   let profileUrl = "";
+  let editDelete = "";
   if (post.userId === postUser.id) {
     profileUrl = "/userProfile/profile";
+    editDelete = `<div class="more">
+    <svg class="olymp-three-dots-icon">
+      <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+    </svg>
+    <ul class="more-dropdown">
+      <li>
+        <a href="/user/editPost?id=${post.id}">Edit Post</a>
+      </li>
+      <li>
+        <a onclick="deletePostConfirmation('${post.id}')" href="javascript:;" data-toggle="modal" data-target="#delete-post">Delete Post</a>
+      </li>
+    </ul>
+  </div>`;
   } else {
     profileUrl = "/userFriend/friendProfile?id=" + post.userId;
   }
@@ -501,27 +515,16 @@ function appendPostToUserTimeline(post) {
       <div class="post__author author vcard inline-items">
         <img src="${post.userImg}" alt="author">
         <div class="author-date">
-          <a class="h6 post__author-name fn" href="${profileUrl}" target="_blank">${
-    post.userName
-  }</a>
+          <a class="h6 post__author-name fn" href="${profileUrl}" target="_blank">
+            ${post.userName}
+          </a>
           <div class="post__date">
             <time class="published" datetime="2004-07-24T18:18">
               ${getTimeDifference(post.timeStamps)}
             </time>
           </div>
         </div>
-        <div class="more"><svg class="olymp-three-dots-icon">
-            <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
-          </svg>
-          <ul class="more-dropdown">
-            <li>
-              <a href="javascript:;">Edit Post</a>
-            </li>
-            <li>
-              <a href="javascript:;">Delete Post</a>
-            </li>
-          </ul>
-        </div>
+        ${editDelete}
       </div>
       <p>${post.content}</p>
       ${tweetMedia}
@@ -582,9 +585,6 @@ function appendPostToUserTimeline(post) {
       post.id
     }" style="display: none;">            
     </ul>
-    <a href="javascript:;" class="postMoreComments${
-      post.id
-    } more-comments" style="display: none;">View more comments <span>+</span></a>
     <form id="postMyComment${
       post.id
     }" class="comment-form inline-items postMyComment${
@@ -623,4 +623,9 @@ function appendPostToUserTimeline(post) {
           `;
   $("#newsfeed-items-grid").prepend(postHtml);
   getLikesForPost(post.id);
+}
+
+function deletePostConfirmation(postId) {
+  console.log("Delete post id is: ", postId);
+  $("#deletePostId").val(postId);
 }

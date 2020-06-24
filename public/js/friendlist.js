@@ -74,7 +74,10 @@ function showOnFriendPage(userFriends) {
   $("#userFriendCount").text(
     friendUser.firstName + "'s Friends (" + userFriends.length + ")"
   );
+  $("#friendProfileCount").text("Friends (" + userFriends.length + ")");
   $("#loadingFriends").hide(300);
+  $("#loadingProfileFriends").hide(300);
+  let count = 0;
   userFriends.forEach((friend) => {
     let bgImage = "";
     if (
@@ -175,6 +178,21 @@ function showOnFriendPage(userFriends) {
       </div>
     `;
     $("#userFriendList").append(userFriendContent);
+    if (count < 17) {
+      let profileFriend = `
+        <li>
+          <a href="javascript:;">
+            <img src="${friend.profile_image_url_https}" alt="author">
+          </a>
+        </li>
+      `;
+      $("#profileFriendList").append(profileFriend);
+    } else if (count == 17) {
+      $("#profileFriendList").append(`<li class="all-users">
+        <a href="javascript:;">+${userFriends.length - 17}</a>
+      </li>`);
+    }
+    count++;
   });
 }
 
