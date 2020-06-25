@@ -5515,17 +5515,21 @@ fieldset[disabled] .checkbox, fieldset[disabled] .checkbox input[type=checkbox],
   .popup-chat .chat-message-field li {
     overflow: hidden;
     padding: 9px 25px; }
-    .popup-chat .chat-message-field li:nth-child(2n) .chat-message-item {
+    /* .popup-chat .chat-message-field li:nth-child(2n) .chat-message-item {
       background-color: #7c5ac2;
-      color: #fff; }
+      color: #fff; 
+    }
     .popup-chat .chat-message-field li:nth-child(2n) .author-thumb {
-      float: right; }
+      float: right; 
+    }
     .popup-chat .chat-message-field li:nth-child(2n) .chat-message-item {
-      float: right; }
+      float: right; 
+    }
     .popup-chat .chat-message-field li:nth-child(2n) .notification-event {
       float: right;
       padding-left: 0;
-      padding-right: 10px; }
+      padding-right: 10px; 
+    } */
   .popup-chat .add-options-message {
     position: absolute;
     right: 20px;

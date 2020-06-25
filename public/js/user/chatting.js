@@ -3,7 +3,7 @@ let friend = null;
 let friendId = "";
 let chatId = "";
 let messages = [];
-
+let messageRef = null;
 function loadFriendDetail(id) {
   $("#chatBox").empty();
   $("#chatBox").fadeOut(500);
@@ -50,6 +50,7 @@ function loadPreviousChat() {
         } else {
           // Friend's message
           setFriendMessage(m.val());
+          messages.push(m.val());
         }
       });
       $(".mCustomScrollbar").animate(
@@ -61,12 +62,48 @@ function loadPreviousChat() {
       $("#chatBox").fadeIn(500);
       $("#loadingChat").fadeOut(500);
       $("#messageBox").prop("disabled", false);
+      listenToMessages();
     })
     .catch((e) => {
       $("#chatBox").fadeIn(500);
       $("#loadingChat").fadeOut(500);
       $("#messageBox").prop("disabled", false);
     });
+}
+
+function listenToMessages() {
+  messageRef = firebase
+    .database()
+    .ref()
+    .child("Chats")
+    .child(chatId)
+    .orderByChild("userId")
+    .equalTo(friendId);
+  messageRef.on("value", function (snapshot) {
+    const maxTimeStamps = Math.max.apply(
+      Math,
+      messages.map(function (o) {
+        return o.timeStamps;
+      })
+    );
+    let playSound = false;
+    snapshot.forEach((m) => {
+      if (m.val().timeStamps > maxTimeStamps) {
+        playSound = true;
+        messages.push(m.val());
+        setFriendMessage(m.val());
+      }
+    });
+    if (playSound) {
+      $("#sound_tag")[0].play();
+      $(".mCustomScrollbar").animate(
+        {
+          scrollTop: $("#chatBox").height(),
+        },
+        1000
+      );
+    }
+  });
 }
 
 function setUserMessage(m) {
@@ -124,6 +161,14 @@ $(document).ready(function () {
         return false;
       }
     }
+  });
+
+  $(".js-chat-open").click(function () {
+    if (messageRef !== null) {
+      messageRef.off("value");
+    }
+    console.log("Chat box closed");
+    $(".popup-chat-responsive").removeClass("open-chat");
   });
 });
 

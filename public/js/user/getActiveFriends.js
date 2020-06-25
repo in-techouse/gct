@@ -5,11 +5,6 @@ const friends = [];
 $(document).ready(function () {
   console.log("Get Active Friends document is ready");
   getFriendsIds();
-
-  $(".js-chat-open").click(function () {
-    console.log("JS Chat Open Clicked");
-    $(".popup-chat-responsive").removeClass("open-chat");
-  });
 });
 
 function getFriendsIds() {
