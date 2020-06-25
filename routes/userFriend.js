@@ -21,7 +21,7 @@ router.get("/friendProfile", function (req, res) {
       });
     })
     .catch((e) => {
-      res.redirect("/");
+      res.redirect("/user/newsfeed");
     });
 });
 
@@ -44,7 +44,7 @@ router.get("/friendsOfFriend", function (req, res) {
       });
     })
     .catch((e) => {
-      res.redirect("/");
+      res.redirect("/user/newsfeed");
     });
 });
 
@@ -67,7 +67,7 @@ router.get("/friendProfileAbout", function (req, res) {
       });
     })
     .catch((e) => {
-      res.redirect("/");
+      res.redirect("/user/newsfeed");
     });
 });
 
@@ -90,7 +90,7 @@ router.get("/friendVideos", function (req, res) {
       });
     })
     .catch((e) => {
-      res.redirect("/");
+      res.redirect("/user/newsfeed");
     });
 });
 
@@ -106,14 +106,36 @@ router.get("/friendPhotos", function (req, res) {
     .child(req.query.id)
     .once("value")
     .then((friend) => {
-      res.render("pages/user/userFriend/friendPhotos", {
-        user: req.session.user,
-        friend: friend.val(),
-        action: "friendPhotos",
-      });
+      let photos = [];
+      firebase
+        .database()
+        .ref()
+        .child("Photos")
+        .child(friend.val().id)
+        .once("value")
+        .then((data) => {
+          data.forEach((p) => {
+            photos.push(p.val());
+          });
+          photos.reverse();
+          res.render("pages/user/userFriend/friendPhotos", {
+            user: req.session.user,
+            friend: friend.val(),
+            action: "friendPhotos",
+            photos: photos,
+          });
+        })
+        .catch((e) => {
+          res.render("pages/user/userFriend/friendPhotos", {
+            user: req.session.user,
+            friend: friend.val(),
+            action: "friendPhotos",
+            photos: photos,
+          });
+        });
     })
     .catch((e) => {
-      res.redirect("/");
+      res.redirect("/user/newsfeed");
     });
 });
 

@@ -25,10 +25,12 @@ function getFriendFriends(friendId) {
 function displayFriendList(friends) {
   const friendName = $("#friendName").val();
   $("#loadingFriends").hide(300);
+  $("#loadingFriendProfileFriends").hide(300);
   $("#friendsOfFriendCount").text(
     friendName + "'s Friends (" + friends.length + ")"
   );
-
+  $("#friendProfileFriendCount").text("Friends (" + friends.length + ")");
+  let count = 0;
   friends.forEach((friend) => {
     let bgImage = "";
     if (
@@ -129,6 +131,21 @@ function displayFriendList(friends) {
       </div>
     `;
     $("#userFriendList").append(userFriendContent);
+    if (count < 17) {
+      let profileFriend = `
+        <li>
+          <a href="javascript:;">
+            <img src="${friend.profile_image_url_https}" alt="author">
+          </a>
+        </li>
+      `;
+      $("#friendProfileFriendList").append(profileFriend);
+    } else if (count == 17) {
+      $("#friendProfileFriendList").append(`<li class="all-users">
+        <a href="javascript:;">+${friends.length - 17}</a>
+      </li>`);
+    }
+    count++;
   });
 }
 

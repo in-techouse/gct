@@ -4,10 +4,13 @@ $(document).ready(function () {
   console.log("Post Status Document is ready");
 
   $("#removeImage").click(function () {
-    $("#imageUpper").hide(400);
-    $("#postImage").attr("src", null);
-    $("#previewImage").attr("src", null);
+    $("#imageUpper").fadeOut(400);
     $("#url").val("");
+    $("#photoUpload").val("");
+    setTimeout(function () {
+      $("#postImage").attr("src", null);
+      $("#previewImage").attr("src", null);
+    }, 500);
   });
 
   $("#photoUploadIcon").click(function () {
@@ -117,8 +120,12 @@ $(document).ready(function () {
         $("#url").val("");
         $("#userContent").val("");
         $("#submitPost").prop("disabled", false);
+        $("#removeImage").trigger("click");
         appendPostToUserTimeline(post);
         postOnSocialMedia(post);
+        if (post.isImage) {
+          savePhoto(post.url);
+        }
       })
       .catch((e) => {
         console.log("Post Failure: ", e);

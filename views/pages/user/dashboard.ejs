@@ -36,16 +36,18 @@
 								<input type="hidden" name="userImg" id="userImg" value="<%= user.image %>" />
 								<input type="hidden" name="userName" id="userName"
 									value="<%= user.firstName %> <%= user.lastName %>" />
+								<input type="file" id="photoUpload" accept="image/*" style="display: none;" />
 								<input type="hidden" name="url" id="url" />
 								<div class="form-group with-icon label-floating is-empty">
-									<label class="control-label" style="top: 10px;">Share what you are thinking
-										here...</label>
+									<label class="control-label" style="top: 10px;">
+										Share what you are thinking here...
+									</label>
 									<textarea id="userContent" class="form-control" placeholder=""></textarea>
 								</div>
 								<div class="add-options-message" id="imageUpper">
 									<div class="row">
 										<img id="postImage" class="img-responsive img-thumbnail" />
-										<p id="removeImage" class="cross">X</p>
+										<p id="removeImage" class="cross" style="cursor: pointer;">X</p>
 									</div>
 									<hr />
 								</div>
@@ -176,6 +178,92 @@
 </div>
 <!-- ... end Window-popup Preview post -->
 
+
+<!-- Window-popup Update Header Photo -->
+<div class="modal fade" id="update-header-photo" tabindex="-1" role="dialog" aria-labelledby="update-header-photo"
+	aria-hidden="true">
+	<div class="modal-dialog window-popup update-header-photo" role="document">
+		<div class="modal-content">
+			<a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+				<svg class="olymp-close-icon">
+					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+				</svg>
+			</a>
+
+			<div class="modal-header">
+				<h6 class="title">Update Header Photo</h6>
+			</div>
+
+			<div class="modal-body">
+				<a href="javascript:;" class="upload-photo-item" id="photoUploadIcon">
+					<svg class="olymp-computer-icon">
+						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-computer-icon"></use>
+					</svg>
+
+					<h6>Upload Photo</h6>
+					<span>Browse your computer.</span>
+				</a>
+
+				<a href="javascript:;" class="upload-photo-item" data-toggle="modal"
+					data-target="#choose-from-my-photo">
+
+					<svg class="olymp-photos-icon">
+						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-photos-icon"></use>
+					</svg>
+
+					<h6>Choose from My Photos</h6>
+					<span>Choose from your uploaded photos</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ... end Window-popup Update Header Photo -->
+
+<!-- Window-popup Choose from my Photo -->
+<div class="modal fade" id="choose-from-my-photo" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo"
+	aria-hidden="true">
+	<div class="modal-dialog window-popup choose-from-my-photo" role="document">
+
+		<div class="modal-content">
+			<a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+				<svg class="olymp-close-icon">
+					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+				</svg>
+			</a>
+			<div class="modal-header">
+				<h6 class="title">Choose from My Photos</h6>
+			</div>
+
+			<div class="modal-body" style="max-height: 600px;">
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+						<div class="row" style="height: 500px; overflow-y: auto;" id="previousPhotos">
+						</div>
+						<div class="row">
+							<div class="col-md-5">
+								<a href="javascript:;" class="btn btn-secondary btn-block btn-lg" data-dismiss="modal"
+									aria-label="Close">
+									Cancel
+								</a>
+							</div>
+							<div class="col-md-2"></div>
+							<div class="col-md-5">
+								<a href="javascript:;" class="btn btn-primary btn-block btn-lg"
+									id="confirmPhotoSelection">
+									Confirm Photo
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- ... end Window-popup Choose from my Photo -->
 
 <!-- Window-popup Delete Post Confirmation -->
 <div class="modal fade" id="delete-post" tabindex="-1" role="dialog" aria-labelledby="delete-post" aria-hidden="true">

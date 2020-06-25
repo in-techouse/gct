@@ -1,2 +1,27 @@
 <% extend ('../../../mainLayout')%>
 <%- include('../../../shared/_friend_profile')%>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 order-xl-12 col-lg-12 order-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block">
+                <div class="ui-block-title">
+                    <h6 class="title">Last Photos</h6>
+                </div>
+                <div class="ui-block-content">
+                    <!-- W-Latest-Photo -->
+                    <ul class="widget w-last-photo js-zoom-gallery">
+                        <% photos.forEach(p=>{%>
+                        <li>
+                            <a href="<%= p %>">
+                                <img src="<%= p %>" alt="photo" style="height: 310px;">
+                            </a>
+                        </li>
+                        <%})%>
+                    </ul>
+                    <!-- .. end W-Latest-Photo -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -62,4 +62,6 @@ function getFriendProfile(index) {
 function openChatBox(id) {
   console.log("Friend id is: ", id);
   $(".popup-chat-responsive").toggleClass("open-chat");
+  $("#friendId").val(id);
+  loadFriendDetail(id);
 }
