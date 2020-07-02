@@ -208,6 +208,7 @@ router.get("/allnotifications", function (req, res) {
     res.redirect("/");
   }
   let user = req.session.user;
+  let notificationsArray = [];
   firebase
     .database()
     .ref()
@@ -216,17 +217,21 @@ router.get("/allnotifications", function (req, res) {
     .equalTo(user.id)
     .once("value")
     .then((notifications) => {
+      notifications.forEach((n) => {
+        notificationsArray.push(n.val());
+      });
+      notificationsArray.reverse();
       res.render("pages/user/allnotifications", {
         user: user,
         action: "All Notifications",
-        notifications: notifications,
+        notifications: notificationsArray,
       });
     })
     .catch((err) => {
       res.render("pages/user/allnotifications", {
         user: user,
         action: "All Notifications",
-        notifications: [],
+        notifications: notificationsArray,
       });
     });
 });
@@ -246,6 +251,9 @@ router.get("/showPost", function (req, res) {
   if (!req.session.isLoggedIn) {
     res.redirect("/");
   }
+  if (!req.query.id) {
+    res.redirect("/user/newsfeed");
+  }
   firebase
     .database()
     .ref()
@@ -253,6 +261,9 @@ router.get("/showPost", function (req, res) {
     .child(req.query.id)
     .once("value")
     .then((post) => {
+      if (post.val() === undefined || post.val() === null) {
+        res.redirect("/user/newsfeed");
+      }
       res.render("pages/user/showPost", {
         user: req.session.user,
         post: post.val(),

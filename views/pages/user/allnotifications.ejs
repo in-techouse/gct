@@ -20,31 +20,31 @@
 
                 <ul class="notification-list">
                     <% notifications.forEach(notification=>{%>
-                    <li class="<%= notification.val().read ? "" : "un-read" %>">
+                    <li class="<%= notification.read ? "" : "un-read" %>">
                         <div class="author-thumb">
-                            <img src="<%= notification.val().userImg %>" alt="author"
-                                onload="loadNotificationTime('<%= notification.val().id %>', '<%= notification.val().timeStamps %>')">
+                            <img src="<%= notification.userImg %>" alt="author"
+                                onload="loadNotificationTime('<%= notification.id %>', '<%= notification.timeStamps %>')">
                         </div>
                         <div class="notification-event">
                             <div>
-                                <% if (notification.val().userId === user.id ){ %>
+                                <% if (notification.userId === user.id ){ %>
                                 <a href="/userProfile/profile" class="h6 notification-friend">
-                                    <%= notification.val().userName %>
+                                    <%= notification.userName %>
                                 </a>
                                 <%} else { %>
-                                <a href="/userFriend/friendProfile?id=<%= notification.val().userId%>"
+                                <a href="/userFriend/friendProfile?id=<%= notification.userId%>"
                                     class="h6 notification-friend">
-                                    <%= notification.val().userName %>
+                                    <%= notification.userName %>
                                 </a>
                                 <%}%>
-                                <%= notification.val().notificatonText %>
-                                <a href="/user/postDetail?postId=<%= notification.val().postId%>"
+                                <%= notification.notificatonText %>
+                                <a href="/user/showPost?id=<%= notification.postId%>"
                                     class="notification-link">profile status
                                 </a>.
                             </div>
                             <span class="notification-date">
-                                <time class="entry-date updated" datetime="<%= notification.val().timeStamps %>"
-                                    id="notificationTime<%= notification.val().id %>">
+                                <time class="entry-date updated" datetime="<%= notification.timeStamps %>"
+                                    id="notificationTime<%= notification.id %>">
                                 </time>
                             </span>
                         </div>

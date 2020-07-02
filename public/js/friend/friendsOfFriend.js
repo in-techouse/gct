@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  const friendId = $("#friendId").val();
+  const friendId = $("#friendUserId").val();
   getFriendFriends(friendId);
 });
 

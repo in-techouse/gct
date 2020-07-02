@@ -1,1 +1,196 @@
 <% extend ('../../mainLayout')%>
+<div class="container">
+    <div class="row">
+
+        <!-- Left Sidebar -->
+        <main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+        </main>
+
+        <!-- Main Content -->
+        <main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+            <div id="newsfeed-items-grid">
+                <div class="ui-block">
+                    <article class="hentry post has-post-thumbnail shared-photo">
+                        <div class="post__author author vcard inline-items">
+                            <img src="<%= user.image %>" alt="author"
+                                onload="loadPostTime('<%= post.id %>', '<%= post.timeStamps%>')">
+                            <div class="author-date">
+                                <a class="h6 post__author-name fn" href="/userProfile/profile" target="_blank">
+                                    <%= user.firstName %>
+                                </a>
+                                <div class="post__date">
+                                    <time class="published" datetime="2004-07-24T18:18"
+                                        id="postTime<%= post.id %>"></time>
+                                </div>
+                            </div>
+                            <div class="more">
+                                <svg class="olymp-three-dots-icon">
+                                    <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                                </svg>
+                                <ul class="more-dropdown">
+                                    <li>
+                                        <a href="/user/editPost?id=<%= post.id %>">Edit Post</a>
+                                    </li>
+                                    <li>
+                                        <a onclick="deletePostConfirmation('<%= post.id %>')" href="javascript:;"
+                                            data-toggle="modal" data-target="#delete-post">Delete Post</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p><%= post.content %></p>
+                        <% if (post.url !== null && post.url !== undefined && post.url.length > 1) {%>
+                        <div class="post-thumb">
+                            <img src="<%= post.url %>" />
+                        </div>`;
+                        <%}%>
+                        <div class="post-additional-info inline-items">
+                            <a href="javascript:;" class="post-add-icon inline-items" id="likeHeart<%= post.id %>"
+                        onclick="likePost('<%= post.id %>')">
+                        <svg class="olymp-heart-icon">
+                            <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+                        </svg>
+                        <span id="likesCount<%= post.id %>"><%= post.likes %></span>
+                        </a>
+                        <ul class="friends-harmonic" id="friends-harmonic<%= post.id %>">
+                        </ul>
+                        <div class="names-people-likes" id="names-people-likes<%= post.id %>">
+                            <p id="andMorePeople<%= post.id %>"></p>
+                        </div>
+                        <div class="comments-shared">
+                            <a href="javascript:;" class="post-add-icon inline-items"
+                                onclick="showPostMyComment('<%= post.id %>')">
+                                <svg class="olymp-speech-balloon-icon">
+                                    <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon">
+                                    </use>
+                                </svg>
+                                <span id="commentsCount<%= post.id %>"><%= post.comments %></span>
+                            </a>
+                        </div>
+                </div>
+                <div class="control-block-button post-control-button">
+                    <a href="javascript:;" class="btn btn-control" id="likeBtn<%= post.id %>"
+                        onclick="likePost('<%= post.id %>')">
+                        <svg class="olymp-like-post-icon">
+                            <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
+                        </svg>
+                    </a>
+                    <a href="javascript:;" class="btn btn-control" onclick="showPostMyComment('<%= post.id %>')">
+                        <svg class="olymp-comments-post-icon">
+                            <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-comments-post-icon">
+                            </use>
+                        </svg>
+                    </a>
+                </div>
+                </article>
+                <div class="row" id="loadingComments<%= post.id %>" style="display: none;">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <center>
+                            <img src="/public/img/loadingg.gif" style="width: 40px" />
+                        </center>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <ul class="comments-list postComments<%= post.id %>">
+                </ul>
+                <form id="postMyComment<%= post.id %>" class="comment-form inline-items postMyComment<%= post.id %>">
+                    <div class="post__author author vcard inline-items">
+                        <img src="<%= user.image %>" alt="author">
+
+                        <div class="form-group with-icon-right ">
+                            <textarea class="form-control" placeholder=""
+                                id="postCommentContent<%= post.id %>"></textarea>
+                            <div class="add-options-message">
+                                <a href="javascript:;" class="options-message" data-toggle="modal"
+                                    data-target="#update-header-photo">
+                                    <svg class="olymp-camera-icon">
+                                        <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
+                                        </use>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: auto; float: right;">
+                        <button class="btn btn-md-2 btn-primary">Post Comment</button>
+
+                        <a href="javascript:;" onclick="showPostMyComment('<%= post.id %>')"
+                            class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color"
+                            style="margin-right: 10px; margin-top: 15px; padding: .8rem 2.1rem !important">Cancel
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+    </div>
+    </main>
+
+    <!-- ... end Main Content -->
+
+
+    <!-- Right Sidebar -->
+    <main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+    </main>
+
+
+</div>
+</div>
+
+<!-- Window-popup Delete Post Confirmation -->
+<div class="modal fade" id="delete-post" tabindex="-1" role="dialog" aria-labelledby="delete-post" aria-hidden="true">
+    <div class="modal-dialog window-popup restore-password-popup" role="document">
+        <div class="modal-content">
+            <a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon">
+                    <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+                </svg>
+            </a>
+
+            <div class="modal-header">
+                <h6 class="title">DELETE POST CONFIRMATION</h6>
+            </div>
+
+            <div class="modal-body">
+                <form action="/user/deletePost" method="POST">
+                    <p>Are you sure to delete this post?</p>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" name="deletePostId" id="deletePostId" />
+                    </div>
+                    <div class="btn-group-horizontal" style="width: 150px; float: right;">
+                        <a data-dismiss="modal" aria-label="Close" href="javascript:;" class="btn btn-primary"
+                            style="padding-top: 8px; padding-bottom: 8px;">CLOSE</a>
+                        <button class="btn btn-danger">DELETE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Window-popup Delete Post Confirmation -->
+
+<script>
+    function loadPostTime(id, time) {
+        let current = moment();
+        let postTime = moment.unix(time);
+        let hours = current.diff(postTime, "hours", true);
+        let minutes = current.diff(postTime, "minutes", true);
+        let formattedTime = "";
+        if (hours < 23) {
+            if (hours >= 1) {
+                let finalHour = Math.round(hours);
+                formattedTime = "" + finalHour + " hours ago";
+            } else {
+                let finalMinutes = Math.round(minutes);
+                formattedTime = finalMinutes + " minutes ago";
+            }
+        } else {
+            formattedTime = moment(postTime).format("ddd, Do, MMM-YYYY hh:mm A");
+        }
+        $("#postTime" + id).text(formattedTime);
+        $("#loadingComments" + id).show(300);
+        getLikesForPost(id);
+        showPostMyComment(id);
+        loadComments(id);
+    }
+</script>
