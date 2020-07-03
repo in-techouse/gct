@@ -279,6 +279,9 @@ router.get("/editPost", function (req, res) {
   if (!req.session.isLoggedIn) {
     res.redirect("/");
   }
+  if (!req.query.id) {
+    res.redirect("/user/newsfeed");
+  }
   firebase
     .database()
     .ref()
@@ -286,11 +289,53 @@ router.get("/editPost", function (req, res) {
     .child(req.query.id)
     .once("value")
     .then((post) => {
+      if (post.val() === undefined || post.val() === null) {
+        res.redirect("/user/newsfeed");
+      }
       res.render("pages/user/editPost", {
         user: req.session.user,
         post: post.val(),
         action: "EditPost",
       });
+    })
+    .catch((e) => {
+      res.redirect("/user/newsfeed");
+    });
+});
+
+router.post("/editPost", function (req, res) {
+  if (!req.session.isLoggedIn) {
+    res.redirect("/");
+  }
+  let updatePost = {
+    id: req.body.postId,
+    content: req.body.userContent,
+    isImage: req.body.isImage === "true" ? true : false,
+    url: req.body.url,
+  };
+  firebase
+    .database()
+    .ref()
+    .child("Posts")
+    .child(updatePost.id)
+    .once("value")
+    .then((p) => {
+      if (p.val() === undefined || p.val() === null) {
+        res.redirect("/user/newsfeed");
+      }
+      let post = p.val();
+      post.isImage = updatePost.isImage;
+      post.url = updatePost.url;
+      post.content = updatePost.content;
+      firebase
+        .database()
+        .ref()
+        .child("Posts")
+        .child(post.id)
+        .set(post)
+        .then((r) => {
+          res.redirect("/user/newsfeed");
+        });
     })
     .catch((e) => {
       res.redirect("/user/newsfeed");

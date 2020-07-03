@@ -1,1 +1,263 @@
 <% extend ('../../mainLayout')%>
+<div class="container">
+    <div class="row">
+
+        <!-- Left Sidebar -->
+        <main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+        </main>
+
+        <!-- Main Content -->
+        <main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+            <div class="ui-block">
+                <!-- News Feed Form  -->
+                <div class="news-feed-form">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab"
+                                aria-expanded="true">
+                                <svg class="olymp-status-icon">
+                                    <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-status-icon"></use>
+                                </svg>
+                                <span>Status</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
+                            <form id="editStatus" action="/user/editPost" method="POST">
+                                <div class="author-thumb">
+                                    <img src="<%= user.image %>" alt="author" style="margin-left: -10px;">
+                                </div>
+                                <input type="hidden" name="postId" id="postId" value="<%= post.id %>" />
+                                <input type="hidden" name="userId" id="userId" value="<%= user.id %>" />
+                                <input type="hidden" name="userImg" id="userImg" value="<%= user.image %>" />
+                                <input type="hidden" name="userName" id="userName"
+                                    value="<%= user.firstName %> <%= user.lastName %>" />
+                                <input type="file" id="photoUpload" accept="image/*" style="display: none;" />
+                                <input type="hidden" name="url" id="url" value="<%= post.url %>" />
+                                <input type="hidden" name="isImage" id="isImage" value="<%= post.isImage %>" />
+                                <div class="form-group with-icon label-floating is-empty">
+                                    <label class="control-label" style="top: 10px;">
+                                        Share what you are thinking here...
+                                    </label>
+                                    <textarea id="userContent" name="userContent" class="form-control"
+                                        placeholder=""><%= post.content %></textarea>
+                                </div>
+                                <% if( post.url !== null && post.url !== undefined && post.url.length > 0){%>
+                                <div class="add-options-message" id="imageUpper" style="display: block;">
+                                    <div class="row">
+                                        <img id="postImage" class="img-responsive img-thumbnail"
+                                            src="<%= post.url %>" />
+                                        <p id="removeImage" class="cross" style="cursor: pointer;">X</p>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <%} else {%>
+                                <div class="add-options-message" id="imageUpper">
+                                    <div class="row">
+                                        <img id="postImage" class="img-responsive img-thumbnail" />
+                                        <p id="removeImage" class="cross" style="cursor: pointer;">X</p>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <%}%>
+
+                                <div class="add-options-message">
+                                    <a href="javascript:;" class="options-message" data-toggle="tooltip"
+                                        data-placement="top" data-original-title="ADD PHOTOS">
+                                        <svg class="olymp-camera-icon" data-toggle="modal"
+                                            data-target="#update-header-photo">
+                                            <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
+                                            </use>
+                                        </svg>
+                                    </a>
+
+                                    <a href="javascript:;" class="btn btn-sm btn-outline-primary customBtn"
+                                        id="facebookPost">
+                                        Post on Facebook <i class="fab fa-facebook faceBookIcon"></i>
+                                    </a>
+                                    <a href="javascript:;" class="btn btn-sm btn-outline-primary customBtn"
+                                        id="twitterPost">
+                                        Post on Twitter <i class="fab fa-twitter twitterIcon"></i>
+                                    </a>
+
+                                    <button id="submitPost" type="submit" class="btn btn-primary btn-md-2">Post
+                                        Status</button>
+                                    <a id="previewPost" href="javascript:;"
+                                        class="btn btn-md-2 btn-border-think btn-transparent c-grey customBtn"
+                                        data-toggle="modal" data-target="#preview-post">PREVIEW POST</a>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="statusSuccessAlert" style="display: none;"
+                                            class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div id="statusFailAlert" style="display: none;"
+                                            class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ... end News Feed Form  -->
+            </div>
+        </main>
+        <!-- ... end Main Content -->
+        <!-- Right Sidebar -->
+        <main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+        </main>
+    </div>
+</div>
+
+<!-- Window-popup Prweview Post -->
+<div class="modal fade" id="preview-post" tabindex="-1" role="dialog" aria-labelledby="preview-post" aria-hidden="true">
+    <div class="modal-dialog window-popup restore-password-popup" role="document">
+        <div class="modal-content">
+            <a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon">
+                    <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+                </svg>
+            </a>
+
+            <div class="modal-header">
+                <h6 class="title">POST PREVIEW</h6>
+            </div>
+
+            <div class="modal-body">
+                <div class="ui-block">
+
+                    <article class="hentry post">
+
+                        <div class="post__author author vcard inline-items">
+                            <img src="<%= user.image %>" alt="author"/>
+                                <div class="author-date">
+                                    <a class="h6 post__author-name fn" href="javascript:;"><%= user.firstName %>
+                                        <%= user.lastName %>
+                                    </a>
+                                    <div class="post__date">
+                                        <time class="published" datetime="2004-07-24T18:18">
+                                            Just now
+                                        </time>
+                                    </div>
+                                </div>
+                        </div>
+                        <p id="postText"><%= post.content %></p>
+                        <% if( post.url !== null && post.url !== undefined && post.url.length > 0){%>
+                        <img id="previewImage" src="<%= post.url %>">
+                        <%} else {%>
+                        <img id="previewImage">
+                        <%}%>
+                        </article>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<!-- ... end Window-popup Preview post -->
+
+<!-- Window-popup Update Header Photo -->
+<div class="modal fade" id="update-header-photo" tabindex="-1" role="dialog" aria-labelledby="update-header-photo"
+    aria-hidden="true">
+    <div class="modal-dialog window-popup update-header-photo" role="document">
+        <div class="modal-content">
+            <a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon">
+                    <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+                </svg>
+            </a>
+
+            <div class="modal-header">
+                <h6 class="title">Update Header Photo</h6>
+            </div>
+
+            <div class="modal-body">
+                <a href="javascript:;" class="upload-photo-item" id="photoUploadIcon">
+                    <svg class="olymp-computer-icon">
+                        <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-computer-icon"></use>
+                    </svg>
+
+                    <h6>Upload Photo</h6>
+                    <span>Browse your computer.</span>
+                </a>
+
+                <a href="javascript:;" class="upload-photo-item" data-toggle="modal"
+                    data-target="#choose-from-my-photo">
+
+                    <svg class="olymp-photos-icon">
+                        <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-photos-icon"></use>
+                    </svg>
+
+                    <h6>Choose from My Photos</h6>
+                    <span>Choose from your uploaded photos</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ... end Window-popup Update Header Photo -->
+
+<!-- Window-popup Choose from my Photo -->
+<div class="modal fade" id="choose-from-my-photo" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo"
+    aria-hidden="true">
+    <div class="modal-dialog window-popup choose-from-my-photo" role="document">
+
+        <div class="modal-content">
+            <a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon">
+                    <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+                </svg>
+            </a>
+            <div class="modal-header">
+                <h6 class="title">Choose from My Photos</h6>
+            </div>
+
+            <div class="modal-body" style="max-height: 600px;">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+                        <div class="row" style="height: 500px; overflow-y: auto;" id="previousPhotos">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <a href="javascript:;" class="btn btn-secondary btn-block btn-lg" data-dismiss="modal"
+                                    aria-label="Close">
+                                    Cancel
+                                </a>
+                            </div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-5">
+                                <a href="javascript:;" class="btn btn-primary btn-block btn-lg"
+                                    id="confirmPhotoSelection">
+                                    Confirm Photo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- ... end Window-popup Choose from my Photo -->
+<script src="/public/js/user/editPost.js"></script>
+
+<script>
+
+</script>
