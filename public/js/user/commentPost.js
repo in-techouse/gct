@@ -108,16 +108,148 @@ function appendComment(comment, postId) {
 
       <p>${comment.comment}</p>
 
-      <a href="javascript:;" class="post-add-icon inline-items">
+      <a href="javascript:;" class="post-add-icon inline-items" id="commentLike${
+        comment.id
+      }" onclick=likeComment('${comment.id}')>
         <svg class="olymp-heart-icon">
           <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
         </svg>
-        <span>${comment.likes}</span>
+        <span id="commentLikes${comment.id}">${comment.likes}</span>
       </a>
     </li>
   `;
   $(".postComments" + postId).append(commentHtml);
   console.log("Comment Appended");
+  loadCommentLikes(comment.id);
+}
+
+function loadCommentLikes(id) {
+  firebase
+    .database()
+    .ref()
+    .child("CommentLikes")
+    .orderByChild("commentId")
+    .equalTo(id)
+    .once("value")
+    .then((data) => {
+      data.forEach((d) => {
+        if (d.val().userId === postCommentUser.id) {
+          $("#commentLike" + id).css({ color: "#ff5e3a", fill: "#ff5e3a" });
+          let likeCommentField = `<input class="form-control" type="hidden" value="true" id="likeCommentField-${id}-${postCommentUser.id}"/>`;
+          $("#commentLike" + id).append(likeCommentField);
+        }
+      });
+    });
+}
+
+function likeComment(id) {
+  console.log("Like Comment Id: ", id);
+  const likeFieldValue = $(
+    `#likeCommentField-${id}-${postCommentUser.id}`
+  ).val();
+  console.log("likeFieldValue: ", likeFieldValue);
+  if (likeFieldValue === "true" || likeFieldValue === true) {
+    // Unlike comment
+    $("#commentLike" + id).css({ color: "#9a9fbf", fill: "#9a9fbf" });
+    $(`#likeCommentField-${id}-${postCommentUser.id}`).remove();
+    firebase
+      .database()
+      .ref()
+      .child("Comments")
+      .child(id)
+      .once("value")
+      .then((d) => {
+        console.log("Comment: ", d.val());
+        let likeCount = d.val().likes;
+        if (likeCount === undefined || likeCount === null) {
+          likeCount = 0;
+        } else {
+          likeCount--;
+        }
+        $("#commentLikes" + id).text(likeCount);
+        firebase
+          .database()
+          .ref()
+          .child("Comments")
+          .child(id)
+          .child("likes")
+          .set(likeCount);
+        deleteCommentLikeFromDatabase(id);
+      });
+  } else {
+    // Like comment
+    $("#commentLike" + id).css({ color: "#ff5e3a", fill: "#ff5e3a" });
+    firebase
+      .database()
+      .ref()
+      .child("Comments")
+      .child(id)
+      .once("value")
+      .then((d) => {
+        console.log("Comment: ", d.val());
+        let likeCount = d.val().likes;
+        if (likeCount === undefined || likeCount === null) {
+          likeCount = 0;
+        } else {
+          likeCount++;
+        }
+        $("#commentLikes" + id).text(likeCount);
+        firebase
+          .database()
+          .ref()
+          .child("Comments")
+          .child(id)
+          .child("likes")
+          .set(likeCount);
+        let likeCommentField = `<input class="form-control" type="hidden" value="true" id="likeCommentField-${id}-${postCommentUser.id}"/>`;
+        $("#commentLike" + id).append(likeCommentField);
+        let likeId = firebase.database().ref().child("CommentLikes").push().key;
+        let timeStamps = parseInt(moment().format("X"));
+        let formattedTime = moment().format("ddd, Do, MMM-YYYY hh:mm A");
+        let like = {
+          id: likeId,
+          commentId: id,
+          userName: postCommentUser.firstName + " " + postCommentUser.lastName,
+          userId: postCommentUser.id,
+          userImg: postCommentUser.image,
+          timeStamps,
+          formattedTime,
+        };
+        firebase
+          .database()
+          .ref()
+          .child("CommentLikes")
+          .child(like.id)
+          .set(like);
+      })
+      .catch((e) => {
+        console.log("Comment Error: ", e);
+      });
+  }
+}
+
+function deleteCommentLikeFromDatabase(id) {
+  console.log("Delete Like of Comment: ", id);
+  firebase
+    .database()
+    .ref()
+    .child("CommentLikes")
+    .orderByChild("commentId")
+    .equalTo(id)
+    .once("value")
+    .then((data) => {
+      data.forEach((d) => {
+        const like = d.val();
+        if (like.userId === postCommentUser.id) {
+          firebase
+            .database()
+            .ref()
+            .child("CommentLikes")
+            .child(like.id)
+            .remove();
+        }
+      });
+    });
 }
 
 function loadComments(postId) {
