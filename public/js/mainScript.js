@@ -457,6 +457,55 @@ $(document).ready(function () {
         });
     }
   });
+
+  $("#deletePostForm").submit(function (e) {
+    $("#deleteClose").hide(300);
+    $("#deleteConfirm").hide(300);
+    $("#deleteLoading").show(400);
+    e.preventDefault();
+    console.log("Form is stopped");
+    const postId = $("#deletePostId").val();
+    console.log("Post Id to be deleted is: ", postId);
+    const dbRef = firebase.database().ref();
+    // Delete Post Notifications
+    dbRef
+      .child("Notifications")
+      .orderByChild("postId")
+      .equalTo(postId)
+      .once("value")
+      .then((notifications) => {
+        notifications.forEach((n) => {
+          dbRef.child("Notifications").child(n.val().id).remove();
+        });
+      });
+    // Delete Post Likes
+    dbRef
+      .child("Likes")
+      .orderByChild("postId")
+      .equalTo(postId)
+      .once("value")
+      .then((likes) => {
+        likes.forEach((like) => {
+          dbRef.child("Likes").child(like.val().id).remove();
+        });
+      });
+    // Delete Post Comments
+    dbRef
+      .child("Comments")
+      .orderByChild("postId")
+      .equalTo(postId)
+      .once("value")
+      .then((comments) => {
+        comments.forEach((c) => {
+          dbRef.child("Comments").child(c.val().id).remove();
+        });
+      });
+    // Delete Post
+    dbRef.child("Posts").child(postId).remove();
+    setTimeout(function () {
+      window.location.href = "/user/newsfeed";
+    }, 2000);
+  });
 });
 
 function getTimeDifference(timeStamps) {

@@ -1,5 +1,6 @@
 const notificationUser = JSON.parse(localStorage.getItem("user"));
-const notifications = [];
+let notificationsPlay = [];
+let notifications = [];
 $(document).ready(function () {
   console.log("Notification Document is ready");
   var starCountRef = firebase
@@ -11,23 +12,31 @@ $(document).ready(function () {
   starCountRef.on("value", function (snapshot) {
     let count = 0;
     let play = false;
+    notificationsPlay = [];
+    notifications = [];
     $("#notificationCount").text("");
     $("#notificationCount").fadeOut(500);
     $("#notificationList").empty();
     snapshot.forEach((noti) => {
       const notification = noti.val();
-      if (!notification.read) {
-        count++;
+      console.log("NotificationJS, Notification: ", notification);
+      if (notification.id && notification.postId) {
+        if (!notification.read) {
+          count++;
+        }
+        if (!notification.play) {
+          notificationsPlay.push(notification);
+          play = true;
+        }
+        if (count > 0) {
+          $("#notificationCount").text(count);
+          $("#notificationCount").fadeIn(500);
+        }
+        insertNotificationToDisplay(notification);
+        notifications.push(notification);
+      } else {
+        console.log("Notification id and post id not found: ", notification);
       }
-      if (!notification.play) {
-        play = true;
-      }
-      if (count > 0) {
-        $("#notificationCount").text(count);
-        $("#notificationCount").fadeIn(500);
-      }
-      notifications.push(notification);
-      insertNotificationToDisplay(notification);
     });
     if (play) {
       $("#sound_tag")[0].play();
@@ -87,7 +96,8 @@ function markedAsRead() {
 }
 
 function markedAsPlay() {
-  notifications.forEach((noti) => {
+  notificationsPlay.forEach((noti) => {
+    console.log("Marked as play called for: ", noti);
     firebase
       .database()
       .ref()

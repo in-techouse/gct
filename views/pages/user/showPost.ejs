@@ -146,21 +146,20 @@
                     <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
                 </svg>
             </a>
-
             <div class="modal-header">
                 <h6 class="title">DELETE POST CONFIRMATION</h6>
             </div>
-
             <div class="modal-body">
-                <form action="/user/deletePost" method="POST">
+                <form action="/user/deletePost" method="POST" id="deletePostForm">
                     <p>Are you sure to delete this post?</p>
                     <div class="form-group">
                         <input type="hidden" class="form-control" name="deletePostId" id="deletePostId" />
                     </div>
                     <div class="btn-group-horizontal" style="width: 150px; float: right;">
-                        <a data-dismiss="modal" aria-label="Close" href="javascript:;" class="btn btn-primary"
-                            style="padding-top: 8px; padding-bottom: 8px;">CLOSE</a>
-                        <button class="btn btn-danger">DELETE</button>
+                        <a id="deleteClose" data-dismiss="modal" aria-label="Close" href="javascript:;"
+                            class="btn btn-primary" style="padding-top: 8px; padding-bottom: 8px;">CLOSE</a>
+                        <button id="deleteConfirm" class="btn btn-danger">DELETE</button>
+                        <img src="/public/img/loadingg.gif" style="width: 50px; display: none;" id="deleteLoading" />
                     </div>
                 </form>
             </div>

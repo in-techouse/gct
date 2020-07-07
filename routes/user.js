@@ -342,25 +342,6 @@ router.post("/editPost", function (req, res) {
     });
 });
 
-router.post("/deletePost", function (req, res) {
-  if (!req.session.isLoggedIn) {
-    res.redirect("/");
-  }
-  let deleteRef = firebase
-    .database()
-    .ref()
-    .child("Posts")
-    .child(req.body.deletePostId);
-  deleteRef
-    .remove()
-    .then((r) => {
-      res.redirect("/user/newsfeed");
-    })
-    .catch((e) => {
-      res.redirect("/user/newsfeed");
-    });
-});
-
 router.get("/getTwitterFriends", function (req, res) {
   if (!req.session.isLoggedIn) {
     res.json("-1");
