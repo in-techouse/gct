@@ -1,4 +1,6 @@
 const postCommentUser = JSON.parse(localStorage.getItem("user"));
+let isEditing = false;
+let activeComment = null;
 
 function showPostMyComment(postId) {
   console.log("Comment Post id: ", postId);
@@ -23,59 +25,75 @@ function showPostMyComment(postId) {
       postCommentContent !== undefined &&
       postCommentContent.length > 1
     ) {
-      console.log("Post Comment Content is valid");
-
-      let commentId = firebase.database().ref().child("Comments").push().key;
-      let timeStamps = parseInt(moment().format("X"));
-      let formattedTime = moment().format("ddd, Do, MMM-YYYY hh:mm A");
-      let comment = {
-        id: commentId,
-        postId,
-        userName: postCommentUser.firstName + " " + postCommentUser.lastName,
-        userId: postCommentUser.id,
-        userImg: postCommentUser.image,
-        timeStamps,
-        formattedTime,
-        comment: postCommentContent,
-        likes: 0,
-      };
-      firebase
-        .database()
-        .ref()
-        .child("Comments")
-        .child(comment.id)
-        .set(comment);
-      $("#postCommentContent" + postId).val("");
-      appendComment(comment, postId);
-      firebase
-        .database()
-        .ref()
-        .child("Posts")
-        .child(postId)
-        .once("value")
-        .then((r) => {
-          let post = r.val();
-          console.log("Post: ", post);
-          let comments = post.comments;
-          if (comments === undefined || comments === null) {
-            comments = 0;
-          }
-          comments++;
-          $("#commentsCount" + postId).text(comments);
-          firebase
-            .database()
-            .ref()
-            .child("Posts")
-            .child(postId)
-            .child("comments")
-            .set(comments);
-          sendCommentNotification(post);
-        });
+      if (isEditing === true) {
+        console.log("Edit Comment");
+        activeComment.comment = postCommentContent;
+        $("#commentItem" + activeComment.id).remove();
+        firebase
+          .database()
+          .ref()
+          .child("Comments")
+          .child(activeComment.id)
+          .set(activeComment);
+        $("#postCommentContent" + activeComment.postId).val("");
+        appendComment(activeComment, activeComment.postId);
+        $("#postCommentButton" + activeComment.postId).html("POST COMMENT");
+        activeComment = null;
+        isEditing = false;
+      } else {
+        console.log("New Comment");
+        let commentId = firebase.database().ref().child("Comments").push().key;
+        let timeStamps = parseInt(moment().format("X"));
+        let formattedTime = moment().format("ddd, Do, MMM-YYYY hh:mm A");
+        let comment = {
+          id: commentId,
+          postId,
+          userName: postCommentUser.firstName + " " + postCommentUser.lastName,
+          userId: postCommentUser.id,
+          userImg: postCommentUser.image,
+          timeStamps,
+          formattedTime,
+          comment: postCommentContent,
+          likes: 0,
+        };
+        firebase
+          .database()
+          .ref()
+          .child("Comments")
+          .child(comment.id)
+          .set(comment);
+        $("#postCommentContent" + postId).val("");
+        appendComment(comment, postId);
+        firebase
+          .database()
+          .ref()
+          .child("Posts")
+          .child(postId)
+          .once("value")
+          .then((r) => {
+            let post = r.val();
+            console.log("Post: ", post);
+            let comments = post.comments;
+            if (comments === undefined || comments === null) {
+              comments = 0;
+            }
+            comments++;
+            $("#commentsCount" + postId).text(comments);
+            firebase
+              .database()
+              .ref()
+              .child("Posts")
+              .child(postId)
+              .child("comments")
+              .set(comments);
+            sendCommentNotification(post);
+          });
+      }
     }
   });
 }
 
-function deleteCommentFromDatabae(id, postId) {
+function deleteCommentFromDatabase(id, postId) {
   const dbRef = firebase.database().ref();
   dbRef
     .child("Posts")
@@ -99,6 +117,25 @@ function deleteCommentFromDatabae(id, postId) {
     });
 }
 
+function editUserComment(id) {
+  console.log("Comment Id: ", id);
+  firebase
+    .database()
+    .ref()
+    .child("Comments")
+    .child(id)
+    .once("value")
+    .then((c) => {
+      activeComment = c.val();
+      console.log("Active Comment is: ", activeComment);
+      isEditing = true;
+      $("#postCommentButton" + activeComment.postId).html("UPDATE COMMENT");
+      $("#postCommentContent" + activeComment.postId).val(
+        activeComment.comment
+      );
+    });
+}
+
 function appendComment(comment, postId) {
   let profileUrl = "";
   let editDeleteContent = "";
@@ -111,10 +148,10 @@ function appendComment(comment, postId) {
         </svg>
         <ul class="more-dropdown">
           <li>
-            <a href="javascript:;">Edit Comment</a>
+            <a href="javascript:;" onclick="editUserComment('${comment.id}')">Edit Comment</a>
           </li>
           <li>
-            <a href="javascript:;" onclick="deleteCommentFromDatabae('${comment.id}', '${comment.postId}')">Delete Comment</a>
+            <a href="javascript:;" onclick="deleteCommentFromDatabase('${comment.id}', '${comment.postId}')">Delete Comment</a>
           </li>
         </ul>
       </div>`;

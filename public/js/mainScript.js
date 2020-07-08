@@ -659,7 +659,9 @@ function appendPostToUserTimeline(post) {
         </div>
       </div>
       <div style="width: auto; float: right;">
-        <button class="btn btn-md-2 btn-primary">Post Comment</button>
+        <button class="btn btn-md-2 btn-primary" id="postCommentButton${
+          post.id
+        }">Post Comment</button>
 
         <a href="javascript:;" onclick="showPostMyComment('${
           post.id
