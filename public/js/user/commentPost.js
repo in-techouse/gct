@@ -75,18 +75,56 @@ function showPostMyComment(postId) {
   });
 }
 
+function deleteCommentFromDatabae(id, postId) {
+  const dbRef = firebase.database().ref();
+  dbRef
+    .child("Posts")
+    .child(postId)
+    .once("value")
+    .then((p) => {
+      let post = p.val();
+      if (
+        post.comments === undefined ||
+        post.comments === null ||
+        post.comments < 1
+      ) {
+        post.comments = 0;
+      } else {
+        post.comments = post.comments - 1;
+      }
+      $("#commentsCount" + postId).text(post.comments);
+      dbRef.child("Posts").child(postId).set(post);
+      dbRef.child("Comments").child(id).remove();
+      $("#commentItem" + id).remove();
+    });
+}
+
 function appendComment(comment, postId) {
   let profileUrl = "";
+  let editDeleteContent = "";
   if (comment.userId === postCommentUser.id) {
     profileUrl = "/userProfile/profile";
+    editDeleteContent = `
+      <div class="more">
+        <svg class="olymp-three-dots-icon">
+          <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+        </svg>
+        <ul class="more-dropdown">
+          <li>
+            <a href="javascript:;">Edit Comment</a>
+          </li>
+          <li>
+            <a href="javascript:;" onclick="deleteCommentFromDatabae('${comment.id}', '${comment.postId}')">Delete Comment</a>
+          </li>
+        </ul>
+      </div>`;
   } else {
     profileUrl = "/userFriend/friendProfile?id=" + comment.userId;
   }
   let commentHtml = `
-    <li class="comment-item">
+    <li class="comment-item" id="commentItem${comment.id}">
       <div class="post__author author vcard inline-items">
         <img src="${comment.userImg}" alt="author">
-
         <div class="author-date">
           <a class="h6 post__author-name fn" href="${profileUrl}">
           ${comment.userName}
@@ -97,20 +135,14 @@ function appendComment(comment, postId) {
             </time>
           </div>
         </div>
-
-        <a href="javascript:;" class="more">
-          <svg class="olymp-three-dots-icon">
-            <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon">
-            </use>
-          </svg>
-        </a>
+        ${editDeleteContent}
       </div>
-
       <p>${comment.comment}</p>
-
       <a href="javascript:;" class="post-add-icon inline-items" id="commentLike${
         comment.id
-      }" onclick=likeComment('${comment.id}')>
+      }" onclick="likeComment('${comment.id}', '${comment.postId}', '${
+    comment.userId
+  }')">
         <svg class="olymp-heart-icon">
           <use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
         </svg>
@@ -142,8 +174,10 @@ function loadCommentLikes(id) {
     });
 }
 
-function likeComment(id) {
+function likeComment(id, postId, userId) {
   console.log("Like Comment Id: ", id);
+  console.log("Like Comment, Post Id: ", postId);
+  console.log("Like Comment, User Id: ", userId);
   const likeFieldValue = $(
     `#likeCommentField-${id}-${postCommentUser.id}`
   ).val();
@@ -221,11 +255,40 @@ function likeComment(id) {
           .child("CommentLikes")
           .child(like.id)
           .set(like);
+        sendCommentLikeNotification(id, postId, userId);
       })
       .catch((e) => {
         console.log("Comment Error: ", e);
       });
   }
+}
+
+function sendCommentLikeNotification(commentId, postId, ownerId) {
+  let notificationId = firebase.database().ref().child("Notifications").push()
+    .key;
+  let timeStamps = parseInt(moment().format("X"));
+  let formattedTime = moment().format("ddd, Do, MMM-YYYY hh:mm A");
+  const notificatonText = " like your comment ";
+  let notification = {
+    id: notificationId,
+    postId,
+    userName: postCommentUser.firstName + " " + postCommentUser.lastName,
+    userId: postCommentUser.id,
+    userImg: postCommentUser.image,
+    timeStamps,
+    formattedTime,
+    notificatonText,
+    read: false,
+    play: false,
+    ownerId,
+    commentId,
+  };
+  firebase
+    .database()
+    .ref()
+    .child("Notifications")
+    .child(notification.id)
+    .set(notification);
 }
 
 function deleteCommentLikeFromDatabase(id) {
@@ -246,6 +309,27 @@ function deleteCommentLikeFromDatabase(id) {
             .ref()
             .child("CommentLikes")
             .child(like.id)
+            .remove();
+        }
+      });
+    });
+
+  firebase
+    .database()
+    .ref()
+    .child("Notifications")
+    .orderByChild("commentId")
+    .equalTo(id)
+    .once("value")
+    .then((data) => {
+      data.forEach((d) => {
+        const noti = d.val();
+        if (noti.userId === postCommentUser.id) {
+          firebase
+            .database()
+            .ref()
+            .child("Notifications")
+            .child(noti.id)
             .remove();
         }
       });

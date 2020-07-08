@@ -53,13 +53,21 @@
 								</div>
 								<div class="add-options-message">
 									<a href="javascript:;" class="options-message" data-toggle="tooltip"
-										data-placement="top" data-original-title="ADD PHOTOS">
+										data-placement="top" data-original-title="ADD PHOTO">
 										<svg class="olymp-camera-icon" data-toggle="modal"
 											data-target="#update-header-photo">
 											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
 											</use>
 										</svg>
 									</a>
+
+									<!-- <a href="javascript:;" class="options-message" data-toggle="tooltip"
+										data-placement="top" data-original-title="ADD VIDEO">
+										<svg class="olymp-camera-icon" data-toggle="modal" data-target="#update-video">
+											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-multimedia-icon">
+											</use>
+										</svg>
+									</a> -->
 
 									<a href="javascript:;" class="btn btn-sm btn-outline-primary customBtn"
 										id="facebookPost">
@@ -140,19 +148,14 @@
 					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
 				</svg>
 			</a>
-
 			<div class="modal-header">
 				<h6 class="title">POST PREVIEW</h6>
 			</div>
-
 			<div class="modal-body">
 				<div class="ui-block">
-
 					<article class="hentry post">
-
 						<div class="post__author author vcard inline-items">
 							<img src="<%= user.image %>" alt="author">
-
 							<div class="author-date">
 								<a class="h6 post__author-name fn" href="javascript:;"><%= user.firstName %>
 									<%= user.lastName %>
@@ -185,28 +188,22 @@
 					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
 				</svg>
 			</a>
-
 			<div class="modal-header">
-				<h6 class="title">Update Header Photo</h6>
+				<h6 class="title">Uplaod Photo</h6>
 			</div>
-
 			<div class="modal-body">
 				<a href="javascript:;" class="upload-photo-item" id="photoUploadIcon">
 					<svg class="olymp-computer-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-computer-icon"></use>
 					</svg>
-
 					<h6>Upload Photo</h6>
 					<span>Browse your computer.</span>
 				</a>
-
 				<a href="javascript:;" class="upload-photo-item" data-toggle="modal"
 					data-target="#choose-from-my-photo">
-
 					<svg class="olymp-photos-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-photos-icon"></use>
 					</svg>
-
 					<h6>Choose from My Photos</h6>
 					<span>Choose from your uploaded photos</span>
 				</a>
@@ -215,6 +212,40 @@
 	</div>
 </div>
 <!-- ... end Window-popup Update Header Photo -->
+
+<!-- Window-popup Upload Video -->
+<div class="modal fade" id="update-video" tabindex="-1" role="dialog" aria-labelledby="update-video" aria-hidden="true">
+	<div class="modal-dialog window-popup update-header-photo" role="document">
+		<div class="modal-content">
+			<a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+				<svg class="olymp-close-icon">
+					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+				</svg>
+			</a>
+			<div class="modal-header">
+				<h6 class="title">Upload Video</h6>
+			</div>
+			<div class="modal-body">
+				<a href="javascript:;" class="upload-photo-item" id="photoUploadIcon">
+					<svg class="olymp-computer-icon">
+						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-computer-icon"></use>
+					</svg>
+					<h6>Upload Video</h6>
+					<span>Browse your computer.</span>
+				</a>
+				<a href="javascript:;" class="upload-photo-item" data-toggle="modal"
+					data-target="#choose-from-my-photo">
+					<svg class="olymp-photos-icon">
+						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-multimedia-icon"></use>
+					</svg>
+					<h6>Choose from My Videos</h6>
+					<span>Choose from your uploaded videos</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ... end Window-popup Upload Video -->
 
 <!-- Window-popup Choose from my Photo -->
 <div class="modal fade" id="choose-from-my-photo" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo"
