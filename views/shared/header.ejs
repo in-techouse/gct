@@ -1,4 +1,6 @@
 <!-- Header-BP -->
+<script src="/public/js/user/getActiveFriends.js"></script>
+<script src="/public/js/user/chatting.js"></script>
 
 <header class="header" id="site-header">
 
@@ -24,32 +26,7 @@
 					</div>
 
 					<div class="mCustomScrollbar" data-mcs-theme="dark">
-						<ul class="notification-list chat-message">
-							<li>
-								<div class="author-thumb">
-									<img src="/public/img/avatar61-sm.jpg" alt="author">
-								</div>
-								<div class="notification-event">
-									<a href="#" class="h6 notification-friend">Elaine Dreyfuss</a>
-									<span class="chat-message-item">We’ll have to check that at the office and see if
-										the client is on board with...</span>
-									<span class="notification-date"><time class="entry-date updated"
-											datetime="2004-07-24T18:18">Yesterday at 9:56pm</time></span>
-								</div>
-								<span class="notification-icon">
-									<svg class="olymp-chat---messages-icon">
-										<use
-											xlink:href="/public/svg-icons/sprites/icons.svg#olymp-chat---messages-icon">
-										</use>
-									</svg>
-								</span>
-								<div class="more">
-									<svg class="olymp-three-dots-icon">
-										<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon">
-										</use>
-									</svg>
-								</div>
-							</li>
+						<ul class="notification-list chat-message" id="userChatList">
 						</ul>
 					</div>
 
@@ -619,3 +596,128 @@
 
 <!-- ... end Responsive Header-BP -->
 <div class="header-spacer"></div>
+
+<script>
+	const activeFriendsUser = JSON.parse(localStorage.getItem("user"));
+	const friendsIds = [];
+	const friends = [];
+
+	$(document).ready(function () {
+		console.log("Get Active Friends document is ready");
+		getFriendsIds();
+	});
+
+	function getFriendsIds() {
+		firebase
+			.database()
+			.ref()
+			.child("FriendsIds")
+			.child(activeFriendsUser.id)
+			.once("value")
+			.then((friends) => {
+				friends.forEach((friend) => {
+					friendsIds.push(friend.val());
+				});
+				getFriendProfile(0);
+			})
+			.catch((e) => { });
+	}
+
+	function getFriendProfile(index) {
+		if (index >= friendsIds.length) {
+			getFriendChat(0);
+			return;
+		}
+		firebase
+			.database()
+			.ref()
+			.child("Users")
+			.child(friendsIds[index])
+			.once("value")
+			.then((friend) => {
+				friends.push(friend.val());
+				$("#chatUsers").append(`
+					<li class="inline-items js-chat-open" id="friendChat${
+					friend.val().id
+					}" onclick="openChatBox('${friend.val().id}')">
+						<div class="author-thumb">
+							<img alt="author" src="${
+					friend.val().image
+					}" class="avatar" style="width: 40px;">
+							<span class="icon-status online"></span>
+						</div>
+					</li>
+				`);
+				getFriendProfile(index + 1);
+			})
+			.catch((e) => {
+				getFriendProfile(index + 1);
+			});
+	}
+
+	function getFriendChat(index) {
+		if (index >= friends.length) {
+			return;
+		}
+		const friend = friends[index];
+		let chatId = "";
+		let count =
+			friend.id.length > activeFriendsUser.id.length
+				? friend.id.length
+				: activeFriendsUser.id.length;
+
+		for (let i = 0; i < count; i++) {
+			let fAscii = friend.id.length > i ? friend.id.charCodeAt(i) : 0;
+			let uAscii = activeFriendsUser.id.length > i ? activeFriendsUser.id.charCodeAt(i) : 0;
+			let asciiSum = fAscii + uAscii;
+			chatId = chatId + asciiSum;
+		}
+
+		console.log("Chat Id is: ", chatId);
+
+		firebase.database().ref().child("Chats").child(chatId).limitToLast(1).once("value").then(r => {
+			let chatMessage = null;
+			r.forEach(m => {
+				chatMessage = m.val();
+			});
+			if (chatMessage === null) {
+				getFriendChat(index + 1);
+				return;
+			}
+			const chatContent = `
+				<li onclick="openChatBox('${friend.id}')" style="cursor: pointer;">
+					<div class="author-thumb" style="width: 36px; height: 36px;">
+						<img src="${friend.image}" alt="author" style="width: 34px; height: 34px;">
+					</div>
+					<div class="notification-event">
+						<a href="javascript:;" class="h6 notification-friend">${friend.firstName} ${friend.lastName}</a>
+						<span class="chat-message-item">${chatMessage.message}</span>
+						<span class="notification-date">
+							<time class="entry-date updated" datetime="2004-07-24T18:18">${getChatTimeDifference(chatMessage.timeStamps)}</time>
+						</span>
+					</div>
+					<span class="notification-icon">
+						<svg class="olymp-chat---messages-icon">
+							<use
+								xlink:href="/public/svg-icons/sprites/icons.svg#olymp-chat---messages-icon">
+							</use>
+						</svg>
+					</span>
+				</li>
+			`;
+			$("#userChatList").append(chatContent);
+			getFriendChat(index + 1);
+		}).catch(e => {
+			console.log("Chat Result Error: ", e);
+			getFriendChat(index + 1);
+		});
+	}
+
+	function openChatBox(id) {
+		console.log("Friend id is: ", id);
+		$(".popup-chat-responsive").toggleClass("open-chat");
+		$("#friendId").val(id);
+		loadFriendDetail(id);
+	}
+
+</script>
