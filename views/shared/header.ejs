@@ -625,7 +625,9 @@
 
 	function getFriendProfile(index) {
 		if (index >= friendsIds.length) {
-			getFriendChat(0);
+			for (let i = 0; i < friendsIds.length; i++) {
+				getFriendChat(i);
+			}
 			return;
 		}
 		firebase
@@ -674,42 +676,49 @@
 		}
 
 		console.log("Chat Id is: ", chatId);
+		let chatMessage = null;
+		firebase.database().ref().child("Chats").child(chatId).limitToLast(1).on("value", function (messages) {
+			messages.forEach(m => {
+				if (chatMessage === null) {
+					chatMessage = m.val();
+				}
+				else if (chatMessage !== null && chatMessage.timeStamps < m.val().timeStamps) {
+					$(`#headerUserChatBox${friend.id}`).remove();
+					chatMessage = m.val();
+					if (friend.id === m.val().userId) {
+						// Message Received from Friend
+						const isChatting = $(".popup-chat-responsive").hasClass("open-chat");
+						console.log("Is User chatting: ", isChatting);
+						$("#sound_tag").prop('muted', true);
+						$("#sound_tag")[0].play();
+					}
+				}
+				console.log("Chat Header, latest message is: ", chatMessage);
 
-		firebase.database().ref().child("Chats").child(chatId).limitToLast(1).once("value").then(r => {
-			let chatMessage = null;
-			r.forEach(m => {
-				chatMessage = m.val();
+				if (chatMessage !== null) {
+					const chatContent = `
+						<li onclick="openChatBox('${friend.id}')" style="cursor: pointer;" id="headerUserChatBox${friend.id}">
+							<div class="author-thumb" style="width: 36px; height: 36px;">
+								<img src="${friend.image}" alt="author" style="width: 34px; height: 34px;">
+							</div>
+							<div class="notification-event">
+								<a href="javascript:;" class="h6 notification-friend">${friend.firstName} ${friend.lastName}</a>
+								<span class="chat-message-item">${chatMessage.message}</span>
+								<span class="notification-date">
+									<time class="entry-date updated" datetime="2004-07-24T18:18">${getChatTimeDifference(chatMessage.timeStamps)}</time>
+								</span>
+							</div>
+							<span class="notification-icon">
+								<svg class="olymp-chat---messages-icon">
+									<use
+										xlink:href="/public/svg-icons/sprites/icons.svg#olymp-chat---messages-icon">
+									</use>
+								</svg>
+							</span>
+						</li>`;
+					$("#userChatList").prepend(chatContent);
+				}
 			});
-			if (chatMessage === null) {
-				getFriendChat(index + 1);
-				return;
-			}
-			const chatContent = `
-				<li onclick="openChatBox('${friend.id}')" style="cursor: pointer;">
-					<div class="author-thumb" style="width: 36px; height: 36px;">
-						<img src="${friend.image}" alt="author" style="width: 34px; height: 34px;">
-					</div>
-					<div class="notification-event">
-						<a href="javascript:;" class="h6 notification-friend">${friend.firstName} ${friend.lastName}</a>
-						<span class="chat-message-item">${chatMessage.message}</span>
-						<span class="notification-date">
-							<time class="entry-date updated" datetime="2004-07-24T18:18">${getChatTimeDifference(chatMessage.timeStamps)}</time>
-						</span>
-					</div>
-					<span class="notification-icon">
-						<svg class="olymp-chat---messages-icon">
-							<use
-								xlink:href="/public/svg-icons/sprites/icons.svg#olymp-chat---messages-icon">
-							</use>
-						</svg>
-					</span>
-				</li>
-			`;
-			$("#userChatList").append(chatContent);
-			getFriendChat(index + 1);
-		}).catch(e => {
-			console.log("Chat Result Error: ", e);
-			getFriendChat(index + 1);
 		});
 	}
 
