@@ -16,6 +16,8 @@ $(document).ready(function () {
     notifications = [];
     $("#notificationCount").text("");
     $("#notificationCount").fadeOut(500);
+    $("#profileSettingNotifications").text("");
+    $("#profileSettingNotifications").fadeOut(500);
     $("#notificationList").empty();
     snapshot.forEach((noti) => {
       const notification = noti.val();
@@ -30,6 +32,8 @@ $(document).ready(function () {
         if (count > 0) {
           $("#notificationCount").text(count);
           $("#notificationCount").fadeIn(500);
+          $("#profileSettingNotifications").text(count);
+          $("#profileSettingNotifications").fadeIn(500);
         }
         insertNotificationToDisplay(notification);
         notifications.push(notification);

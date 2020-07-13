@@ -12,7 +12,8 @@
 					<p>Welcome to your account dashboard! Here you’ll find everything you need to change your profile
 						information, settings, read notifications and requests, view your latest messages, change your
 						pasword and much
-						more! Also you can create or manage your own favourite page, have fun!</p>
+						more! Also you can create or manage your own favourite page, have fun!
+					</p>
 				</div>
 			</div>
 		</div>
@@ -75,32 +76,6 @@
 								</div>
 								<div class="description-toggle">
 									<div class="description-toggle-content">
-										<div class="h6">Notifications Email</div>
-										<p>We’ll send you an email to your account each time you receive a new activity
-											notification</p>
-									</div>
-
-									<div class="togglebutton">
-										<label>
-											<input type="checkbox" checked="">
-										</label>
-									</div>
-								</div>
-								<div class="description-toggle">
-									<div class="description-toggle-content">
-										<div class="h6">Friend’s Birthdays</div>
-										<p>Choose wheather or not receive notifications about your friend’s birthdays on
-											your newsfeed</p>
-									</div>
-
-									<div class="togglebutton">
-										<label>
-											<input type="checkbox" checked="">
-										</label>
-									</div>
-								</div>
-								<div class="description-toggle">
-									<div class="description-toggle-content">
 										<div class="h6">Chat Message Sound</div>
 										<p>A sound will be played each time you receive a new message on an inactive
 											chat window</p>
@@ -115,10 +90,12 @@
 							</div>
 
 							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-								<button class="btn btn-secondary btn-lg full-width">Restore all Attributes</button>
+								<button id="restoreSetting" class="btn btn-secondary btn-lg full-width">Restore all
+									Attributes</button>
 							</div>
 							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-								<button class="btn btn-primary btn-lg full-width">Save all Changes</button>
+								<button id="saveSetting" class="btn btn-primary btn-lg full-width">Save all
+									Changes</button>
 							</div>
 						</div>
 					</form>
@@ -159,20 +136,24 @@
 							<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
 								<ul class="your-profile-menu">
 									<li>
-										<a href="28-YourAccount-PersonalInformation.html">Personal Information</a>
+										<a href="28-YourAccount-PersonalInformation.html">
+											Personal Information
+										</a>
 									</li>
 									<li>
-										<a href="29-YourAccount-AccountSettings.html">Account Settings</a>
+										<a href="29-YourAccount-AccountSettings.html">
+											Account Settings
+										</a>
 									</li>
 									<li>
-										<a href="30-YourAccount-ChangePassword.html">Change Password</a>
+										<a href="31-YourAccount-HobbiesAndInterests.html">
+											Hobbies and Interests
+										</a>
 									</li>
 									<li>
-										<a href="31-YourAccount-HobbiesAndInterests.html">Hobbies and Interests</a>
-									</li>
-									<li>
-										<a href="32-YourAccount-EducationAndEmployement.html">Education and
-											Employement</a>
+										<a href="32-YourAccount-EducationAndEmployement.html">
+											Education and Employement
+										</a>
 									</li>
 								</ul>
 							</div>
@@ -180,32 +161,32 @@
 					</div>
 
 					<div class="ui-block-title">
-						<a href="33-YourAccount-Notifications.html" class="h6 title">Notifications</a>
-						<a href="javascript:;" class="items-round-little bg-primary">8</a>
+						<a href="/user/allnotifications" class="h6 title">Notifications</a>
+						<a href="javascript:;" class="items-round-little bg-primary"
+							id="profileSettingNotifications">0</a>
 					</div>
 					<div class="ui-block-title">
-						<a href="34-YourAccount-ChatMessages.html" class="h6 title">Chat / Messages</a>
-					</div>
-					<div class="ui-block-title">
-						<a href="35-YourAccount-FriendsRequests.html" class="h6 title">Friend Requests</a>
-						<a href="javascript:;" class="items-round-little bg-blue">4</a>
-					</div>
-					<div class="ui-block-title ui-block-title-small">
-						<h6 class="title">FAVOURITE PAGE</h6>
-					</div>
-					<div class="ui-block-title">
-						<a href="36-FavPage-SettingsAndCreatePopup.html" class="h6 title">Create Fav Page</a>
-					</div>
-					<div class="ui-block-title">
-						<a href="36-FavPage-SettingsAndCreatePopup.html" class="h6 title">Fav Page Settings</a>
+						<a href="/user/allchats" class="h6 title">Chat / Messages</a>
 					</div>
 				</div>
-
 				<!-- ... end Your Profile  -->
-
 			</div>
 		</div>
 	</div>
 </div>
 
 <!-- ... end Your Account Personal Information -->
+
+<script>
+	$(document).ready(function () {
+		console.log("Profile Setting Page is ready");
+
+		$("#restoreSetting").click(function () {
+
+		});
+
+		$("#saveSetting").click(function () {
+
+		});
+	});
+</script>

@@ -595,9 +595,7 @@
 </header>
 
 <!-- ... end Responsive Header-BP -->
-<div class="header-spacer">
-	<button id="testButton">Test Button</button>
-</div>
+<div class="header-spacer"></div>
 
 <script>
 	let userChatCount = 0;
@@ -607,15 +605,6 @@
 	const friends = [];
 
 	$(document).ready(function () {
-		console.log("Get Active Friends document is ready");
-		$("#testButton").click(function () {
-			console.log("Test Button clicked");
-			document.getElementById('sound_tag').muted = false;
-			document.getElementById('sound_tag').play();
-		});
-		setTimeout(function () {
-			$("#testButton").trigger("click");
-		}, 3000);
 		getFriendsIds();
 	});
 
