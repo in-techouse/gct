@@ -701,10 +701,18 @@
 						// Message Received from Friend
 						const isChatting = $(".popup-chat-responsive").hasClass("open-chat");
 						console.log("Is User chatting: ", isChatting);
-						userChatCount = userChatCount + 1;
-						$("#userChatCount").show(200);
-						$("#userChatCount").text(userChatCount);
-						activeChatIds.push(friend.id);
+						let isFound = true;
+						activeChatIds.forEach(fId => {
+							if (fId === friend.id) {
+								isFound = false;
+							}
+						});
+						if (isFound) {
+							userChatCount = userChatCount + 1;
+							$("#userChatCount").show(200);
+							$("#userChatCount").text(userChatCount);
+							activeChatIds.push(friend.id);
+						}
 						$("#sound_tag")[0].play();
 					}
 				}
