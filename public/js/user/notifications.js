@@ -19,7 +19,6 @@ $(document).ready(function () {
     $("#notificationList").empty();
     snapshot.forEach((noti) => {
       const notification = noti.val();
-      console.log("NotificationJS, Notification: ", notification);
       if (notification.id && notification.postId) {
         if (!notification.read) {
           count++;
@@ -97,7 +96,6 @@ function markedAsRead() {
 
 function markedAsPlay() {
   notificationsPlay.forEach((noti) => {
-    console.log("Marked as play called for: ", noti);
     firebase
       .database()
       .ref()

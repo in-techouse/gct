@@ -30,7 +30,6 @@ function loadFriendDetail(id) {
     .once("value")
     .then((f) => {
       friend = f.val();
-      console.log("Friend is: ", friend);
       loadPreviousChat();
     });
 }
@@ -167,7 +166,6 @@ $(document).ready(function () {
     if (messageRef !== null) {
       messageRef.off("value");
     }
-    console.log("Chat box closed");
     $(".popup-chat-responsive").removeClass("open-chat");
   });
 });
@@ -184,7 +182,6 @@ function sendMessage(message) {
     userId: chattingUser.id,
     friendId,
   };
-  console.log("Message is: ", messageObject);
   setUserMessage(messageObject);
   $(".mCustomScrollbar").animate(
     {

@@ -26,7 +26,6 @@ function showPostMyComment(postId) {
       postCommentContent.length > 1
     ) {
       if (isEditing === true) {
-        console.log("Edit Comment");
         activeComment.comment = postCommentContent;
         $("#commentItem" + activeComment.id).remove();
         firebase
@@ -41,7 +40,6 @@ function showPostMyComment(postId) {
         activeComment = null;
         isEditing = false;
       } else {
-        console.log("New Comment");
         let commentId = firebase.database().ref().child("Comments").push().key;
         let timeStamps = parseInt(moment().format("X"));
         let formattedTime = moment().format("ddd, Do, MMM-YYYY hh:mm A");
@@ -72,7 +70,6 @@ function showPostMyComment(postId) {
           .once("value")
           .then((r) => {
             let post = r.val();
-            console.log("Post: ", post);
             let comments = post.comments;
             if (comments === undefined || comments === null) {
               comments = 0;

@@ -16,7 +16,7 @@
 				<svg class="olymp-chat---messages-icon">
 					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use>
 				</svg>
-				<div class="label-avatar bg-purple">2</div>
+				<div class="label-avatar bg-purple" id="userChatCount" style="display: none;"></div>
 
 				<div class="more-dropdown more-with-triangle triangle-top-center">
 					<div class="ui-block-title ui-block-title-small">
@@ -595,15 +595,27 @@
 </header>
 
 <!-- ... end Responsive Header-BP -->
-<div class="header-spacer"></div>
+<div class="header-spacer">
+	<button id="testButton">Test Button</button>
+</div>
 
 <script>
+	let userChatCount = 0;
+	let activeChatIds = [];
 	const activeFriendsUser = JSON.parse(localStorage.getItem("user"));
 	const friendsIds = [];
 	const friends = [];
 
 	$(document).ready(function () {
 		console.log("Get Active Friends document is ready");
+		$("#testButton").click(function () {
+			console.log("Test Button clicked");
+			document.getElementById('sound_tag').muted = false;
+			document.getElementById('sound_tag').play();
+		});
+		setTimeout(function () {
+			$("#testButton").trigger("click");
+		}, 3000);
 		getFriendsIds();
 	});
 
@@ -689,7 +701,10 @@
 						// Message Received from Friend
 						const isChatting = $(".popup-chat-responsive").hasClass("open-chat");
 						console.log("Is User chatting: ", isChatting);
-						$("#sound_tag").prop('muted', true);
+						userChatCount = userChatCount + 1;
+						$("#userChatCount").show(200);
+						$("#userChatCount").text(userChatCount);
+						activeChatIds.push(friend.id);
 						$("#sound_tag")[0].play();
 					}
 				}
@@ -724,6 +739,25 @@
 
 	function openChatBox(id) {
 		console.log("Friend id is: ", id);
+		let isFound = false;
+		let tempArray = [];
+		activeChatIds.forEach(fId => {
+			if (id === fId) {
+				isFound = true;
+			}
+			else {
+				tempArray.push(fId);
+			}
+		});
+		activeChatIds = [];
+		activeChatIds = tempArray;
+		if (isFound && userChatCount > 0) {
+			userChatCount--;
+			$("#userChatCount").text(userChatCount);
+		}
+		if (userChatCount < 1) {
+			$("#userChatCount").hide(100);
+		}
 		$(".popup-chat-responsive").toggleClass("open-chat");
 		$("#friendId").val(id);
 		loadFriendDetail(id);
