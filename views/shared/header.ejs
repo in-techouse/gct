@@ -603,6 +603,7 @@
 	const activeFriendsUser = JSON.parse(localStorage.getItem("user"));
 	const friendsIds = [];
 	const friends = [];
+	const allUserChats = [];
 
 	$(document).ready(function () {
 		getFriendsIds();
@@ -660,6 +661,11 @@
 
 	function getFriendChat(index) {
 		if (index >= friends.length) {
+			// console.log("All User Chats Before Return are: ", allUserChats);
+			// 			allPosts.sort(function (x, y) {
+			//     return x.timeStamps - y.timeStamps;
+			//   });
+
 			return;
 		}
 		const friend = friends[index];
@@ -702,7 +708,15 @@
 							$("#userChatCount").text(userChatCount);
 							activeChatIds.push(friend.id);
 						}
-						$("#sound_tag")[0].play();
+						// Apply Sound Setting
+						console.log("Header, Final Sound Setting is: ", finalSoundSettings);
+						if (
+							finalSoundSettings.chatSound === null ||
+							finalSoundSettings.chatSound === undefined ||
+							finalSoundSettings.chatSound === "on"
+						) {
+							$("#sound_tag")[0].play();
+						}
 					}
 				}
 				console.log("Chat Header, latest message is: ", chatMessage);
@@ -728,7 +742,26 @@
 								</svg>
 							</span>
 						</li>`;
-					$("#userChatList").prepend(chatContent);
+					const chatEntity = {
+						timeStamps: chatMessage.timeStamps,
+						chatContent,
+					};
+					allUserChats.push(chatEntity);
+					console.log("All User Chats are: ", allUserChats);
+					console.log("Index is: ", index);
+					console.log("Friends list is: ", friends.length);
+					if (index >= friends.length - 1) {
+						console.log("All User Chats Before Return are: ", allUserChats);
+						allUserChats.sort(function (x, y) {
+							return x.timeStamps - y.timeStamps;
+						});
+						console.log("All User Sorted Chats Before Return are: ", allUserChats);
+						allUserChats.forEach(chat => {
+							$("#userChatList").prepend(chat.chatContent);
+							$("#allChatsList").prepend(chat.chatContent);
+						});
+						return;
+					}
 				}
 			});
 		});

@@ -1,1 +1,52 @@
 <% extend ('../../mainLayout')%>
+<style>
+    .mainChatContainer {
+        width: 100% !important;
+        padding-left: 80px;
+        padding-right: 50px;
+    }
+
+    .mainChatContainer .leftPanel {
+        background-color: lightgray;
+        height: 700px !important;
+    }
+
+    .mainChatContainer .rightPanel {
+        background-color: green;
+        height: 700px !important;
+    }
+
+    .leftPanel p {
+        font-weight: bold;
+        font-size: 20px;
+        padding-top: 20px;
+        text-transform: uppercase;
+        color: #ff5e3a;
+        width: 100% !important;
+        text-align: center;
+    }
+
+    .leftPanel hr {
+        background-color: #ff5e3a;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main Content -->
+        <main class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="row mainChatContainer">
+                <div class="col-md-3 col-sm-3 leftPanel">
+                    <p>Conversations</p>
+                    <hr />
+                    <div class="mCustomScrollbar" data-mcs-theme="dark">
+                        <ul class="notification-list chat-message" id="allChatsList">
+                        </ul>
+                    </div>
+                    <!-- <ul id="allChatsList">
+                    </ul> -->
+                </div>
+                <div class="col-md-9 col-sm-9 rightPanel"></div>
+            </div>
+        </main>
+    </div>
+</div>

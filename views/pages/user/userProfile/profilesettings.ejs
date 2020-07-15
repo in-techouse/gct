@@ -35,73 +35,68 @@
 					<h6 class="title">Account Settings</h6>
 				</div>
 				<div class="ui-block-content">
-
-
 					<!-- Personal Account Settings Form -->
+					<div class="row">
 
-					<form>
-						<div class="row">
-
-							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-								<div class="form-group label-floating is-select">
-									<label class="control-label">Who Can Friend You?</label>
-									<select class="selectpicker form-control">
-										<option value="EO">Everyone</option>
-										<option value="NO">No One</option>
-									</select>
-								</div>
-							</div>
-							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-								<div class="form-group label-floating is-select">
-									<label class="control-label">Who Can View Your Posts</label>
-									<select class="selectpicker form-control">
-										<option value="US">Friends Only</option>
-										<option value="EO">Everyone</option>
-									</select>
-								</div>
-							</div>
-
-							<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-								<div class="description-toggle">
-									<div class="description-toggle-content">
-										<div class="h6">Notifications Sound</div>
-										<p>A sound will be played each time you receive a new activity notification</p>
-									</div>
-
-									<div class="togglebutton">
-										<label>
-											<input type="checkbox" checked="">
-										</label>
-									</div>
-								</div>
-								<div class="description-toggle">
-									<div class="description-toggle-content">
-										<div class="h6">Chat Message Sound</div>
-										<p>A sound will be played each time you receive a new message on an inactive
-											chat window</p>
-									</div>
-
-									<div class="togglebutton">
-										<label>
-											<input type="checkbox" checked="">
-										</label>
-									</div>
-								</div>
-							</div>
-
-							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-								<button id="restoreSetting" class="btn btn-secondary btn-lg full-width">Restore all
-									Attributes</button>
-							</div>
-							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-								<button id="saveSetting" class="btn btn-primary btn-lg full-width">Save all
-									Changes</button>
+						<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+							<div class="form-group label-floating is-select">
+								<label class="control-label">Who Can Friend You?</label>
+								<select class="selectpicker form-control">
+									<option value="EO">Everyone</option>
+									<option value="NO">No One</option>
+								</select>
 							</div>
 						</div>
-					</form>
+						<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+							<div class="form-group label-floating is-select">
+								<label class="control-label">Who Can View Your Posts</label>
+								<select class="selectpicker form-control">
+									<option value="US">Friends Only</option>
+									<option value="EO">Everyone</option>
+								</select>
+							</div>
+						</div>
 
+						<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+							<div class="description-toggle">
+								<div class="description-toggle-content">
+									<div class="h6">Notifications Sound</div>
+									<p>A sound will be played each time you receive a new activity notification</p>
+								</div>
+
+								<div class="togglebutton">
+									<label>
+										<input type="checkbox" checked="" id="notificationSound">
+									</label>
+								</div>
+							</div>
+							<div class="description-toggle">
+								<div class="description-toggle-content">
+									<div class="h6">Chat Message Sound</div>
+									<p>A sound will be played each time you receive a new message on an inactive
+										chat window</p>
+								</div>
+
+								<div class="togglebutton">
+									<label>
+										<input type="checkbox" checked="" id="chatSound">
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+							<button id="restoreSetting" class="btn btn-secondary btn-lg full-width">
+								Restore all Attributes
+							</button>
+						</div>
+						<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+							<button id="saveSetting" class="btn btn-primary btn-lg full-width">
+								Save all Changes
+							</button>
+						</div>
+					</div>
 					<!-- ... end Personal Account Settings Form  -->
-
 				</div>
 			</div>
 		</div>
@@ -181,12 +176,77 @@
 	$(document).ready(function () {
 		console.log("Profile Setting Page is ready");
 
-		$("#restoreSetting").click(function () {
+		let soundSettings = localStorage.getItem("soundSettings");
+		if (soundSettings === null || soundSettings === undefined) {
+			soundSettings = {
+				notificationSound: "on",
+				chatSound: "on"
+			};
+		}
+		else {
+			soundSettings = JSON.parse(soundSettings);
+		}
 
+		console.log("Sound Setting is: ", soundSettings);
+
+		$("#notificationSound").val(soundSettings.notificationSound);
+		$("#chatSound").val(soundSettings.chatSound);
+
+		if (soundSettings.notificationSound === "off") {
+			$("#notificationSound").prop("checked", false);
+		}
+		if (soundSettings.chatSound === "off") {
+			$("#chatSound").prop("checked", false);
+		}
+
+		$("#notificationSound").change(function () {
+			const notificationSound = $("#notificationSound").val();
+			console.log("Notification Sound: ", notificationSound);
+			if (notificationSound === 'on') {
+				$("#notificationSound").val("off");
+			}
+			else {
+				$("#notificationSound").val("on");
+			}
 		});
 
-		$("#saveSetting").click(function () {
+		$("#chatSound").change(function () {
+			const chatSound = $("#chatSound").val();
+			console.log("Chat Sound: ", chatSound);
+			if (chatSound === 'on') {
+				$("#chatSound").val("off");
+			}
+			else {
+				$("#chatSound").val("on");
+			}
+		});
 
+		$("#restoreSetting").click(function (e) {
+			e.preventDefault();
+			$("#notificationSound").val("on");
+			$("#chatSound").val("on");
+			$("#chatSound").prop("checked", true);
+			$("#notificationSound").prop("checked", true);
+			soundSettings = {
+				notificationSound: "on",
+				chatSound: "on"
+			};
+			localStorage.setItem("soundSettings", JSON.stringify(soundSettings));
+			window.location.reload();
+		});
+
+		$("#saveSetting").click(function (e) {
+			e.preventDefault();
+			const notificationSound = $("#notificationSound").val();
+			const chatSound = $("#chatSound").val();
+			console.log("Notification Sound: ", notificationSound);
+			console.log("Chat Sound: ", chatSound);
+			soundSettings = {
+				notificationSound: notificationSound,
+				chatSound: chatSound
+			};
+			localStorage.setItem("soundSettings", JSON.stringify(soundSettings));
+			window.location.reload();
 		});
 	});
 </script>

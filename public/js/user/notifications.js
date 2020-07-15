@@ -42,7 +42,15 @@ $(document).ready(function () {
       }
     });
     if (play) {
-      $("#sound_tag")[0].play();
+      // Apply Sound Setting
+      console.log("Notification, Final Sound Setting is: ", finalSoundSettings);
+      if (
+        finalSoundSettings.notificationSound === null ||
+        finalSoundSettings.notificationSound === undefined ||
+        finalSoundSettings.notificationSound === "on"
+      ) {
+        $("#sound_tag")[0].play();
+      }
     }
     markedAsPlay();
   });

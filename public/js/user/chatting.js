@@ -94,7 +94,15 @@ function listenToMessages() {
       }
     });
     if (playSound) {
-      $("#sound_tag")[0].play();
+      // Apply Sound Setting
+      console.log("Chatting, Final Sound Setting is: ", finalSoundSettings);
+      if (
+        finalSoundSettings.chatSound === null ||
+        finalSoundSettings.chatSound === undefined ||
+        finalSoundSettings.chatSound === "on"
+      ) {
+        $("#sound_tag")[0].play();
+      }
       $(".mCustomScrollbar").animate(
         {
           scrollTop: $("#chatBox").height(),

@@ -18,6 +18,10 @@ let user = {
   firstName: "",
   lastName: "",
 };
+let finalSoundSettings = {
+  notificationSound: "on",
+  chatSound: "on",
+};
 
 // Save to Session
 function saveToSession(userData) {
@@ -247,6 +251,17 @@ function loginWithFacebook(d) {
 
 $(document).ready(function () {
   console.log("Main Script Document is ready");
+
+  finalSoundSettings = localStorage.getItem("soundSettings");
+  if (finalSoundSettings === null || finalSoundSettings === undefined) {
+    finalSoundSettings = {
+      notificationSound: "on",
+      chatSound: "on",
+    };
+  } else {
+    finalSoundSettings = JSON.parse(finalSoundSettings);
+  }
+  console.log("Main Script, Final Sound Setting is: ", finalSoundSettings);
   setTimeout(function () {
     console.log("Time out called");
     $("#hellopreloader").fadeOut(1000);
