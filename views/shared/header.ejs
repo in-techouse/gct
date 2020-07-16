@@ -603,8 +603,8 @@
 	const activeFriendsUser = JSON.parse(localStorage.getItem("user"));
 	const friendsIds = [];
 	const friends = [];
-	const allUserChats = [];
-
+	let allUserChats = [];
+	let isLoaded = false;
 	$(document).ready(function () {
 		getFriendsIds();
 	});
@@ -661,11 +661,6 @@
 
 	function getFriendChat(index) {
 		if (index >= friends.length) {
-			// console.log("All User Chats Before Return are: ", allUserChats);
-			// 			allPosts.sort(function (x, y) {
-			//     return x.timeStamps - y.timeStamps;
-			//   });
-
 			return;
 		}
 		const friend = friends[index];
@@ -686,11 +681,13 @@
 		let chatMessage = null;
 		firebase.database().ref().child("Chats").child(chatId).limitToLast(1).on("value", function (messages) {
 			messages.forEach(m => {
+				console.log("Chat Message is: ", m.val());
 				if (chatMessage === null) {
+					console.log("If part executed");
 					chatMessage = m.val();
 				}
 				else if (chatMessage !== null && chatMessage.timeStamps < m.val().timeStamps) {
-					$(`#headerUserChatBox${friend.id}`).remove();
+					console.log("Else part executed");
 					chatMessage = m.val();
 					if (friend.id === m.val().userId) {
 						// Message Received from Friend
@@ -719,7 +716,6 @@
 						}
 					}
 				}
-				console.log("Chat Header, latest message is: ", chatMessage);
 
 				if (chatMessage !== null) {
 					const chatContent = `
@@ -729,7 +725,7 @@
 							</div>
 							<div class="notification-event">
 								<a href="javascript:;" class="h6 notification-friend">${friend.firstName} ${friend.lastName}</a>
-								<span class="chat-message-item">${chatMessage.message}</span>
+								<span class="chat-message-item chatMessageItem${friend.id}">${chatMessage.message}</span>
 								<span class="notification-date">
 									<time class="entry-date updated" datetime="2004-07-24T18:18">${getChatTimeDifference(chatMessage.timeStamps)}</time>
 								</span>
@@ -745,25 +741,50 @@
 					const chatEntity = {
 						timeStamps: chatMessage.timeStamps,
 						chatContent,
+						friendId: friend.id,
 					};
-					allUserChats.push(chatEntity);
-					console.log("All User Chats are: ", allUserChats);
-					console.log("Index is: ", index);
-					console.log("Friends list is: ", friends.length);
-					if (index >= friends.length - 1) {
-						console.log("All User Chats Before Return are: ", allUserChats);
-						allUserChats.sort(function (x, y) {
-							return x.timeStamps - y.timeStamps;
+					let isFound = true;
+					allUserChats.forEach(f => {
+						if (f.friendId === friend.id) {
+							isFound = false;
+						}
+					});
+					if (isFound) {
+						allUserChats.push(chatEntity);
+					}
+					else {
+						const tempArray = [];
+						allUserChats.forEach(c => {
+							if (c.friendId !== friend.id) {
+								tempArray.push(c);
+							}
 						});
-						console.log("All User Sorted Chats Before Return are: ", allUserChats);
-						allUserChats.forEach(chat => {
-							$("#userChatList").prepend(chat.chatContent);
-							$("#allChatsList").prepend(chat.chatContent);
-						});
+						allUserChats = tempArray;
+						allUserChats.push(chatEntity);
+						console.log("All User Chats in else part is: ", allUserChats);
+						displayAllChats();
+					}
+					if (!isLoaded && index >= friends.length - 1) {
+						displayAllChats();
+						isLoaded = true;
 						return;
 					}
 				}
 			});
+		});
+	}
+
+	function displayAllChats() {
+		$("#userChatList").empty();
+		$("#allChatsList").empty();
+		console.log("All User Chats Before Return are: ", allUserChats);
+		allUserChats.sort(function (x, y) {
+			return x.timeStamps - y.timeStamps;
+		});
+		console.log("All User Sorted Chats Before Return are: ", allUserChats);
+		allUserChats.forEach(chat => {
+			$("#userChatList").prepend(chat.chatContent);
+			$("#allChatsList").prepend(chat.chatContent);
 		});
 	}
 
