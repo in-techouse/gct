@@ -5,7 +5,7 @@ let chatId = "";
 let messages = [];
 let messageRef = null;
 function loadFriendDetail(id) {
-  $(".about-olympususerChatBoxList").empty();
+  $(".userChatBoxList").empty();
   $(".userChatBoxList").fadeOut(500);
   $(".loadingChat").fadeIn(500);
   friendId = $("#friendId").val();
