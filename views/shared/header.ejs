@@ -639,19 +639,30 @@
 			.child(friendsIds[index])
 			.once("value")
 			.then((friend) => {
-				friends.push(friend.val());
-				$("#chatUsers").append(`
+				const myFriend = friend.val();
+				friends.push(myFriend);
+				let activeStatus = "";
+				console.log("User Friend is: ", myFriend);
+				if (myFriend.status === 1) {
+					console.log("User Friend is online: ", myFriend);
+					activeStatus = `<span class="icon-status online"></span>`;
+				}
+				else {
+					console.log("User Friend is offline: ", myFriend);
+				}
+				const activeFriendContent = `
 					<li class="inline-items js-chat-open" id="friendChat${
-					friend.val().id
-					}" onclick="openChatBox('${friend.val().id}')">
+					myFriend.id
+					}" onclick="openChatBox('${myFriend.id}')">
 						<div class="author-thumb">
 							<img alt="author" src="${
-					friend.val().image
+					myFriend.image
 					}" class="avatar" style="width: 40px;">
-							<span class="icon-status online"></span>
+							${activeStatus}
 						</div>
 					</li>
-				`);
+				`;
+				$("#chatUsers").append(activeFriendContent);
 				getFriendProfile(index + 1);
 			})
 			.catch((e) => {

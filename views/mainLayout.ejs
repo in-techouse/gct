@@ -83,9 +83,25 @@
     });
   </script>
 
+  <script>
+    const userStatus = JSON.parse(localStorage.getItem("user"));
+    const db = firebase.database().ref().child("Users");
+    function online() {
+      console.log("User Status: User is online");
+      console.log("User is: ", userStatus);
+      db.child(userStatus.id).child("status").set(1);
+    }
+
+    function offline() {
+      console.log("User Status: User is offline");
+      console.log("User is: ", userStatus);
+      db.child(userStatus.id).child("status").set(0);
+    }
+  </script>
+
 </head>
 
-<body class="landing-page">
+<body class="landing-page" onload="online()" onunload="offline()">
   <!-- Notification Sound -->
   <audio id="sound_tag" src="/public/mp3/pristine.mp3" preload="auto" allow="autoplay"></audio>
 
