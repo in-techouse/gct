@@ -809,9 +809,20 @@
 		if (userChatCount < 1) {
 			$("#userChatCount").hide(100);
 		}
-		$(".popup-chat-responsive").toggleClass("open-chat");
-		$("#friendId").val(id);
-		loadFriendDetail(id);
+		const href = window.location.href;
+		console.log("Current HREF is: ", href);
+		if (href.includes("allchats")) {
+			console.log("No need to open chat box");
+			$(".noChat").fadeOut(300);
+			$(".allChatsChatBox").fadeIn(300);
+			$("#friendId").val(id);
+			loadFriendDetail(id);
+		}
+		else {
+			$(".popup-chat-responsive").toggleClass("open-chat");
+			$("#friendId").val(id);
+			loadFriendDetail(id);
+		}
 	}
 
 </script>

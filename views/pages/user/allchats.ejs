@@ -7,14 +7,15 @@
     }
 
     .mainChatContainer .leftPanel {
-        background-color: lightgray;
+        background-color: #FFFFFF;
         height: 700px !important;
         overflow-y: scroll;
         overflow-x: hidden;
+        border-right: solid 1px gray;
     }
 
     .mainChatContainer .rightPanel {
-        background-color: green;
+        background-color: #FFFFFF;
         height: 700px !important;
     }
 
@@ -31,6 +32,30 @@
     .leftPanel hr {
         background-color: #ff5e3a;
     }
+
+    .rightPanel .noChat {
+        width: 100%;
+        height: 100%;
+    }
+
+    .rightPanel .noChat p {
+        margin: 0 auto;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 700px;
+        font-size: 22px;
+        color: #303030;
+    }
+
+    .allChatsChatBox {
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
+
+    .userMessageBox {
+        border: solid 1px #ff5e3a;
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -44,10 +69,36 @@
                         <ul class="notification-list chat-message" id="allChatsList">
                         </ul>
                     </div>
-                    <!-- <ul id="allChatsList">
-                    </ul> -->
                 </div>
-                <div class="col-md-9 col-sm-9 rightPanel"></div>
+                <div class="col-md-9 col-sm-9 rightPanel popup-chat">
+                    <div class="noChat">
+                        <p>Select a chat from conversations</p>
+                    </div>
+                    <div class="allChatsChatBox">
+                        <div class="mCustomScrollbar" style="max-height: 590px; min-height: 590px;">
+                            <div class="col-md-12 loadingChat">
+                                <div class="row">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <center>
+                                            <img src="/public/img/loadingg.gif" style="width: 70px" />
+                                        </center>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                            </div>
+                            <ul class="notification-list chat-message chat-message-field userChatBoxList"></ul>
+                        </div>
+
+                        <form class="need-validation">
+                            <div class="form-group" style="height: 60px; overflow: auto">
+                                <input type="hidden" id="friendId" class="form-control" />
+                                <textarea class="form-control userMessageBox2" placeholder="Press enter to send..."
+                                    rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </main>
     </div>

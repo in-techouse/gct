@@ -44,7 +44,7 @@
 		</div>
 		<div class="modal-body">
 			<div class="mCustomScrollbar" style="max-height: 400px; min-height: 400px;">
-				<div class="col-md-12" id="loadingChat">
+				<div class="col-md-12 loadingChat">
 					<div class="row">
 						<div class="col-md-4"></div>
 						<div class="col-md-4">
@@ -55,13 +55,13 @@
 						<div class="col-md-4"></div>
 					</div>
 				</div>
-				<ul class="notification-list chat-message chat-message-field" id="chatBox"></ul>
+				<ul class="notification-list chat-message chat-message-field userChatBoxList"></ul>
 			</div>
 
 			<form class="need-validation">
 				<div class="form-group" style="height: 40px; overflow: auto">
 					<input type="hidden" id="friendId" class="form-control" />
-					<textarea id="messageBox" class="form-control" placeholder="Press enter to post..."
+					<textarea class="form-control userMessageBox1" placeholder="Press enter to send..."
 						rows="2"></textarea>
 				</div>
 			</form>

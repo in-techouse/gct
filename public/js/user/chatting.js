@@ -5,10 +5,11 @@ let chatId = "";
 let messages = [];
 let messageRef = null;
 function loadFriendDetail(id) {
-  $("#chatBox").empty();
-  $("#chatBox").fadeOut(500);
-  $("#loadingChat").fadeIn(500);
+  $(".about-olympususerChatBoxList").empty();
+  $(".userChatBoxList").fadeOut(500);
+  $(".loadingChat").fadeIn(500);
   friendId = $("#friendId").val();
+  console.log("Friend Id is: ", friendId);
   chatId = "";
   let count =
     friendId.length > chattingUser.id.length
@@ -21,7 +22,9 @@ function loadFriendDetail(id) {
     let asciiSum = fAscii + uAscii;
     chatId = chatId + asciiSum;
   }
-  $("#messageBox").prop("disabled", true);
+  console.log("Chat Id is: ", chatId);
+  $(".userMessageBox1").prop("disabled", true);
+  $(".userMessageBox2").prop("disabled", true);
   firebase
     .database()
     .ref()
@@ -30,6 +33,7 @@ function loadFriendDetail(id) {
     .once("value")
     .then((f) => {
       friend = f.val();
+      console.log("Friend is: ", friend);
       loadPreviousChat();
     });
 }
@@ -54,19 +58,21 @@ function loadPreviousChat() {
       });
       $(".mCustomScrollbar").animate(
         {
-          scrollTop: $("#chatBox").height(),
+          scrollTop: $(".userChatBoxList").height(),
         },
         1000
       );
-      $("#chatBox").fadeIn(500);
-      $("#loadingChat").fadeOut(500);
-      $("#messageBox").prop("disabled", false);
+      $(".userChatBoxList").fadeIn(500);
+      $(".loadingChat").fadeOut(500);
+      $(".userMessageBox1").prop("disabled", false);
+      $(".userMessageBox2").prop("disabled", false);
       listenToMessages();
     })
     .catch((e) => {
-      $("#chatBox").fadeIn(500);
-      $("#loadingChat").fadeOut(500);
-      $("#messageBox").prop("disabled", false);
+      $(".userChatBoxList").fadeIn(500);
+      $(".loadingChat").fadeOut(500);
+      $(".userMessageBox1").prop("disabled", false);
+      $(".userMessageBox2").prop("disabled", false);
     });
 }
 
@@ -105,7 +111,7 @@ function listenToMessages() {
       }
       $(".mCustomScrollbar").animate(
         {
-          scrollTop: $("#chatBox").height(),
+          scrollTop: $(".userChatBoxList").height(),
         },
         1000
       );
@@ -133,7 +139,7 @@ function setUserMessage(m) {
         </div>
     </li>
   `;
-  $("#chatBox").append(messageContent);
+  $(".userChatBoxList").append(messageContent);
 }
 
 function setFriendMessage(m) {
@@ -156,13 +162,23 @@ function setFriendMessage(m) {
         </div>
     </li>
   `;
-  $("#chatBox").append(messageContent);
+  $(".userChatBoxList").append(messageContent);
 }
 
 $(document).ready(function () {
-  $("#messageBox").on("keypress", function (e) {
+  $(".userMessageBox1").on("keypress", function (e) {
     if (e.which === 13) {
-      const message = $("#messageBox").val().trim();
+      const message = $(".userMessageBox1").val().trim();
+      if (message.length > 0) {
+        sendMessage(message);
+        return false;
+      }
+    }
+  });
+
+  $(".userMessageBox2").on("keypress", function (e) {
+    if (e.which === 13) {
+      const message = $(".userMessageBox2").val().trim();
       if (message.length > 0) {
         sendMessage(message);
         return false;
@@ -193,11 +209,12 @@ function sendMessage(message) {
   setUserMessage(messageObject);
   $(".mCustomScrollbar").animate(
     {
-      scrollTop: $("#chatBox").height(),
+      scrollTop: $(".userChatBoxList").height(),
     },
     1000
   );
-  $("#messageBox").val("");
+  $(".userMessageBox1").val("");
+  $(".userMessageBox2").val("");
   firebase
     .database()
     .ref()
