@@ -1,67 +1,63 @@
 <% extend ('../../mainLayout')%>
 
-<div class="container">
-	<div class="row">
+    <div class="container">
+        <div class="row">
 
-		<!-- Left Sidebar -->
-		<main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-		</main>
+            <!-- Left Sidebar -->
+            <main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+            </main>
 
-		<!-- Main Content -->
-		<main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-			<div class="ui-block">
-				<!-- News Feed Form  -->
-				<div class="news-feed-form">
-					<!-- Nav tabs -->
-					<ul class="nav nav-tabs" role="tablist">
-						<li class="nav-item">
-							<a class="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab"
-								aria-expanded="true">
-								<svg class="olymp-status-icon">
+            <!-- Main Content -->
+            <main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                <div class="ui-block">
+                    <!-- News Feed Form  -->
+                    <div class="news-feed-form">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab" aria-expanded="true">
+                                    <svg class="olymp-status-icon">
 									<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-status-icon"></use>
 								</svg>
-								<span>Status</span>
-							</a>
-						</li>
-					</ul>
+                                    <span>Status</span>
+                                </a>
+                            </li>
+                        </ul>
 
-					<!-- Tab panes -->
-					<div class="tab-content">
-						<div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
-							<form id="postStatus">
-								<div class="author-thumb">
-									<img src="<%= user.image %>" alt="author" style="margin-left: -10px;">
-								</div>
-								<input type="hidden" name="userId" id="userId" value="<%= user.id %>" />
-								<input type="hidden" name="userImg" id="userImg" value="<%= user.image %>" />
-								<input type="hidden" name="userName" id="userName"
-									value="<%= user.firstName %> <%= user.lastName %>" />
-								<input type="file" id="photoUpload" accept="image/*" style="display: none;" />
-								<input type="hidden" name="url" id="url" />
-								<div class="form-group with-icon label-floating is-empty">
-									<label class="control-label" style="top: 10px;">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
+                                <form id="postStatus">
+                                    <div class="author-thumb">
+                                        <img src="<%= user.image %>" alt="author" style="margin-left: -10px;">
+                                    </div>
+                                    <input type="hidden" name="userId" id="userId" value="<%= user.id %>" />
+                                    <input type="hidden" name="userImg" id="userImg" value="<%= user.image %>" />
+                                    <input type="hidden" name="userName" id="userName" value="<%= user.firstName %> <%= user.lastName %>" />
+                                    <input type="file" id="photoUpload" accept="image/*" style="display: none;" />
+                                    <input type="hidden" name="url" id="url" />
+                                    <div class="form-group with-icon label-floating is-empty">
+                                        <label class="control-label" style="top: 10px;">
 										Share what you are thinking here...
 									</label>
-									<textarea id="userContent" class="form-control" placeholder=""></textarea>
-								</div>
-								<div class="add-options-message" id="imageUpper">
-									<div class="row">
-										<img id="postImage" class="img-responsive img-thumbnail" />
-										<p id="removeImage" class="cross" style="cursor: pointer;">X</p>
-									</div>
-									<hr />
-								</div>
-								<div class="add-options-message">
-									<a href="javascript:;" class="options-message" data-toggle="tooltip"
-										data-placement="top" data-original-title="ADD PHOTO">
-										<svg class="olymp-camera-icon" data-toggle="modal"
-											data-target="#update-header-photo">
+                                        <textarea id="userContent" class="form-control" placeholder=""></textarea>
+                                    </div>
+                                    <div class="add-options-message" id="imageUpper">
+                                        <div class="row">
+                                            <img id="postImage" class="img-responsive img-thumbnail" />
+                                            <p id="removeImage" class="cross" style="cursor: pointer;">X</p>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <div class="add-options-message">
+                                        <a href="javascript:;" class="options-message" data-toggle="tooltip" data-placement="top" data-original-title="ADD PHOTO">
+                                            <svg class="olymp-camera-icon" data-toggle="modal" data-target="#update-header-photo">
 											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-camera-icon">
 											</use>
 										</svg>
-									</a>
+                                        </a>
 
-									<!-- <a href="javascript:;" class="options-message" data-toggle="tooltip"
+                                        <!-- <a href="javascript:;" class="options-message" data-toggle="tooltip"
 										data-placement="top" data-original-title="ADD VIDEO">
 										<svg class="olymp-camera-icon" data-toggle="modal" data-target="#update-video">
 											<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-multimedia-icon">
@@ -69,306 +65,293 @@
 										</svg>
 									</a> -->
 
-									<a href="javascript:;" class="btn btn-sm btn-outline-primary customBtn"
-										id="facebookPost">
+                                        <a href="javascript:;" class="btn btn-sm btn-outline-primary customBtn" id="facebookPost">
 										Post on Facebook <i class="fab fa-facebook faceBookIcon"></i>
 									</a>
-									<a href="javascript:;" class="btn btn-sm btn-outline-primary customBtn"
-										id="twitterPost">
+                                        <a href="javascript:;" class="btn btn-sm btn-outline-primary customBtn" id="twitterPost">
 										Post on Twitter <i class="fab fa-twitter twitterIcon"></i>
 									</a>
 
-									<button id="submitPost" type="submit" class="btn btn-primary btn-md-2">Post
+                                        <button id="submitPost" type="submit" class="btn btn-primary btn-md-2">Post
 										Status</button>
-									<a id="previewPost" href="javascript:;"
-										class="btn btn-md-2 btn-border-think btn-transparent c-grey customBtn"
-										data-toggle="modal" data-target="#preview-post">PREVIEW POST</a>
+                                        <a id="previewPost" href="javascript:;" class="btn btn-md-2 btn-border-think btn-transparent c-grey customBtn" data-toggle="modal" data-target="#preview-post">PREVIEW POST</a>
 
-								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<div id="statusSuccessAlert" style="display: none;"
-											class="alert alert-success alert-dismissible fade show" role="alert">
-											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="statusSuccessAlert" style="display: none;" class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
-										</div>
+                                            </div>
 
-										<div id="statusFailAlert" style="display: none;"
-											class="alert alert-danger alert-dismissible fade show" role="alert">
-											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <div id="statusFailAlert" style="display: none;" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
-										</div>
-									</div>
-								</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-							</form>
-						</div>
+                                </form>
+                            </div>
 
-					</div>
-				</div>
+                        </div>
+                    </div>
 
-				<!-- ... end News Feed Form  -->
-			</div>
+                    <!-- ... end News Feed Form  -->
+                </div>
 
-			<div class="row" id="loadingPosts">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
-					<center>
-						<img src="/public/img/loadingg.gif" style="width: 70px" />
-					</center>
-				</div>
-				<div class="col-md-4"></div>
-			</div>
+                <div class="row" id="loadingPosts">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <center>
+                            <img src="/public/img/loadingg.gif" style="width: 70px" />
+                        </center>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
 
-			<div id="newsfeed-items-grid"></div>
+                <div id="newsfeed-items-grid"></div>
 
-			<a id="load-more-button" href="javascript:;" class="btn btn-control btn-more"
-				data-load-link="items-to-load.html" data-container="newsfeed-items-grid">
-				<svg class="olymp-three-dots-icon">
+                <a id="load-more-button" href="javascript:;" class="btn btn-control btn-more" data-load-link="items-to-load.html" data-container="newsfeed-items-grid">
+                    <svg class="olymp-three-dots-icon">
 					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
 				</svg>
-			</a>
+                </a>
 
-		</main>
-		<!-- ... end Main Content -->
-		<!-- Right Sidebar -->
-		<main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-		</main>
-	</div>
-</div>
+            </main>
+            <!-- ... end Main Content -->
+            <!-- Right Sidebar -->
+            <main class="col col-xl-2 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+            </main>
+        </div>
+    </div>
 
-<!-- Window-popup Prweview Post -->
-<div class="modal fade" id="preview-post" tabindex="-1" role="dialog" aria-labelledby="preview-post" aria-hidden="true">
-	<div class="modal-dialog window-popup restore-password-popup" role="document">
-		<div class="modal-content">
-			<a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
-				<svg class="olymp-close-icon">
+    <!-- Window-popup Prweview Post -->
+    <div class="modal fade" id="preview-post" tabindex="-1" role="dialog" aria-labelledby="preview-post" aria-hidden="true">
+        <div class="modal-dialog window-popup restore-password-popup" role="document">
+            <div class="modal-content">
+                <a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon">
 					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
 				</svg>
-			</a>
-			<div class="modal-header">
-				<h6 class="title">POST PREVIEW</h6>
-			</div>
-			<div class="modal-body">
-				<div class="ui-block">
-					<article class="hentry post">
-						<div class="post__author author vcard inline-items">
-							<img src="<%= user.image %>" alt="author">
-							<div class="author-date">
-								<a class="h6 post__author-name fn" href="javascript:;"><%= user.firstName %>
-									<%= user.lastName %>
-								</a>
-								<div class="post__date">
-									<time class="published" datetime="2004-07-24T18:18">
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">POST PREVIEW</h6>
+                </div>
+                <div class="modal-body">
+                    <div class="ui-block">
+                        <article class="hentry post">
+                            <div class="post__author author vcard inline-items">
+                                <img src="<%= user.image %>" alt="author">
+                                <div class="author-date">
+                                    <a class="h6 post__author-name fn" href="javascript:;">
+                                        <%= user.firstName %>
+                                            <%= user.lastName %>
+                                    </a>
+                                    <div class="post__date">
+                                        <time class="published" datetime="2004-07-24T18:18">
 										Just now
 									</time>
-								</div>
-							</div>
-						</div>
-						<p id="postText"></p>
-						<img id="previewImage">
-					</article>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- ... end Window-popup Preview post -->
+                                    </div>
+                                </div>
+                            </div>
+                            <p id="postText"></p>
+                            <img id="previewImage">
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ... end Window-popup Preview post -->
 
 
-<!-- Window-popup Update Header Photo -->
-<div class="modal fade" id="update-header-photo" tabindex="-1" role="dialog" aria-labelledby="update-header-photo"
-	aria-hidden="true">
-	<div class="modal-dialog window-popup update-header-photo" role="document">
-		<div class="modal-content">
-			<a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
-				<svg class="olymp-close-icon">
+    <!-- Window-popup Update Header Photo -->
+    <div class="modal fade" id="update-header-photo" tabindex="-1" role="dialog" aria-labelledby="update-header-photo" aria-hidden="true">
+        <div class="modal-dialog window-popup update-header-photo" role="document">
+            <div class="modal-content">
+                <a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon">
 					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
 				</svg>
-			</a>
-			<div class="modal-header">
-				<h6 class="title">Uplaod Photo</h6>
-			</div>
-			<div class="modal-body">
-				<a href="javascript:;" class="upload-photo-item" id="photoUploadIcon">
-					<svg class="olymp-computer-icon">
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">Uplaod Photo</h6>
+                </div>
+                <div class="modal-body">
+                    <a href="javascript:;" class="upload-photo-item" id="photoUploadIcon">
+                        <svg class="olymp-computer-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-computer-icon"></use>
 					</svg>
-					<h6>Upload Photo</h6>
-					<span>Browse your computer.</span>
-				</a>
-				<a href="javascript:;" class="upload-photo-item" data-toggle="modal"
-					data-target="#choose-from-my-photo">
-					<svg class="olymp-photos-icon">
+                        <h6>Upload Photo</h6>
+                        <span>Browse your computer.</span>
+                    </a>
+                    <a href="javascript:;" class="upload-photo-item" data-toggle="modal" data-target="#choose-from-my-photo">
+                        <svg class="olymp-photos-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-photos-icon"></use>
 					</svg>
-					<h6>Choose from My Photos</h6>
-					<span>Choose from your uploaded photos</span>
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- ... end Window-popup Update Header Photo -->
+                        <h6>Choose from My Photos</h6>
+                        <span>Choose from your uploaded photos</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ... end Window-popup Update Header Photo -->
 
-<!-- Window-popup Upload Video -->
-<div class="modal fade" id="update-video" tabindex="-1" role="dialog" aria-labelledby="update-video" aria-hidden="true">
-	<div class="modal-dialog window-popup update-header-photo" role="document">
-		<div class="modal-content">
-			<a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
-				<svg class="olymp-close-icon">
+    <!-- Window-popup Upload Video -->
+    <div class="modal fade" id="update-video" tabindex="-1" role="dialog" aria-labelledby="update-video" aria-hidden="true">
+        <div class="modal-dialog window-popup update-header-photo" role="document">
+            <div class="modal-content">
+                <a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon">
 					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
 				</svg>
-			</a>
-			<div class="modal-header">
-				<h6 class="title">Upload Video</h6>
-			</div>
-			<div class="modal-body">
-				<a href="javascript:;" class="upload-photo-item" id="photoUploadIcon">
-					<svg class="olymp-computer-icon">
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">Upload Video</h6>
+                </div>
+                <div class="modal-body">
+                    <a href="javascript:;" class="upload-photo-item" id="photoUploadIcon">
+                        <svg class="olymp-computer-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-computer-icon"></use>
 					</svg>
-					<h6>Upload Video</h6>
-					<span>Browse your computer.</span>
-				</a>
-				<a href="javascript:;" class="upload-photo-item" data-toggle="modal"
-					data-target="#choose-from-my-photo">
-					<svg class="olymp-photos-icon">
+                        <h6>Upload Video</h6>
+                        <span>Browse your computer.</span>
+                    </a>
+                    <a href="javascript:;" class="upload-photo-item" data-toggle="modal" data-target="#choose-from-my-photo">
+                        <svg class="olymp-photos-icon">
 						<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-multimedia-icon"></use>
 					</svg>
-					<h6>Choose from My Videos</h6>
-					<span>Choose from your uploaded videos</span>
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- ... end Window-popup Upload Video -->
+                        <h6>Choose from My Videos</h6>
+                        <span>Choose from your uploaded videos</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ... end Window-popup Upload Video -->
 
-<!-- Window-popup Choose from my Photo -->
-<div class="modal fade" id="choose-from-my-photo" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo"
-	aria-hidden="true">
-	<div class="modal-dialog window-popup choose-from-my-photo" role="document">
+    <!-- Window-popup Choose from my Photo -->
+    <div class="modal fade" id="choose-from-my-photo" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo" aria-hidden="true">
+        <div class="modal-dialog window-popup choose-from-my-photo" role="document">
 
-		<div class="modal-content">
-			<a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
-				<svg class="olymp-close-icon">
+            <div class="modal-content">
+                <a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon">
 					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
 				</svg>
-			</a>
-			<div class="modal-header">
-				<h6 class="title">Choose from My Photos</h6>
-			</div>
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">Choose from My Photos</h6>
+                </div>
 
-			<div class="modal-body" style="max-height: 600px;">
-				<!-- Tab panes -->
-				<div class="tab-content">
-					<div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
-						<div class="row" style="height: 500px; overflow-y: auto;" id="previousPhotos">
-						</div>
-						<div class="row">
-							<div class="col-md-5">
-								<a href="javascript:;" class="btn btn-secondary btn-block btn-lg" data-dismiss="modal"
-									aria-label="Close">
+                <div class="modal-body" style="max-height: 600px;">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+                            <div class="row" style="height: 500px; overflow-y: auto;" id="previousPhotos">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <a href="javascript:;" class="btn btn-secondary btn-block btn-lg" data-dismiss="modal" aria-label="Close">
 									Cancel
 								</a>
-							</div>
-							<div class="col-md-2"></div>
-							<div class="col-md-5">
-								<a href="javascript:;" class="btn btn-primary btn-block btn-lg"
-									id="confirmPhotoSelection">
+                                </div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-5">
+                                    <a href="javascript:;" class="btn btn-primary btn-block btn-lg" id="confirmPhotoSelection">
 									Confirm Photo
 								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-	</div>
-</div>
-<!-- ... end Window-popup Choose from my Photo -->
+        </div>
+    </div>
+    <!-- ... end Window-popup Choose from my Photo -->
 
-<!-- Window-popup Delete Post Confirmation -->
-<div class="modal fade" id="delete-post" tabindex="-1" role="dialog" aria-labelledby="delete-post" aria-hidden="true">
-	<div class="modal-dialog window-popup restore-password-popup" role="document">
-		<div class="modal-content">
-			<a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
-				<svg class="olymp-close-icon">
+    <!-- Window-popup Delete Post Confirmation -->
+    <div class="modal fade" id="delete-post" tabindex="-1" role="dialog" aria-labelledby="delete-post" aria-hidden="true">
+        <div class="modal-dialog window-popup restore-password-popup" role="document">
+            <div class="modal-content">
+                <a href="javascript:;" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon">
 					<use xlink:href="/public/svg-icons/sprites/icons.svg#olymp-close-icon"></use>
 				</svg>
-			</a>
-			<div class="modal-header">
-				<h6 class="title">DELETE POST CONFIRMATION</h6>
-			</div>
-			<div class="modal-body">
-				<form action="/user/deletePost" method="POST" id="deletePostForm">
-					<p>Are you sure to delete this post?</p>
-					<div class="form-group">
-						<input type="hidden" class="form-control" name="deletePostId" id="deletePostId" />
-					</div>
-					<div class="btn-group-horizontal" style="width: 150px; float: right;">
-						<a id="deleteClose" data-dismiss="modal" aria-label="Close" href="javascript:;"
-							class="btn btn-primary" style="padding-top: 8px; padding-bottom: 8px;">CLOSE</a>
-						<button id="deleteConfirm" class="btn btn-danger">DELETE</button>
-						<img src="/public/img/loadingg.gif" style="width: 50px; display: none;" id="deleteLoading" />
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- End Window-popup Delete Post Confirmation -->
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">DELETE POST CONFIRMATION</h6>
+                </div>
+                <div class="modal-body">
+                    <form action="/user/deletePost" method="POST" id="deletePostForm">
+                        <p>Are you sure to delete this post?</p>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" name="deletePostId" id="deletePostId" />
+                        </div>
+                        <div class="btn-group-horizontal" style="width: 150px; float: right;">
+                            <a id="deleteClose" data-dismiss="modal" aria-label="Close" href="javascript:;" class="btn btn-primary" style="padding-top: 8px; padding-bottom: 8px;">CLOSE</a>
+                            <button id="deleteConfirm" class="btn btn-danger">DELETE</button>
+                            <img src="/public/img/loadingg.gif" style="width: 50px; display: none;" id="deleteLoading" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Window-popup Delete Post Confirmation -->
 
-<script src="/public/js/user/newsfeed.js"></script>
-<script src="/public/js/user/postStatus.js"></script>
-<script src="/public/js/user/friendlist.js"></script>
+    <script src="/public/js/user/newsfeed.js"></script>
+    <script src="/public/js/user/postStatus.js"></script>
+    <script src="/public/js/user/friendlist.js"></script>
 
 
-<script>
-	$(document).ready(function () {
-		// $.ajax({
-		// 	type: "GET",
-		// 	url: "/user/getTwitterFriends",
-		// 	// dataType: "json",
-		// 	// data: {
-		// 	// 	// post: JSON.stringify(post),
-		// 	// 	// socialImageBase64: socialImageBase64,
-		// 	// },
-		// 	success: function (result) {
-		// 		console.log("Twitter Friends Success: ", result);
-		// 		// if (result !== "-1") {
-		// 		// 	if (result.success) {
-		// 		// 		$("#statusSuccessAlert").show(300);
-		// 		// 		$("#statusSuccessAlert").text(result.message);
-		// 		// 		setTimeout(function () {
-		// 		// 			$("#statusSuccessAlert").hide(300);
-		// 		// 			$("#statusSuccessAlert").text("");
-		// 		// 		}, 5000);
-		// 		// 	} else {
-		// 		// 		$("#statusFailAlert").show(300);
-		// 		// 		$("#statusFailAlert").text(result.message);
-		// 		// 		setTimeout(function () {
-		// 		// 			$("#statusFailAlert").hide(300);
-		// 		// 			$("#statusFailAlert").text("");
-		// 		// 		}, 5000);
-		// 		// 	}
-		// 		// }
-		// 	},
-		// 	error: function (err) {
-		// 		console.log("Twitter Friends Failure: ", err);
-		// 		// $("#statusFailAlert").show(300);
-		// 		// $("#statusFailAlert").text(
-		// 		// 	"Something went wrong. Please try again later."
-		// 		// );
-		// 		// setTimeout(function () {
-		// 		// 	$("#statusFailAlert").hide(300);
-		// 		// 	$("#statusFailAlert").text("");
-		// 		// }, 5000);
-		// 	},
-		// });
-	});
-</script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "/user/postOnFacebook",
+                // dataType: "json",
+                // data: {
+                // 	// post: JSON.stringify(post),
+                // 	// socialImageBase64: socialImageBase64,
+                // },
+                success: function(result) {
+                    console.log("Facebook Friends Success: ", result);
+                    // if (result !== "-1") {
+                    // 	if (result.success) {
+                    // 		$("#statusSuccessAlert").show(300);
+                    // 		$("#statusSuccessAlert").text(result.message);
+                    // 		setTimeout(function () {
+                    // 			$("#statusSuccessAlert").hide(300);
+                    // 			$("#statusSuccessAlert").text("");
+                    // 		}, 5000);
+                    // 	} else {
+                    // 		$("#statusFailAlert").show(300);
+                    // 		$("#statusFailAlert").text(result.message);
+                    // 		setTimeout(function () {
+                    // 			$("#statusFailAlert").hide(300);
+                    // 			$("#statusFailAlert").text("");
+                    // 		}, 5000);
+                    // 	}
+                    // }
+                },
+                error: function(err) {
+                    console.log("Facebook Friends Failure: ", err);
+                    // $("#statusFailAlert").show(300);
+                    // $("#statusFailAlert").text(
+                    // 	"Something went wrong. Please try again later."
+                    // );
+                    // setTimeout(function () {
+                    // 	$("#statusFailAlert").hide(300);
+                    // 	$("#statusFailAlert").text("");
+                    // }, 5000);
+                },
+            });
+        });
+    </script>
